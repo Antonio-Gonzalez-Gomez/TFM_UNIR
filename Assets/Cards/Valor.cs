@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum Valores
+public enum Valor
 {
     As,
     Dos,

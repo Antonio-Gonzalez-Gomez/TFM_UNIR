@@ -502,6 +502,71 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1151626843
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1151626845}
+  - component: {fileID: 1151626844}
+  m_Layer: 0
+  m_Name: DeckManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1151626844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151626843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdfda776d5a719d4291ced0d91362edf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeckManager
+  puntuacionesBase:
+  - carta: 0
+    puntos: 11
+  - carta: 1
+    puntos: 2
+  - carta: 2
+    puntos: 10
+  - carta: 3
+    puntos: 4
+  - carta: 4
+    puntos: 5
+  - carta: 5
+    puntos: 6
+  - carta: 6
+    puntos: 7
+  - carta: 7
+    puntos: 8
+  - carta: 8
+    puntos: 9
+  - carta: 9
+    puntos: 9
+--- !u!4 &1151626845
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151626843}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.1728728, y: -1.7491218, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1190861579
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,3 +849,4 @@ SceneRoots:
   - {fileID: 405769501}
   - {fileID: 360760318}
   - {fileID: 1523945952}
+  - {fileID: 1151626845}

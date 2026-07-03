@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public enum Palos
+public enum Palo
 {
     Oros,
     Copas,

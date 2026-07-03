@@ -6,6 +6,11 @@ public class CardInstance : MonoBehaviour
     //aqui tambien irian los modificadores
     private SpriteRenderer spriteRenderer;
 
+    public CardInstance(CardData cartaBase)
+    {
+        this.cartaBase = cartaBase;
+    }
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
