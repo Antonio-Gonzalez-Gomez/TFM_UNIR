@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu]
@@ -8,6 +9,13 @@ public class CardData : ScriptableObject
     public int puntos;
 
     public CardData(Valor valor, Palo palo, int puntos)
+    {
+        this.valor = valor;
+        this.palo = palo;
+        this.puntos = puntos;
+    }
+
+    public void UpdateData(Valor valor, Palo palo, int puntos)
     {
         this.valor = valor;
         this.palo = palo;
