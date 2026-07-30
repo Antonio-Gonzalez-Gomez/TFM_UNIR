@@ -6,6 +6,7 @@ using UnityEngine;
 public class DeckManager : MonoBehaviour
 {
     [SerializeField] CardInstance cardPrefab;
+    [SerializeField] CardInfoPopUp cardInfoPopUp;
 
     //TODO: refactorizar la logica del DragController (posiciones) si la clase se vuelve muy grande
     [Header("Card Positions")]
@@ -72,7 +73,10 @@ public class DeckManager : MonoBehaviour
                 {
                     //No se puede crear directamente un SO, hay que actualizar los valores a parte
                     CardData data = ScriptableObject.CreateInstance<CardData>();
-                    data.UpdateData(valor, palo, puntos);
+                    data.Valor = valor;
+                    data.Palo = palo;
+                    data.Puntos = puntos;
+                    //El CardInstance debe instanciarse en escena (aunque permanezca en el mazo)
                     CardInstance card = Instantiate(cardPrefab, mazoRobarPos.position, Quaternion.identity);
                     card.InitCard(data);
                     mazoRobar.Add(card);
@@ -94,6 +98,10 @@ public class DeckManager : MonoBehaviour
         DragController drag = res.GetComponent<DragController>();
         drag.originalPosition = initialPosition;
         drag.originalRotation = initialRotation;
+        //Los eventos usados para enseñar/ocultar informacion de la carta
+        //Deben iniciarse desde el controlador de UI haciendo referencia al DragController
+        cardInfoPopUp.ConnectDragEvents(drag);
+
         res.transform.position = initialPosition;
         res.transform.rotation = initialRotation;
         res.UpdateSprite();

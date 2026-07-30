@@ -15,19 +15,31 @@ public class DragController : MonoBehaviour,
     public Vector3 originalPosition;
     public Quaternion originalRotation;
 
+    public event Action<CardInstance> cardInfoShow;
+    public event Action cardInfoHide;
+    private CardInstance card;
+
+
     void Awake()
     {
         originalPosition = transform.position;
         originalRotation = Quaternion.identity;
+
+        card = this.GetComponentInParent<CardInstance>();
     }
+
+    private float infoTimer = 0f;
+    private bool waitingInfo = false;
     public void OnPointerEnter(PointerEventData e)
     {
-        //Mostrar info al cabo de un delay
+        waitingInfo = true;
+        infoTimer = 0.5f;
     }
 
     public void OnPointerExit(PointerEventData e)
     {
-
+        waitingInfo = false;
+        cardInfoHide?.Invoke();
     }
 
     public void OnPointerClick(PointerEventData e)
@@ -36,7 +48,8 @@ public class DragController : MonoBehaviour,
     }
     public void OnBeginDrag(PointerEventData e)
     {
-    
+        //El pop up de informacion deberia ocultarse al arrastrar la carta
+        cardInfoHide?.Invoke();
     }
 
     public void OnDrag(PointerEventData e)
@@ -51,5 +64,18 @@ public class DragController : MonoBehaviour,
     {
         this.transform.position = originalPosition;
         this.transform.rotation = originalRotation;
+    }
+
+    private void Update()
+    {
+        if (waitingInfo)
+        {
+            infoTimer -= Time.deltaTime;
+            if (infoTimer < 0f)
+            {
+                cardInfoShow?.Invoke(card);
+                waitingInfo = false;
+            }
+        }
     }
 }

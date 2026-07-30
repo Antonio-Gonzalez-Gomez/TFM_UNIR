@@ -4,26 +4,25 @@ using UnityEngine;
 [CreateAssetMenu]
 public class CardData : ScriptableObject
 {
-    public Valor valor;
-    public Palo palo;
-    public int puntos;
+    public Valor Valor { get; set; }
+    public Palo Palo { get; set; }
+    public int Puntos { get; set; }
 
-    public CardData(Valor valor, Palo palo, int puntos)
+    public string StringNombre()
     {
-        this.valor = valor;
-        this.palo = palo;
-        this.puntos = puntos;
+        //As de Oros
+        return Valor + " de " + Palo;
     }
 
-    public void UpdateData(Valor valor, Palo palo, int puntos)
+    public string StringPuntos()
     {
-        this.valor = valor;
-        this.palo = palo;
-        this.puntos = puntos;
+        //+ 11 puntos
+        return "+" + Puntos.ToString() + " puntos";
     }
-
     public override string ToString()
     {
-        return valor + " de " + palo + " (+" + puntos.ToString() + " puntos)";
+        //As de Oros (+ 11 puntos)
+        return StringNombre() + " (" + StringPuntos() + ")";
     }
+
 }

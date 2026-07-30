@@ -29,7 +29,7 @@ public class CardInstance : MonoBehaviour
     {
         //Al convertir los datos de la carta a int, se obtiene la ordenacion del enum
         //Oros -> 0, Copas -> 1, As -> 0, Sota -> 7, etc
-        int spriteIndex = (int)cartaBase.palo * 10 + (int)cartaBase.valor;
+        int spriteIndex = (int)cartaBase.Palo * 10 + (int)cartaBase.Valor;
         spriteRenderer.sprite = SpriteSelector.GetSpriteByIndex(spriteIndex);
     }
 
