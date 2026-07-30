@@ -11,14 +11,14 @@ public class DragController : MonoBehaviour,
     IDragHandler,
     IEndDragHandler
 {
-
     public Vector3 originalPosition;
     public Quaternion originalRotation;
 
     public event Action<CardInstance> cardInfoShow;
     public event Action cardInfoHide;
-    private CardInstance card;
 
+    private CardInstance card;
+    private bool selected = false;
 
     void Awake()
     {
@@ -26,6 +26,11 @@ public class DragController : MonoBehaviour,
         originalRotation = Quaternion.identity;
 
         card = this.GetComponentInParent<CardInstance>();
+    }
+
+    public void ResetPosition()
+    {
+        this.transform.SetPositionAndRotation(originalPosition, originalRotation);
     }
 
     private float infoTimer = 0f;
@@ -38,17 +43,30 @@ public class DragController : MonoBehaviour,
 
     public void OnPointerExit(PointerEventData e)
     {
+        //TODO: si se pasa a hacer hover de otra carta, saltarse el tiempo de espera y enseñar inmediatamente
         waitingInfo = false;
         cardInfoHide?.Invoke();
     }
 
     public void OnPointerClick(PointerEventData e)
     {
-        //Seleccionar
+        waitingInfo = false;
+        selected = !selected;
+        if (selected)
+        {
+            this.transform.position += new Vector3(0f, 0.25f, 0f);
+        }
+        else
+        {
+            this.transform.position = originalPosition;
+        }
     }
     public void OnBeginDrag(PointerEventData e)
     {
         //El pop up de informacion deberia ocultarse al arrastrar la carta
+        //TODO: evitar que los pop up de informacion de otras cartas aparezcan al hacer hover
+        //En su lugar, deberia de activarse logica para desplazar las cartas
+        waitingInfo = false;
         cardInfoHide?.Invoke();
     }
 
@@ -56,14 +74,12 @@ public class DragController : MonoBehaviour,
     {
         //TODO: Si el cursor se mueve muy rapido, se puede cortar este evento aunque el click siga pulsado
         //Se debera de implementar mediante un input de click y un condicional (si el click se produjo al hacer hover)
-        this.transform.position = e.pointerCurrentRaycast.worldPosition;
-        this.transform.rotation = Quaternion.identity;
+        this.transform.SetPositionAndRotation(e.pointerCurrentRaycast.worldPosition, Quaternion.identity);
     }
 
     public void OnEndDrag(PointerEventData e)
     {
-        this.transform.position = originalPosition;
-        this.transform.rotation = originalRotation;
+        ResetPosition();
     }
 
     private void Update()

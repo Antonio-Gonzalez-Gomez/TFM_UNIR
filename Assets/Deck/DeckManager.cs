@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class DeckManager : MonoBehaviour
@@ -8,16 +7,13 @@ public class DeckManager : MonoBehaviour
     [SerializeField] CardInstance cardPrefab;
     [SerializeField] CardInfoPopUp cardInfoPopUp;
 
-    //TODO: refactorizar la logica del DragController (posiciones) si la clase se vuelve muy grande
-    [Header("Card Positions")]
-    [SerializeField] Transform manoCentroPos;
-    [SerializeField] float manoAncho;
-    [SerializeField] Transform mazoRobarPos;
-    [SerializeField] Transform cartaMuestraPos;
-    [SerializeField] Transform cartaCroupierPos;
-    [SerializeField] Transform cartaJugadaPos;
-    [SerializeField] Transform canteCentroPos;
-    [SerializeField] float canteAncho;
+    [Header("Card Spots")]
+    [SerializeField] DragCardSpot cartasManoPos;
+    [SerializeField] DragCardSpot mazoRobarPos;
+    [SerializeField] DragCardSpot cartaMuestraPos;
+    [SerializeField] DragCardSpot cartaCroupierPos;
+    [SerializeField] DragCardSpot cartasCantePos;
+    [SerializeField] DragCardSpot cartaJugadaPos;
 
     private List<CardInstance> mazoRobar;
     private List<CardInstance> mazoDescartes;
@@ -34,19 +30,11 @@ public class DeckManager : MonoBehaviour
         InitDeck();
         DeckShuffler.Shuffle(mazoRobar);
 
-        //La carta de muestra se gira
-        cartaMuestra = DrawCard(cartaMuestraPos.position, Quaternion.Euler(0f, 0f, 90f));
-        cartaCroupier = DrawCard(cartaCroupierPos.position, Quaternion.identity);
+        cartaMuestra = DrawCard(cartaMuestraPos);
+        cartaCroupier = DrawCard(cartaCroupierPos);
         for (int i = 0; i < handSize; i++)
         {
-            //La posicion es la del centro y el ancho la distancia entre el centro y uno de los bordes laterales
-            //De esta forma, incX recorre el intervalo [-manoAncho, manoAncho] (asumiendo que el centro de la mano esta en x = 0)
-            float incX = manoCentroPos.position.x - manoAncho + (2 * manoAncho * i) / handSize;
-            //z = -i para que las cartas solapen bien en la mano
-            Vector3 handCardPos = manoCentroPos.position + new Vector3(incX, 0f, -i);
-            //TODO: rotacion cartas mano (abanico)
-            //TODO: ordenaciones cartas (automaticas y manuales)
-            CardInstance card = DrawCard(handCardPos, Quaternion.identity);
+            CardInstance card = DrawCard(cartasManoPos);
             cartasMano.Add(card);
         }
     }
@@ -59,7 +47,6 @@ public class DeckManager : MonoBehaviour
         mazoDescartes = new List<CardInstance>();
         cartasMano = new List<CardInstance>();
         cartasCante = new List<CardInstance>();
-
 
         //Se genera una baraja española (40 cartas, 10 de cada palo, 4 de cada valor)
         //Iterando sobre los enum definidos
@@ -77,7 +64,7 @@ public class DeckManager : MonoBehaviour
                     data.Palo = palo;
                     data.Puntos = puntos;
                     //El CardInstance debe instanciarse en escena (aunque permanezca en el mazo)
-                    CardInstance card = Instantiate(cardPrefab, mazoRobarPos.position, Quaternion.identity);
+                    CardInstance card = Instantiate(cardPrefab, mazoRobarPos.transform.position, Quaternion.identity);
                     card.InitCard(data);
                     mazoRobar.Add(card);
                 }
@@ -85,25 +72,21 @@ public class DeckManager : MonoBehaviour
         }
     }
 
-    //Roba una carta del mazo e inicializa su posicion y sprite
-    private CardInstance DrawCard(Vector3 initialPosition, Quaternion initialRotation)
+    //Roba una carta del mazo e inicializa su sprite y componente de DragController
+    private CardInstance DrawCard(DragCardSpot spot)
     {
+        //Comprobación de cartas en el mazo
         if (mazoRobar.Count == 0)
         {
             return null;
         }
 
         CardInstance res = mazoRobar[0];
-
         DragController drag = res.GetComponent<DragController>();
-        drag.originalPosition = initialPosition;
-        drag.originalRotation = initialRotation;
+        spot.AddCard(drag);
         //Los eventos usados para enseñar/ocultar informacion de la carta
         //Deben iniciarse desde el controlador de UI haciendo referencia al DragController
         cardInfoPopUp.ConnectDragEvents(drag);
-
-        res.transform.position = initialPosition;
-        res.transform.rotation = initialRotation;
         res.UpdateSprite();
 
         mazoRobar.RemoveAt(0);
