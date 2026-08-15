@@ -16,9 +16,13 @@ public class DragController : MonoBehaviour,
 
     public event Action<CardInstance> cardInfoShow;
     public event Action cardInfoHide;
+    public event Action playButtonsShow;
+    public event Action playButtonsHide;
 
-    private CardInstance card;
-    private bool selected = false;
+    //TODO: refactorizar: quitar esta referencia y obtenerla dinamicamente en el evento
+    public CardInstance card;
+    private DragCardSpot spot;
+    public bool selected = false;
 
     void Awake()
     {
@@ -31,6 +35,10 @@ public class DragController : MonoBehaviour,
     public void ResetPosition()
     {
         this.transform.SetPositionAndRotation(originalPosition, originalRotation);
+    }
+    public void SetSpot(DragCardSpot spot)
+    {
+        this.spot = spot;
     }
 
     private float infoTimer = 0f;
@@ -51,14 +59,13 @@ public class DragController : MonoBehaviour,
     public void OnPointerClick(PointerEventData e)
     {
         waitingInfo = false;
-        selected = !selected;
         if (selected)
         {
-            this.transform.position += new Vector3(0f, 0.25f, 0f);
+            spot.DeselectCard(this);
         }
         else
         {
-            this.transform.position = originalPosition;
+            spot.TrySelectCard(this);
         }
     }
     public void OnBeginDrag(PointerEventData e)
@@ -68,6 +75,7 @@ public class DragController : MonoBehaviour,
         //En su lugar, deberia de activarse logica para desplazar las cartas
         waitingInfo = false;
         cardInfoHide?.Invoke();
+        playButtonsHide?.Invoke();
     }
 
     public void OnDrag(PointerEventData e)
@@ -79,7 +87,24 @@ public class DragController : MonoBehaviour,
 
     public void OnEndDrag(PointerEventData e)
     {
+        //Se comprueba que haya un spot en la posicion del raton al soltar la carta
+        RaycastHit2D hit = Physics2D.Raycast(e.pointerCurrentRaycast.worldPosition, Vector2.zero, 0.001f, LayerMask.GetMask("CardSpot"));
+        if (hit.collider != null)
+        {
+            DragCardSpot newSpot = hit.collider.GetComponentInParent<DragCardSpot>();
+            if (newSpot.allowInteract == true  //Si el spot permite interacciones
+                && newSpot.cardsInSpot.Count < newSpot.maxCardAmount  //Si tiene hueco para otra carta
+                && !newSpot.cardsInSpot.Contains(this))    //Si esta carta no estaba ya en el spot
+            {
+                //Se elimina la carta de su anterior spot
+                this.spot.RemoveCard(this);
+                //Y se añade al nuevo (donde haya apuntado el raton)
+                newSpot.AddCard(this);
+                this.spot = newSpot;
+            }
+        }
         ResetPosition();
+        playButtonsShow?.Invoke();
     }
 
     private void Update()

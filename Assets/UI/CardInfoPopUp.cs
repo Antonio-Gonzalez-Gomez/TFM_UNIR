@@ -15,7 +15,7 @@ public class CardInfoPopUp : MonoBehaviour
         canvas.enabled = false;
     }
 
-    public void ConnectDragEvents(DragController drag)
+    public void ConnectEvents(DragController drag)
     {
         drag.cardInfoShow += OnCardShown;
         drag.cardInfoHide += OnCardHidden;

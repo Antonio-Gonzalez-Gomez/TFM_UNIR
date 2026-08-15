@@ -6,15 +6,17 @@ public class DeckManager : MonoBehaviour
 {
     [SerializeField] CardInstance cardPrefab;
     [SerializeField] CardInfoPopUp cardInfoPopUp;
+    [SerializeField] PlayButtonsController playButtons;
 
     [Header("Card Spots")]
-    [SerializeField] DragCardSpot cartasManoPos;
-    [SerializeField] DragCardSpot mazoRobarPos;
-    [SerializeField] DragCardSpot cartaMuestraPos;
-    [SerializeField] DragCardSpot cartaCroupierPos;
-    [SerializeField] DragCardSpot cartasCantePos;
-    [SerializeField] DragCardSpot cartaJugadaPos;
+    [SerializeField] DragCardSpot cartasManoSpot;
+    [SerializeField] DragCardSpot mazoRobarSpot;
+    [SerializeField] DragCardSpot cartaMuestraSpot;
+    [SerializeField] DragCardSpot cartaCroupierSpot;
+    [SerializeField] DragCardSpot cartasCanteSpot;
+    [SerializeField] DragCardSpot cartaJugadaSpot;
 
+    //TODO: refactorizar DragCardSpot para evitar el uso de estas listas
     private List<CardInstance> mazoRobar;
     private List<CardInstance> mazoDescartes;
     private List<CardInstance> cartasMano;
@@ -30,11 +32,11 @@ public class DeckManager : MonoBehaviour
         InitDeck();
         DeckShuffler.Shuffle(mazoRobar);
 
-        cartaMuestra = DrawCard(cartaMuestraPos);
-        cartaCroupier = DrawCard(cartaCroupierPos);
+        cartaMuestra = DrawCard(cartaMuestraSpot);
+        cartaCroupier = DrawCard(cartaCroupierSpot);
         for (int i = 0; i < handSize; i++)
         {
-            CardInstance card = DrawCard(cartasManoPos);
+            CardInstance card = DrawCard(cartasManoSpot);
             cartasMano.Add(card);
         }
     }
@@ -64,7 +66,7 @@ public class DeckManager : MonoBehaviour
                     data.Palo = palo;
                     data.Puntos = puntos;
                     //El CardInstance debe instanciarse en escena (aunque permanezca en el mazo)
-                    CardInstance card = Instantiate(cardPrefab, mazoRobarPos.transform.position, Quaternion.identity);
+                    CardInstance card = Instantiate(cardPrefab, mazoRobarSpot.transform.position, Quaternion.identity);
                     card.InitCard(data);
                     mazoRobar.Add(card);
                 }
@@ -86,11 +88,51 @@ public class DeckManager : MonoBehaviour
         spot.AddCard(drag);
         //Los eventos usados para enseñar/ocultar informacion de la carta
         //Deben iniciarse desde el controlador de UI haciendo referencia al DragController
-        cardInfoPopUp.ConnectDragEvents(drag);
+        cardInfoPopUp.ConnectEvents(drag);
+        //Lo mismo para los eventos de los botones
+        playButtons.ConnectEvents(drag);
         res.UpdateSprite();
 
         mazoRobar.RemoveAt(0);
         return res;
     }
+    public void MoveSelectedCardsToSpot(bool isCanteSpot)
+    {
+        DragCardSpot spot = isCanteSpot ? cartasCanteSpot : cartaJugadaSpot;
+        List<DragController> selectedCards = cartasManoSpot.GetSelectedCards();
 
+        if (selectedCards.Count > spot.maxCardAmount)
+        {
+            return;
+        }
+
+        if (spot.cardsInSpot.Count > 0 && selectedCards.Count + spot.cardsInSpot.Count > spot.maxCardAmount)
+        {
+            spot.cardsInSpot.ForEach(x => cartasManoSpot.AddCard(x));
+            List<CardInstance> cardsFromSpot = spot.ClearSpot();
+
+            cartasMano.AddRange(cardsFromSpot);
+            if (isCanteSpot)
+            {
+                cartasCante.Clear();
+            }
+        }
+        
+        foreach (DragController drag in selectedCards)
+        {
+            cartasManoSpot.RemoveCard(drag);
+            spot.AddCard(drag);
+
+            CardInstance card = drag.card;
+            cartasMano.Remove(card);
+            if (isCanteSpot)
+            {
+                cartasCante.Add(card);
+            }
+            else
+            {
+                cartaJugada = card;
+            }
+        }
+    }
 }
