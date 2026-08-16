@@ -9,47 +9,35 @@ public class DeckManager : MonoBehaviour
     [SerializeField] PlayButtonsController playButtons;
 
     [Header("Card Spots")]
-    [SerializeField] DragCardSpot cartasManoSpot;
+    [SerializeField] DragCardSpot manoSpot;
     [SerializeField] DragCardSpot mazoRobarSpot;
-    [SerializeField] DragCardSpot cartaMuestraSpot;
-    [SerializeField] DragCardSpot cartaCroupierSpot;
-    [SerializeField] DragCardSpot cartasCanteSpot;
-    [SerializeField] DragCardSpot cartaJugadaSpot;
+    [SerializeField] DragCardSpot muestraSpot;
+    [SerializeField] DragCardSpot rivalSpot;
+    [SerializeField] DragCardSpot canteSpot;
+    [SerializeField] DragCardSpot bazaSpot;
 
-    //TODO: refactorizar DragCardSpot para evitar el uso de estas listas
-    private List<CardInstance> mazoRobar;
-    private List<CardInstance> mazoDescartes;
-    private List<CardInstance> cartasMano;
-    private CardInstance cartaMuestra;
-    private CardInstance cartaCroupier;
-    private CardInstance cartaJugada;
-    private List<CardInstance> cartasCante;
     //Este valor puede que sea dinamico en un futuro por aumentos u otros efectos
     private int handSize = 8;
 
     void Start()
     {
-        InitDeck();
-        DeckShuffler.Shuffle(mazoRobar);
+        List<CardInstance> cartasMazo = InitDeck();
+        DeckShuffler.Shuffle(cartasMazo);
+        mazoRobarSpot.cardList = cartasMazo;
 
-        cartaMuestra = DrawCard(cartaMuestraSpot);
-        cartaCroupier = DrawCard(cartaCroupierSpot);
+        DrawCard(muestraSpot);
+        DrawCard(rivalSpot);
         for (int i = 0; i < handSize; i++)
         {
-            CardInstance card = DrawCard(cartasManoSpot);
-            cartasMano.Add(card);
+            DrawCard(manoSpot);
         }
     }
 
     //Funcion para gestionar los drag controller (posicion inicial, rotacion)
 
-    private void InitDeck()
+    private List<CardInstance> InitDeck()
     {
-        mazoRobar = new List<CardInstance>();
-        mazoDescartes = new List<CardInstance>();
-        cartasMano = new List<CardInstance>();
-        cartasCante = new List<CardInstance>();
-
+        List<CardInstance> res = new List<CardInstance>();
         //Se genera una baraja española (40 cartas, 10 de cada palo, 4 de cada valor)
         //Iterando sobre los enum definidos
         foreach (Palo palo in (Palo[]) Enum.GetValues(typeof(Palo)))
@@ -68,24 +56,26 @@ public class DeckManager : MonoBehaviour
                     //El CardInstance debe instanciarse en escena (aunque permanezca en el mazo)
                     CardInstance card = Instantiate(cardPrefab, mazoRobarSpot.transform.position, Quaternion.identity);
                     card.InitCard(data);
-                    mazoRobar.Add(card);
+                    res.Add(card);
                 }
             }
         }
+
+        return res;
     }
 
     //Roba una carta del mazo e inicializa su sprite y componente de DragController
     private CardInstance DrawCard(DragCardSpot spot)
     {
         //Comprobación de cartas en el mazo
-        if (mazoRobar.Count == 0)
+        if (mazoRobarSpot.cardList.Count == 0)
         {
             return null;
         }
 
-        CardInstance res = mazoRobar[0];
+        CardInstance res = mazoRobarSpot.cardList[0];
         DragController drag = res.GetComponent<DragController>();
-        spot.AddCard(drag);
+        spot.AddCard(res);
         //Los eventos usados para enseñar/ocultar informacion de la carta
         //Deben iniciarse desde el controlador de UI haciendo referencia al DragController
         cardInfoPopUp.ConnectEvents(drag);
@@ -93,46 +83,33 @@ public class DeckManager : MonoBehaviour
         playButtons.ConnectEvents(drag);
         res.UpdateSprite();
 
-        mazoRobar.RemoveAt(0);
+        mazoRobarSpot.cardList.RemoveAt(0);
         return res;
     }
+
+    //Mueve cartas desde la mano hasta el hueco para las cartas de cante o la de baza
     public void MoveSelectedCardsToSpot(bool isCanteSpot)
     {
-        DragCardSpot spot = isCanteSpot ? cartasCanteSpot : cartaJugadaSpot;
-        List<DragController> selectedCards = cartasManoSpot.GetSelectedCards();
+        DragCardSpot spot = isCanteSpot ? canteSpot : bazaSpot;
+        List<CardInstance> selectedCards = manoSpot.GetSelectedCards();
 
+        //Si hay mas cartas seleccionadas de las permitidas en el hueco
         if (selectedCards.Count > spot.maxCardAmount)
         {
             return;
         }
 
-        if (spot.cardsInSpot.Count > 0 && selectedCards.Count + spot.cardsInSpot.Count > spot.maxCardAmount)
+        //Si habia cartas en el hueco y no cogen las nuevas, se quitan las viejas
+        if (spot.cardList.Count > 0 && selectedCards.Count + spot.cardList.Count > spot.maxCardAmount)
         {
-            spot.cardsInSpot.ForEach(x => cartasManoSpot.AddCard(x));
-            List<CardInstance> cardsFromSpot = spot.ClearSpot();
-
-            cartasMano.AddRange(cardsFromSpot);
-            if (isCanteSpot)
-            {
-                cartasCante.Clear();
-            }
+            spot.cardList.ForEach(x => manoSpot.AddCard(x));
+            spot.ClearSpot();
         }
-        
-        foreach (DragController drag in selectedCards)
+        //Se mueven las cartas de la mano al hueco
+        foreach (CardInstance selCard in selectedCards)
         {
-            cartasManoSpot.RemoveCard(drag);
-            spot.AddCard(drag);
-
-            CardInstance card = drag.card;
-            cartasMano.Remove(card);
-            if (isCanteSpot)
-            {
-                cartasCante.Add(card);
-            }
-            else
-            {
-                cartaJugada = card;
-            }
+            manoSpot.RemoveCard(selCard);
+            spot.AddCard(selCard);
         }
     }
 }

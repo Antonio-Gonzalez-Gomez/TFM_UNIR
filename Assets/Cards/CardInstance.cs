@@ -5,6 +5,7 @@ public class CardInstance : MonoBehaviour
     public CardData cartaBase;
     //aqui tambien irian los modificadores
     private SpriteRenderer spriteRenderer;
+    public DragController drag;
     //Indice del sprite con el reverso de las cartas
     private const int reversoIndex = 41;
 
@@ -15,6 +16,7 @@ public class CardInstance : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        drag = GetComponent<DragController>();
     }
 
     public void InitCard(CardData cartaBase)

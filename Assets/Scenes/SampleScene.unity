@@ -1304,7 +1304,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9216519400924181680, guid: 8399acb6518fb464ea1d402ce8914973, type: 3}
       propertyPath: m_Name
-      value: CartaJugadaPos
+      value: CartaBazaPos
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1908,12 +1908,12 @@ MonoBehaviour:
   cardPrefab: {fileID: 1136432906215446178, guid: 973701758655ef843a42bd2707d1258d, type: 3}
   cardInfoPopUp: {fileID: 874025752}
   playButtons: {fileID: 497253571}
-  cartasManoSpot: {fileID: 1127529276}
+  manoSpot: {fileID: 1127529276}
   mazoRobarSpot: {fileID: 1893618264}
-  cartaMuestraSpot: {fileID: 1011288367}
-  cartaCroupierSpot: {fileID: 760245997}
-  cartasCanteSpot: {fileID: 1082598040}
-  cartaJugadaSpot: {fileID: 804553392}
+  muestraSpot: {fileID: 1011288367}
+  rivalSpot: {fileID: 760245997}
+  canteSpot: {fileID: 1082598040}
+  bazaSpot: {fileID: 804553392}
 --- !u!4 &1151626845
 Transform:
   m_ObjectHideFlags: 0
@@ -2614,7 +2614,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9216519400924181680, guid: 8399acb6518fb464ea1d402ce8914973, type: 3}
       propertyPath: m_Name
-      value: CartaCroupierPos
+      value: CartaRivalPos
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

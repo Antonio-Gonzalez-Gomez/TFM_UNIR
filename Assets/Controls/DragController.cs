@@ -19,8 +19,6 @@ public class DragController : MonoBehaviour,
     public event Action playButtonsShow;
     public event Action playButtonsHide;
 
-    //TODO: refactorizar: quitar esta referencia y obtenerla dinamicamente en el evento
-    public CardInstance card;
     private DragCardSpot spot;
     public bool selected = false;
 
@@ -28,8 +26,6 @@ public class DragController : MonoBehaviour,
     {
         originalPosition = transform.position;
         originalRotation = Quaternion.identity;
-
-        card = this.GetComponentInParent<CardInstance>();
     }
 
     public void ResetPosition()
@@ -91,15 +87,16 @@ public class DragController : MonoBehaviour,
         RaycastHit2D hit = Physics2D.Raycast(e.pointerCurrentRaycast.worldPosition, Vector2.zero, 0.001f, LayerMask.GetMask("CardSpot"));
         if (hit.collider != null)
         {
+            CardInstance card = this.GetComponentInParent<CardInstance>();
             DragCardSpot newSpot = hit.collider.GetComponentInParent<DragCardSpot>();
-            if (newSpot.allowInteract == true  //Si el spot permite interacciones
-                && newSpot.cardsInSpot.Count < newSpot.maxCardAmount  //Si tiene hueco para otra carta
-                && !newSpot.cardsInSpot.Contains(this))    //Si esta carta no estaba ya en el spot
+            if (newSpot.allowInteract == true                       //Si el spot permite interacciones
+                && newSpot.cardList.Count < newSpot.maxCardAmount   //Si tiene hueco para otra carta
+                && !newSpot.cardList.Contains(card))                //Si esta carta no estaba ya en el spot
             {
                 //Se elimina la carta de su anterior spot
-                this.spot.RemoveCard(this);
+                this.spot.RemoveCard(card);
                 //Y se añade al nuevo (donde haya apuntado el raton)
-                newSpot.AddCard(this);
+                newSpot.AddCard(card);
                 this.spot = newSpot;
             }
         }
@@ -114,7 +111,7 @@ public class DragController : MonoBehaviour,
             infoTimer -= Time.deltaTime;
             if (infoTimer < 0f)
             {
-                cardInfoShow?.Invoke(card);
+                cardInfoShow?.Invoke(this.GetComponentInParent<CardInstance>());
                 waitingInfo = false;
             }
         }
