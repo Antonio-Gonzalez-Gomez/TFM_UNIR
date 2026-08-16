@@ -89,7 +89,8 @@ public class DragController : MonoBehaviour,
         {
             CardInstance card = this.GetComponentInParent<CardInstance>();
             DragCardSpot newSpot = hit.collider.GetComponentInParent<DragCardSpot>();
-            if (newSpot.allowInteract == true                       //Si el spot permite interacciones
+            if (this.spot.allowInteract == true                     //Si el spot actual permite interacciones
+                && newSpot.allowInteract == true                    //Si el spot nuevo permite interacciones
                 && newSpot.cardList.Count < newSpot.maxCardAmount   //Si tiene hueco para otra carta
                 && !newSpot.cardList.Contains(card))                //Si esta carta no estaba ya en el spot
             {

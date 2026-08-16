@@ -1499,6 +1499,10 @@ PrefabInstance:
       propertyPath: rotatedCard
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3049413695197087484, guid: 8399acb6518fb464ea1d402ce8914973, type: 3}
+      propertyPath: allowInteract
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9216519400924181680, guid: 8399acb6518fb464ea1d402ce8914973, type: 3}
       propertyPath: m_Name
       value: CartaMuestraPos
