@@ -11,6 +11,9 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] DragCardSpot canteSpot;
     [SerializeField] DragCardSpot bazaSpot;
 
+    public event Action<int> pointScore;
+    public event Action<int> valueScore;
+    public event Action<int> bonusScore;
     //Función que comprueba si la carta del jugador gana la baza contra la del rival
     public bool EsBazaGanada()
     {
@@ -181,5 +184,34 @@ public class ScoreManager : MonoBehaviour
         //Si no hay otro cante posible
         //(añadir la carta mas alta como scoringCard?)
         return Cante.Ninguno;
+    }
+
+    private int PuntuarCarta(CardInstance card)
+    {
+        //Aqui iria todo lo referente a modificadores
+        int puntosCarta = card.cartaBase.Puntos;
+        pointScore?.Invoke(puntosCarta);
+        return puntosCarta;
+    }
+
+    public int CalculateScore()
+    {
+        Cante cante = EvaluarCante();
+        int puntos = 0;
+        PuntuacionesCantes.valores.TryGetValue(cante, out int valor);
+        PuntuacionesCantes.bonus.TryGetValue(cante, out int bonus);
+        
+        //Se puntua la carta de la baza
+        puntos += PuntuarCarta(bazaSpot.cardList[0]);
+
+        //Y luego las cartas del cante
+        foreach (CardInstance card in scoringCards)
+        {
+            puntos += PuntuarCarta(card);
+        }
+
+        //Y aqui todo lo referente a otros efectos (aumentos o modificadores de cartas en mano)
+        Debug.Log(puntos.ToString() + " x " + valor.ToString() + " + " + bonus.ToString());
+        return puntos * valor + bonus;
     }
 }

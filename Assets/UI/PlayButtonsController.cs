@@ -11,6 +11,10 @@ public class PlayButtonsController : MonoBehaviour
     private void Start()
     {
         canvas = GetComponent<Canvas>();
+
+        scoreManager.pointScore += OnPointIncrease;
+        scoreManager.valueScore += OnValueIncrease;
+        scoreManager.bonusScore += OnBonusIncrease;
     }
 
     public void ConnectEvents(DragController drag)
@@ -44,10 +48,8 @@ public class PlayButtonsController : MonoBehaviour
             Debug.Log("Ganas la baza");
             Cante cante = scoreManager.EvaluarCante();
             Debug.Log(cante);
-            foreach (CardInstance carta in scoreManager.scoringCards)
-            {
-                Debug.Log(carta.cartaBase.ToString());
-            }
+            int score = scoreManager.CalculateScore();
+            Debug.Log("Puntuación final: " + score.ToString());
         }
         else
         {
@@ -57,5 +59,19 @@ public class PlayButtonsController : MonoBehaviour
     public void Reset()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    //TODO: Efectos de interfaz cada vez que la puntuacion sube
+    private void OnPointIncrease(int puntos)
+    {
+        Debug.Log("+ " + puntos.ToString() + " puntos!");
+    }
+    private void OnValueIncrease(int valor)
+    {
+        Debug.Log("+ " + valor.ToString() + " valor!");
+    }
+    private void OnBonusIncrease(int bonus)
+    {
+        Debug.Log("+ " + bonus.ToString() + " puntos bonus!");
     }
 }
