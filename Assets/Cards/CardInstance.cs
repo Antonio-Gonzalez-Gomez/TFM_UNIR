@@ -34,5 +34,9 @@ public class CardInstance : MonoBehaviour
         int spriteIndex = (int)cartaBase.Palo * 10 + (int)cartaBase.Valor;
         spriteRenderer.sprite = SpriteSelector.GetSpriteByIndex(spriteIndex);
     }
+    public bool EsCartaFigura()
+    {
+        return cartaBase.Valor == Valor.Sota || cartaBase.Valor == Valor.Caballo || cartaBase.Valor == Valor.Rey;
+    }
 
 }
