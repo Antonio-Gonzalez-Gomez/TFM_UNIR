@@ -11,9 +11,9 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] DragCardSpot canteSpot;
     [SerializeField] DragCardSpot bazaSpot;
 
-    public event Action<int> pointScore;
-    public event Action<int> valueScore;
-    public event Action<int> bonusScore;
+    public event Action<int> pointScoreAction;
+    public event Action<int> valueScoreAction;
+    public event Action<int> bonusScoreAction;
     //Función que comprueba si la carta del jugador gana la baza contra la del rival
     public bool EsBazaGanada()
     {
@@ -43,6 +43,10 @@ public class ScoreManager : MonoBehaviour
 
         else
         {
+            //Ya que tanto los caballos como los reyes valen 9 puntos, se comprueba a parte esta casuística
+            if (playerCard.cartaBase.Valor == Valor.Rey && rivalCard.cartaBase.Valor == Valor.Caballo)
+                return true;
+
             //Si ambas cartas son de la muestra, gana la de mayor valor (1 > 3 > Rey > etc.)
             PuntuacionesCartas.dict.TryGetValue(playerCard.cartaBase.Valor, out int valorPlayer);
             PuntuacionesCartas.dict.TryGetValue(rivalCard.cartaBase.Valor, out int valorRival);
@@ -186,32 +190,49 @@ public class ScoreManager : MonoBehaviour
         return Cante.Ninguno;
     }
 
-    private int PuntuarCarta(CardInstance card)
+    //Los eventos no se pueden invocar fuera de esta clase (aunque sean publicos)
+    public void InvokePointScore(int points)
     {
-        //Aqui iria todo lo referente a modificadores
-        int puntosCarta = card.cartaBase.Puntos;
-        pointScore?.Invoke(puntosCarta);
-        return puntosCarta;
+        pointScoreAction?.Invoke(points);
     }
 
+    public void InvokeValueScore(int value)
+    {
+        valueScoreAction?.Invoke(value);
+    }
+
+    public void InvokeBonusScore(int bonus)
+    {
+        bonusScoreAction?.Invoke(bonus);
+    }
+
+    public int puntosJugada;
+    public int valorJugada;
+    public int bonusJugada;
     public int CalculateScore()
     {
         Cante cante = EvaluarCante();
-        int puntos = 0;
-        PuntuacionesCantes.valores.TryGetValue(cante, out int valor);
-        PuntuacionesCantes.bonus.TryGetValue(cante, out int bonus);
-        
+        puntosJugada = 0;
+        PuntuacionesCantes.valores.TryGetValue(cante, out valorJugada);
+        PuntuacionesCantes.bonus.TryGetValue(cante, out bonusJugada);
+
+        //TEMPORAL PARA PROBAR AUMENTOS
+        CardInstance bazaCard = bazaSpot.cardList[0];
+        bazaCard.alphaMod = new M_PlusBonus();
+        //
+
         //Se puntua la carta de la baza
-        puntos += PuntuarCarta(bazaSpot.cardList[0]);
+        bazaCard.ScoreCard(this);
 
         //Y luego las cartas del cante
         foreach (CardInstance card in scoringCards)
         {
-            puntos += PuntuarCarta(card);
+            card.alphaMod = new M_PlusValue();
+            card.ScoreCard(this);
         }
 
         //Y aqui todo lo referente a otros efectos (aumentos o modificadores de cartas en mano)
-        Debug.Log(puntos.ToString() + " x " + valor.ToString() + " + " + bonus.ToString());
-        return puntos * valor + bonus;
+        Debug.Log(puntosJugada.ToString() + " x " + valorJugada.ToString() + " + " + bonusJugada.ToString());
+        return puntosJugada * valorJugada + bonusJugada;
     }
 }

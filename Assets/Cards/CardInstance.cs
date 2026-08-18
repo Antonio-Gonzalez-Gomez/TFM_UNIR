@@ -3,7 +3,10 @@ using UnityEngine;
 public class CardInstance : MonoBehaviour
 {
     public CardData cartaBase;
-    //aqui tambien irian los modificadores
+    public Modifier alphaMod;
+    public Modifier betaMod;
+    public Modifier gammaMod;
+
     private SpriteRenderer spriteRenderer;
     public DragController drag;
     //Indice del sprite con el reverso de las cartas
@@ -39,4 +42,16 @@ public class CardInstance : MonoBehaviour
         return cartaBase.Valor == Valor.Sota || cartaBase.Valor == Valor.Caballo || cartaBase.Valor == Valor.Rey;
     }
 
+    public void ScoreCard(ScoreManager sm)
+    {
+        sm.puntosJugada += cartaBase.Puntos;
+        sm.InvokePointScore(cartaBase.Puntos);
+
+        if (alphaMod != null)
+            alphaMod.OnCardScore(sm);
+        if (betaMod != null)
+            betaMod.OnCardScore(sm);
+        if (gammaMod != null)
+            gammaMod.OnCardScore(sm);
+    }
 }

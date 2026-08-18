@@ -12,9 +12,9 @@ public class PlayButtonsController : MonoBehaviour
     {
         canvas = GetComponent<Canvas>();
 
-        scoreManager.pointScore += OnPointIncrease;
-        scoreManager.valueScore += OnValueIncrease;
-        scoreManager.bonusScore += OnBonusIncrease;
+        scoreManager.pointScoreAction += OnPointIncrease;
+        scoreManager.valueScoreAction += OnValueIncrease;
+        scoreManager.bonusScoreAction += OnBonusIncrease;
     }
 
     public void ConnectEvents(DragController drag)
@@ -72,6 +72,6 @@ public class PlayButtonsController : MonoBehaviour
     }
     private void OnBonusIncrease(int bonus)
     {
-        Debug.Log("+ " + bonus.ToString() + " puntos bonus!");
+        Debug.Log("+ " + bonus.ToString() + " bonus!");
     }
 }
