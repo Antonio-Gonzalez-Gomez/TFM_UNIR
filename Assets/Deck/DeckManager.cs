@@ -46,7 +46,7 @@ public class DeckManager : MonoBehaviour
             {
                 //Las puntuaciones de las cartas se han hardcodeado en una clase aparte por mayor comodidad
                 //No son valores que sea previsible que se quieran modificar en un futuro
-                if(PuntuacionesCartas.dict.TryGetValue(valor, out int puntos))
+                if(PuntuacionesCartas.cardPoints.TryGetValue(valor, out int puntos))
                 {
                     //No se puede crear directamente un SO, hay que actualizar los valores a parte
                     CardData data = ScriptableObject.CreateInstance<CardData>();

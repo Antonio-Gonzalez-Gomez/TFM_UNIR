@@ -14,18 +14,19 @@ public class ScoreManager : MonoBehaviour
     public event Action<int> pointScoreAction;
     public event Action<int> valueScoreAction;
     public event Action<int> bonusScoreAction;
+
     //Función que comprueba si la carta del jugador gana la baza contra la del rival
     public bool EsBazaGanada()
     {
         //Se asume que las cartas correspondientes han sido correctamente jugadas
         CardInstance playerCard = bazaSpot.cardList[0];
         CardInstance rivalCard = rivalSpot.cardList[0];
-        Palo paloMuestra = muestraSpot.cardList[0].cartaBase.Palo;
 
+        Palo paloMuestra = muestraSpot.cardList[0].cartaBase.Palo;
         Palo paloPlayer = playerCard.cartaBase.Palo;
         Palo paloRival = rivalCard.cartaBase.Palo;
 
-        //Para los aumentos/modificadores, aqui iria la logica, implementar a parte desde CardInstance?
+        //Aqui se inyectaría la lógica de los aumentos (sobre el palo de las cartas)
 
         if (paloPlayer != paloRival)
         {
@@ -41,16 +42,14 @@ public class ScoreManager : MonoBehaviour
             }
         }
 
+
+        //Aqui se inyectaría la lógica de los aumentos (sobre el valor de las cartas)
+
         else
         {
-            //Ya que tanto los caballos como los reyes valen 9 puntos, se comprueba a parte esta casuística
-            if (playerCard.cartaBase.Valor == Valor.Rey && rivalCard.cartaBase.Valor == Valor.Caballo)
-                return true;
-
-            //Si ambas cartas son de la muestra, gana la de mayor valor (1 > 3 > Rey > etc.)
-            PuntuacionesCartas.dict.TryGetValue(playerCard.cartaBase.Valor, out int valorPlayer);
-            PuntuacionesCartas.dict.TryGetValue(rivalCard.cartaBase.Valor, out int valorRival);
-            return valorPlayer > valorRival;
+            //Se usa un método a parte para verificar qué carta gana
+            //En caso de empate??
+            return playerCard.CompararValor(rivalCard.cartaBase.Valor) == 1;
         }
     }
 
@@ -63,10 +62,13 @@ public class ScoreManager : MonoBehaviour
     {
         scoringCards = new List<CardInstance>();
 
+        //Como inyectar la interaccion con aumentos aqui?
+
+        //Modificador espejo: como??
         //Se separan las cartas que pueden formar los cantes (sotas, caballos y reyes) para facilitar las comprobaciones
-        List<CardInstance> sotas = canteSpot.cardList.FindAll(x => x.cartaBase.Valor == Valor.Sota);
-        List<CardInstance> caballos = canteSpot.cardList.FindAll(x => x.cartaBase.Valor == Valor.Caballo);
-        List<CardInstance> reyes = canteSpot.cardList.FindAll(x => x.cartaBase.Valor == Valor.Rey);
+        List<CardInstance> sotas = canteSpot.cardList.FindAll(x => x.CompararValor(Valor.Sota) == 0);
+        List<CardInstance> caballos = canteSpot.cardList.FindAll(x => x.CompararValor(Valor.Caballo) == 0);
+        List<CardInstance> reyes = canteSpot.cardList.FindAll(x => x.CompararValor(Valor.Rey) == 0);
 
         int numSotas = sotas.Count;
         int numCaballos = caballos.Count;
@@ -216,23 +218,46 @@ public class ScoreManager : MonoBehaviour
         PuntuacionesCantes.valores.TryGetValue(cante, out valorJugada);
         PuntuacionesCantes.bonus.TryGetValue(cante, out bonusJugada);
 
-        //TEMPORAL PARA PROBAR AUMENTOS
+        List<CardInstance> discardedCards = new List<CardInstance>(canteSpot.cardList);
+        discardedCards.RemoveAll(x => scoringCards.Contains(x));
+
         CardInstance bazaCard = bazaSpot.cardList[0];
-        bazaCard.alphaMod = new M_PlusBonus();
-        //
+        //TEMPORAL PARA PROBAR AUMENTOS
+        bazaCard.AddModifier(new M_PlusPoints(), ModifierType.Alpha);
 
         //Se puntua la carta de la baza
-        bazaCard.ScoreCard(this);
+        bazaCard.PuntuarCartaBaza(this);
 
-        //Y luego las cartas del cante
+        //Luego las cartas del cante
         foreach (CardInstance card in scoringCards)
         {
-            card.alphaMod = new M_PlusValue();
-            card.ScoreCard(this);
+            //TEMPORAL PARA PROBAR AUMENTOS
+            card.AddModifier(new M_PlusValue(), ModifierType.Alpha);
+
+            card.PuntuarCartaCante(this);
         }
 
-        //Y aqui todo lo referente a otros efectos (aumentos o modificadores de cartas en mano)
+        //Finalmente la carta del oponente
+        CardInstance rivalCard = rivalSpot.cardList[0];
+        rivalCard.PuntuarCartaRival(this);
+
+        //Si alguna carta en mano tiene modificador, tambien se le puntua
+        foreach (CardInstance card in manoSpot.cardList)
+        {
+            card.PuntuarCartaMano(this);
+        }
+
+        //De forma similar, las cartas no puntuadas en el cante pueden tener modificadores
+        foreach (CardInstance card in discardedCards)
+        {
+            card.DescartarCarta(this);
+        }
+
+        //Y aqui todo lo referente a otros efectos (aumentos)
         Debug.Log(puntosJugada.ToString() + " x " + valorJugada.ToString() + " + " + bonusJugada.ToString());
+
+        //Mover las scoring cards al spot de descartes tambien
+
         return puntosJugada * valorJugada + bonusJugada;
     }
 }
