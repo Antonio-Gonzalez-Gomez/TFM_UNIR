@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,12 +13,9 @@ public class CardInstance : MonoBehaviour
     //Indice del sprite con el reverso de las cartas
     private const int reversoIndex = 41;
 
-    public CardInstance(CardData cartaBase)
-    {
-        this.cartaBase = cartaBase;
-    }
     private void Awake()
     {
+        modifiers = new List<Modifier>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         drag = GetComponent<DragController>();
     }
@@ -42,7 +40,14 @@ public class CardInstance : MonoBehaviour
 
     public Modifier GetMod(ModifierType type)
     {
-        return modifiers.Find(x => x.Type == type);
+        try
+        {
+            return modifiers.Find(x => x.Type == type);
+        }
+        catch(NullReferenceException)
+        {
+            return null;
+        }
     }
 
     //Añade un modificador, sustituyendo el anterior del mismo tipo
@@ -156,19 +161,19 @@ public class CardInstance : MonoBehaviour
             mod.PuntuarCartaRival(sm);
     }
 
-    public void PuntuarCartaMano(ScoreManager sm)
+    public void EfectoCartaMano(ScoreManager sm)
     {
         //Por defecto, las cartas en mano no puntuan
 
         foreach (Modifier mod in modifiers)
-            mod.PuntuarCartaMano(sm);
+            mod.EfectoCartaMano(sm);
     }
 
-    public void DescartarCarta(ScoreManager sm)
+    public void EfectoCartaDescartada(ScoreManager sm)
     {
-        //mover al spot de descartes
+        //Las cartas descartadas tampoco puntúan
 
         foreach (Modifier mod in modifiers)
-            mod.DescartarCarta(sm);
+            mod.EfectoCartaDescartada(sm);
     }
 }

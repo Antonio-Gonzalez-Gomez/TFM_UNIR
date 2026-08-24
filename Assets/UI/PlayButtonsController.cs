@@ -48,12 +48,12 @@ public class PlayButtonsController : MonoBehaviour
             Debug.Log("Ganas la baza");
             Cante cante = scoreManager.EvaluarCante();
             Debug.Log(cante);
-            int score = scoreManager.CalculateScore();
-            Debug.Log("Puntuación final: " + score.ToString());
+            scoreManager.ScorePlayedHand();
         }
         else
         {
             Debug.Log("Pierdes la baza");
+            scoreManager.LosePlayedHand();
         }
     }
     public void Reset()

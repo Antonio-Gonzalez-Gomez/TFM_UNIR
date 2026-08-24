@@ -2251,12 +2251,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89deb17a54c6b1a479cec628301b7d0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreManager
+  deckManager: {fileID: 1151626844}
   manoSpot: {fileID: 1127529276}
   muestraSpot: {fileID: 1011288367}
   rivalSpot: {fileID: 760245997}
   canteSpot: {fileID: 1082598040}
   bazaSpot: {fileID: 804553392}
   scoringCards: []
+  puntosJugada: 0
+  valorJugada: 0
+  bonusJugada: 0
 --- !u!1 &1347581308
 GameObject:
   m_ObjectHideFlags: 0

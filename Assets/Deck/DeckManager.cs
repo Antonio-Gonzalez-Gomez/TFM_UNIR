@@ -16,6 +16,9 @@ public class DeckManager : MonoBehaviour
     [SerializeField] DragCardSpot canteSpot;
     [SerializeField] DragCardSpot bazaSpot;
 
+    //Los descartes no necesitan la lógica de DragCardSpot
+    private List<CardInstance> descartes;
+
     //Este valor puede que sea dinamico en un futuro por aumentos u otros efectos
     private int handSize = 8;
 
@@ -31,6 +34,8 @@ public class DeckManager : MonoBehaviour
         {
             DrawCard(manoSpot);
         }
+
+        descartes = new List<CardInstance>();
     }
 
     //Funcion para gestionar los drag controller (posicion inicial, rotacion)
@@ -111,5 +116,32 @@ public class DeckManager : MonoBehaviour
             manoSpot.RemoveCard(selCard);
             spot.AddCard(selCard);
         }
+    }
+
+    //TODO: funcion que prepare la siguiente ronda (descartas cartas, robar nuevas)
+    //Basicamente esto de abajo
+    public void PrepareNextHand()
+    {
+        //Descarta las cartas utilizadas
+        DiscardCardsInSpot(bazaSpot);
+        DiscardCardsInSpot(canteSpot);
+        DiscardCardsInSpot(rivalSpot);
+
+        //Roba cartas nuevas
+        DrawCard(rivalSpot);
+        int handCardsMissing = handSize - manoSpot.cardList.Count;
+        for (int i = 0; i < handCardsMissing; i++)
+        {
+            DrawCard(manoSpot);
+        }
+    }
+
+    //Descarta todas las cartas de un spot y las manda a la pila de descartes
+    private void DiscardCardsInSpot(DragCardSpot originalSpot)
+    {
+        List<CardInstance> discarded = originalSpot.ClearSpot();
+        //Saca las cartas de la pantalla
+        discarded.ForEach(x => x.transform.position = new Vector3(-100f, -100f, 0));
+        descartes.AddRange(discarded);
     }
 }

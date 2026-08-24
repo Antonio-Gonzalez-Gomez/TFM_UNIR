@@ -32,12 +32,12 @@ public abstract class Modifier
 
     }
 
-    public virtual void PuntuarCartaMano(ScoreManager sm)
+    public virtual void EfectoCartaMano(ScoreManager sm)
     {
 
     }
 
-    public virtual void DescartarCarta(ScoreManager sm)
+    public virtual void EfectoCartaDescartada(ScoreManager sm)
     {
 
     }

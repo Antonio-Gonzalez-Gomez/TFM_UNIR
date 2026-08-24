@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
+    [SerializeField] DeckManager deckManager;
+
     [Header("Card Spots")]
     [SerializeField] DragCardSpot manoSpot;
     [SerializeField] DragCardSpot muestraSpot;
@@ -14,6 +16,10 @@ public class ScoreManager : MonoBehaviour
     public event Action<int> pointScoreAction;
     public event Action<int> valueScoreAction;
     public event Action<int> bonusScoreAction;
+
+    private int targetScore = 500;
+    private int totalScore = 0;
+    private int remainingHands = 5;
 
     //Función que comprueba si la carta del jugador gana la baza contra la del rival
     public bool EsBazaGanada()
@@ -211,7 +217,10 @@ public class ScoreManager : MonoBehaviour
     public int puntosJugada;
     public int valorJugada;
     public int bonusJugada;
-    public int CalculateScore()
+
+    //Funcion que puntua las cartas que forman el cante jugado
+    //Tiene en cuenta los aumentos y modificadores presentes
+    public void ScorePlayedHand()
     {
         Cante cante = EvaluarCante();
         puntosJugada = 0;
@@ -244,20 +253,50 @@ public class ScoreManager : MonoBehaviour
         //Si alguna carta en mano tiene modificador, tambien se le puntua
         foreach (CardInstance card in manoSpot.cardList)
         {
-            card.PuntuarCartaMano(this);
+            card.EfectoCartaMano(this);
         }
 
         //De forma similar, las cartas no puntuadas en el cante pueden tener modificadores
         foreach (CardInstance card in discardedCards)
         {
-            card.DescartarCarta(this);
+            card.EfectoCartaDescartada(this);
         }
 
         //Y aqui todo lo referente a otros efectos (aumentos)
         Debug.Log(puntosJugada.ToString() + " x " + valorJugada.ToString() + " + " + bonusJugada.ToString());
 
-        //Mover las scoring cards al spot de descartes tambien
+        int score = puntosJugada * valorJugada + bonusJugada;
 
-        return puntosJugada * valorJugada + bonusJugada;
+        //Siguiente baza
+        remainingHands -= 1;
+        Debug.Log("Manos restantes: " + remainingHands.ToString());
+        totalScore += score;
+
+        Debug.Log("Puntuación jugada: " + score.ToString());
+        Debug.Log("Puntuación total: " + totalScore.ToString());
+
+        if (totalScore >= targetScore)
+        {
+            Debug.Log("Ronda ganada");
+        }
+
+        else if (remainingHands == 0)
+        {
+            Debug.Log("Ronda perdida");
+        }
+
+        deckManager.PrepareNextHand();
+    }
+
+    //Funcion que se ejecuta si el jugador no gana la baza
+    public void LosePlayedHand()
+    {
+        remainingHands -= 1;
+        Debug.Log("Manos restantes: " + remainingHands.ToString());
+        if (remainingHands == 0)
+        {
+            Debug.Log("Ronda perdida");
+        }
+        deckManager.PrepareNextHand();
     }
 }
