@@ -1,18 +1,19 @@
 using UnityEngine;
 
-public class M_PlusPoints : Modifier
+public class M_Strength : Modifier
 {
-    public M_PlusPoints()
+    public M_Strength()
     {
+        this.points = 30;
         this.Name = "Fuerza";
-        this.Description = "+ 30 puntos al puntuar en baza o cante";
+        this.Description = "+ " + points.ToString() + " puntos al puntuar en baza o cante";
         this.Type = ModifierType.Alpha;
     }
 
     private void Activate(ScoreManager sm)
     {
-        sm.puntosJugada += 30;
-        sm.InvokePointScore(30);
+        sm.puntosJugada += points;
+        sm.InvokePointScore(points);
     }
 
     public override void PuntuarCartaBaza(ScoreManager sm)

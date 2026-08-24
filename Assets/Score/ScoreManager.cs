@@ -60,6 +60,7 @@ public class ScoreManager : MonoBehaviour
     }
 
     public List<CardInstance> scoringCards;
+    public List<CardInstance> discardedCards;
 
     //Función que comprueba cual es el cante realizado por el jugador
     //Le da prioridad a los cantes de mayor valor (Tute > Socare real > Socare > etc.)
@@ -72,9 +73,9 @@ public class ScoreManager : MonoBehaviour
 
         //Modificador espejo: como??
         //Se separan las cartas que pueden formar los cantes (sotas, caballos y reyes) para facilitar las comprobaciones
-        List<CardInstance> sotas = canteSpot.cardList.FindAll(x => x.CompararValor(Valor.Sota) == 0);
-        List<CardInstance> caballos = canteSpot.cardList.FindAll(x => x.CompararValor(Valor.Caballo) == 0);
-        List<CardInstance> reyes = canteSpot.cardList.FindAll(x => x.CompararValor(Valor.Rey) == 0);
+        List<CardInstance> sotas = canteSpot.cardList.FindAll(x => x.CompararValorEnCartaCante(Valor.Sota) == 0);
+        List<CardInstance> caballos = canteSpot.cardList.FindAll(x => x.CompararValorEnCartaCante(Valor.Caballo) == 0);
+        List<CardInstance> reyes = canteSpot.cardList.FindAll(x => x.CompararValorEnCartaCante(Valor.Rey) == 0);
 
         int numSotas = sotas.Count;
         int numCaballos = caballos.Count;
@@ -227,12 +228,19 @@ public class ScoreManager : MonoBehaviour
         PuntuacionesCantes.valores.TryGetValue(cante, out valorJugada);
         PuntuacionesCantes.bonus.TryGetValue(cante, out bonusJugada);
 
-        List<CardInstance> discardedCards = new List<CardInstance>(canteSpot.cardList);
+        discardedCards = new List<CardInstance>(canteSpot.cardList);
         discardedCards.RemoveAll(x => scoringCards.Contains(x));
+
+        //TEMPORAL PARA PROBAR MODIFICADORES
+        foreach (CardInstance card in manoSpot.cardList)
+        {
+            if (card.GetMod(ModifierType.Alpha) == null)
+                card.AddModifier(new M_Resilience());
+        }
 
         CardInstance bazaCard = bazaSpot.cardList[0];
         //TEMPORAL PARA PROBAR AUMENTOS
-        bazaCard.AddModifier(new M_PlusPoints(), ModifierType.Alpha);
+        bazaCard.AddModifier(new M_Strength());
 
         //Se puntua la carta de la baza
         bazaCard.PuntuarCartaBaza(this);
@@ -241,7 +249,7 @@ public class ScoreManager : MonoBehaviour
         foreach (CardInstance card in scoringCards)
         {
             //TEMPORAL PARA PROBAR AUMENTOS
-            card.AddModifier(new M_PlusValue(), ModifierType.Alpha);
+            card.AddModifier(new M_Dexterity());
 
             card.PuntuarCartaCante(this);
         }

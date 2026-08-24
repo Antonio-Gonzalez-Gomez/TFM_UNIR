@@ -1,18 +1,19 @@
 using UnityEngine;
 
-public class M_PlusValue : Modifier
+public class M_Dexterity : Modifier
 {
-    public M_PlusValue()
+    public M_Dexterity()
     {
+        this.points = 3;
         this.Name = "Destreza";
-        this.Description = "+ 3 al valor al puntuar en baza o cante";
+        this.Description = "+ " + points.ToString() + " al valor al puntuar en baza o cante";
         this.Type = ModifierType.Alpha;
     }
 
     public void Activate(ScoreManager sm)
     {
-        sm.valorJugada += 3;
-        sm.InvokeValueScore(3);
+        sm.valorJugada += points;
+        sm.InvokeValueScore(points);
     }
     public override void PuntuarCartaBaza(ScoreManager sm)
     {

@@ -51,11 +51,11 @@ public class CardInstance : MonoBehaviour
     }
 
     //Añade un modificador, sustituyendo el anterior del mismo tipo
-    public void AddModifier(Modifier mod, ModifierType type)
+    public void AddModifier(Modifier mod)
     {
-        Modifier alphaMod = type == ModifierType.Alpha ? mod : GetMod(ModifierType.Alpha);
-        Modifier betaMod = type == ModifierType.Beta ? mod : GetMod(ModifierType.Beta);
-        Modifier gammaMod = type == ModifierType.Gamma ? mod : GetMod(ModifierType.Gamma);
+        Modifier alphaMod = mod.Type == ModifierType.Alpha ? mod : GetMod(ModifierType.Alpha);
+        Modifier betaMod = mod.Type == ModifierType.Beta ? mod : GetMod(ModifierType.Beta);
+        Modifier gammaMod = mod.Type == ModifierType.Gamma ? mod : GetMod(ModifierType.Gamma);
 
         //Es necesario rehacer la lista de modificadores para que guarden el orden correcto
         modifiers = new List<Modifier>();
@@ -116,10 +116,15 @@ public class CardInstance : MonoBehaviour
     {
         int result = -1;
 
-        //Solo los modificadores gamma afectan al valor
-        Modifier gammaMod = GetMod(ModifierType.Gamma);
-        if (gammaMod != null)
-            result = gammaMod.CompararValorEnCartaCante(otroValor);
+        //Con esta implementacion, los modificadores alpha 
+        //Tendrian prioridad sobre los beta y estos sobre los gamma
+        //Revisar clasificacion o esta implementacion si la prioridad no es la deseada
+        foreach (Modifier mod in modifiers)
+        {
+            result = mod.CompararValorEnCartaCante(otroValor);
+            if (result != -1)
+                return result;
+        }
 
         //-1 solo lo devuelve el metodo virtual de la clase abstracta
         if (result != -1)
