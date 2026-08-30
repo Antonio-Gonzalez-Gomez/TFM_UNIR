@@ -10,7 +10,7 @@ public class M_Resilience : Modifier
         this.Description = "+ " + totalBonus.ToString() + " puntos bonus al ganar una baza con esta carta en mano,\n" +
             "que incrementa en " + points.ToString() + " cada vez que este efecto se active\n" +
             "(el bonus se resetea al jugar la carta)";
-        this.Type = ModifierType.Alpha;
+        this.Type = ModifierType.Beta;
     }
 
     private void ResetMod()
@@ -19,14 +19,21 @@ public class M_Resilience : Modifier
         Debug.Log("Resiliencia reset!");
         totalBonus = 0;
     }
-    public override void PuntuarCartaBaza(ScoreManager sm)
+    public override void PuntuarCarta(ScoreManager sm, string posicion)
     {
-        base.PuntuarCartaBaza(sm);
-    }
+        switch (posicion)
+        {
+            case "baza":
+                ResetMod();
+                break;
 
-    public override void PuntuarCartaCante(ScoreManager sm)
-    {
-        base.PuntuarCartaBaza(sm);
+            case "cante":
+                ResetMod();
+                break;
+
+            default:
+                break;
+        }
     }
 
     public override void EfectoCartaDescartada(ScoreManager sm)

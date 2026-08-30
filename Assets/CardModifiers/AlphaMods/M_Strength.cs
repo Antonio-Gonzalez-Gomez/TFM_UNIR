@@ -15,13 +15,20 @@ public class M_Strength : Modifier
         sm.puntosJugada += points;
         sm.InvokePointScore(points);
     }
+    public override void PuntuarCarta(ScoreManager sm, string posicion)
+    {
+        switch (posicion)
+        {
+            case "baza":
+                Activate(sm);
+                break;
 
-    public override void PuntuarCartaBaza(ScoreManager sm)
-    {
-        Activate(sm);
-    }
-    public override void PuntuarCartaCante(ScoreManager sm)
-    {
-        Activate(sm);
+            case "cante":
+                Activate(sm);
+                break;
+
+            default:
+                break;
+        }
     }
 }

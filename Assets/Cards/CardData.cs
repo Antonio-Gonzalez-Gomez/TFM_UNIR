@@ -8,6 +8,11 @@ public class CardData : ScriptableObject
     public Palo Palo { get; set; }
     public int Puntos { get; set; }
 
+    public bool EsCartaFigura()
+    {
+        return Valor == Valor.Sota || Valor == Valor.Caballo || Valor == Valor.Rey;
+    }
+
     public string StringNombre()
     {
         //As de Oros

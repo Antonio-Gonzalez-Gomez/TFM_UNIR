@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    [SerializeField] DeckManager deckManager;
+    [SerializeField] public DeckManager deckManager;
 
     [Header("Card Spots")]
-    [SerializeField] DragCardSpot manoSpot;
-    [SerializeField] DragCardSpot muestraSpot;
-    [SerializeField] DragCardSpot rivalSpot;
-    [SerializeField] DragCardSpot canteSpot;
-    [SerializeField] DragCardSpot bazaSpot;
+    [SerializeField] public DragCardSpot manoSpot;
+    [SerializeField] public DragCardSpot mazoRobarSpot;
+    [SerializeField] public DragCardSpot muestraSpot;
+    [SerializeField] public DragCardSpot rivalSpot;
+    [SerializeField] public DragCardSpot canteSpot;
+    [SerializeField] public DragCardSpot bazaSpot;
 
     public event Action<int> pointScoreAction;
     public event Action<int> valueScoreAction;
@@ -105,15 +106,22 @@ public class ScoreManager : MonoBehaviour
                     foreach (CardInstance rey in reyes)
                     {
                         //Si hay una sota, caballo y rey del mismo palo, hay un Socare
-                        if (sota.cartaBase.Palo == caballo.cartaBase.Palo && sota.cartaBase.Palo == rey.cartaBase.Palo)
+                        //Hay que hacer 3 comparaciones debido a posibles efectos
+                        //Por ejemplo, si solo la sota tiene M_Polivalence
+                        //Entonces <sota = caballo> y <sota = rey> pero <caballo != rey>
+                        if (sota.CompararPaloConCartaCante(caballo)
+                            && sota.CompararPaloConCartaCante(rey)
+                            && caballo.CompararPaloConCartaCante(rey))
                         {
                             sotaCante = sota;
                             caballoCante = caballo;
                             reyCante = rey;
                             //Si son de la muestra, se devuelve el Socare real
-                            if (sotaCante.cartaBase.Palo == paloMuestra)
+                            //Al igual que antes, es necesario comprobarlo de forma individual
+                            if (sotaCante.CompararPaloConMuestraCante(paloMuestra)
+                                && caballoCante.CompararPaloConMuestraCante(paloMuestra)
+                                && reyCante.CompararPaloConMuestraCante(paloMuestra))
                             {
-                                //mantener orden?
                                 scoringCards.Add(sotaCante);
                                 scoringCards.Add(caballoCante);
                                 scoringCards.Add(reyCante);
@@ -164,12 +172,13 @@ public class ScoreManager : MonoBehaviour
                 foreach (CardInstance rey in reyes)
                 {
                     //Si hay un rey y caballo del mismo palo, hay un cante de las 20
-                    if (caballo.cartaBase.Palo == rey.cartaBase.Palo)
+                    if (caballo.CompararPaloConCartaCante(rey))
                     {
                         caballoCante = caballo;
                         reyCante = rey;
                         //Si son de la muestra, se devuelven las 40
-                        if (caballoCante.cartaBase.Palo == paloMuestra)
+                        if (caballo.CompararPaloConMuestraCante(paloMuestra)
+                            && rey.CompararPaloConMuestraCante(paloMuestra))
                         {
                             scoringCards.Add(caballoCante);
                             scoringCards.Add(reyCante);
@@ -231,6 +240,10 @@ public class ScoreManager : MonoBehaviour
         discardedCards = new List<CardInstance>(canteSpot.cardList);
         discardedCards.RemoveAll(x => scoringCards.Contains(x));
 
+        //La lista de cartas puntuadas no respeta el orden original de juego
+        scoringCards.Sort((x, y) => canteSpot.cardList.IndexOf(x).
+            CompareTo(canteSpot.cardList.IndexOf(y)));
+
         //TEMPORAL PARA PROBAR MODIFICADORES
         foreach (CardInstance card in manoSpot.cardList)
         {
@@ -243,20 +256,19 @@ public class ScoreManager : MonoBehaviour
         bazaCard.AddModifier(new M_Strength());
 
         //Se puntua la carta de la baza
-        bazaCard.PuntuarCartaBaza(this);
+        bazaCard.PuntuarCarta(this, "baza");
 
         //Luego las cartas del cante
         foreach (CardInstance card in scoringCards)
         {
             //TEMPORAL PARA PROBAR AUMENTOS
             card.AddModifier(new M_Dexterity());
-
-            card.PuntuarCartaCante(this);
+            card.PuntuarCarta(this, "cante");
         }
 
         //Finalmente la carta del oponente
         CardInstance rivalCard = rivalSpot.cardList[0];
-        rivalCard.PuntuarCartaRival(this);
+        rivalCard.PuntuarCarta(this, "rival");
 
         //Si alguna carta en mano tiene modificador, tambien se le puntua
         foreach (CardInstance card in manoSpot.cardList)

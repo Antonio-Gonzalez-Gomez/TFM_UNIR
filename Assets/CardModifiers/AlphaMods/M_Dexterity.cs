@@ -15,12 +15,21 @@ public class M_Dexterity : Modifier
         sm.valorJugada += points;
         sm.InvokeValueScore(points);
     }
-    public override void PuntuarCartaBaza(ScoreManager sm)
+
+    public override void PuntuarCarta(ScoreManager sm, string posicion)
     {
-        Activate(sm);
-    }
-    public override void PuntuarCartaCante(ScoreManager sm)
-    {
-        Activate(sm);
+        switch (posicion)
+        {
+            case "baza":
+                Activate(sm);
+                break;
+
+            case "cante":
+                Activate(sm);
+                break;
+
+            default:
+                break;
+        }
     }
 }

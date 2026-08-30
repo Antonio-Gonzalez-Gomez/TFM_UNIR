@@ -10,6 +10,7 @@ public class CardInstance : MonoBehaviour
     private List<Modifier> modifiers;
     private SpriteRenderer spriteRenderer;
     public DragController drag;
+    public int replay = 1;
     //Indice del sprite con el reverso de las cartas
     private const int reversoIndex = 41;
 
@@ -60,20 +61,77 @@ public class CardInstance : MonoBehaviour
         //Es necesario rehacer la lista de modificadores para que guarden el orden correcto
         modifiers = new List<Modifier>();
         if (alphaMod != null)
+        {
+            alphaMod.FatherCard = this;
             modifiers.Add(alphaMod);
+        }
         if (betaMod != null)
+        {
+            betaMod.FatherCard = this;
             modifiers.Add(betaMod);
+        }
         if (gammaMod != null)
+        {
+            gammaMod.FatherCard = this;
             modifiers.Add(gammaMod);
+        }
+    }
+    public void DestroyCard()
+    {
+        //TODO: es necesario borrar de los spots y demas listas de DeckManager/ScoreManager?
+
+        Destroy(this);
     }
 
-    public int CompararPalo(CardInstance otraCarta)
+    //Método base que compara dos palos
+    public bool CompararPalo(Palo otroPalo)
     {
+        if (this.cartaBase.Palo == otroPalo)
+            return true;
+
+        return false;
+    }
+
+    //Para inyectar dependencias con modificadores
+    public bool CompararPaloConCartaCante(CardInstance otraCarta)
+    {
+        //Se usa un int para comprobar si algun mod modifica el valor
         int result = -1;
 
-        //Solo existe un modificador que altere los palos
+        //Solo los mods beta (M_Polivalence) afectan al palo en este caso
+        Modifier betaMod = GetMod(ModifierType.Beta);
+        if (betaMod != null)
+            result = betaMod.CompararPaloConCartaCante(otraCarta);
 
-        return result;
+        //Se comprueba el modificador de la otra carta
+        if (result == -1)
+        {
+            Modifier otroMod = otraCarta.GetMod(ModifierType.Beta);
+            if (otroMod != null)
+                result = otroMod.CompararPaloConCartaCante(this);
+        }
+
+        //Si sigue valiendo -1, entonces ambos mods no afectan al palo
+        if (result == -1)
+            result = CompararPalo(otraCarta.cartaBase.Palo) ? 0 : 1;
+
+        return result == 0 ? true : false;
+    }
+
+    public bool CompararPaloConMuestraCante(Palo muestra)
+    {
+        //Se usa un int para comprobar si algun mod modifica el valor
+        int result = -1;
+
+        Modifier betaMod = GetMod(ModifierType.Beta);
+        if (betaMod != null)
+            result = betaMod.CompararPaloConMuestraCante(muestra);
+
+        //Si sigue valiendo -1, entonces el mod no afecta al palo
+        if (result == -1)
+            result = CompararPalo(muestra) ? 0 : 1;
+
+        return result == 0 ? true : false;
     }
 
     //Método base que compara y devuelve un entero en función del valor de ambas
@@ -95,75 +153,67 @@ public class CardInstance : MonoBehaviour
             return 1;
     }
 
+    /// En caso de que haya modificadores de distintos tipo que afecten al valor de la carta,
+    /// seria posible recorrer la lista y buscar la primera ocurrencia de valor distinto a -1.
+    /// Esto daría prioridad a los modificadores Alpha (o los Gamma si se recorre al revés) sobre dichos efectos.
+    /// Intentar que varios modificadores afecten al valor de forma simultánea es posible pero
+    /// requeriría refactorizar todo al respecto para que los modificadores no se fijen en la carta base.
+
     //Para inyectar dependencias con modificadores
     public int CompararValorContraCartaRival(Valor otroValor)
     {
         int result = -1;
 
-        //Solo los modificadores gamma afectan al valor
+        //Solo los modificadores gamma afectan al valor en este caso
         Modifier gammaMod = GetMod(ModifierType.Gamma);
         if (gammaMod != null)
             result = gammaMod.CompararValorContraCartaRival(otroValor);
 
         //-1 solo lo devuelve el metodo virtual de la clase abstracta
-        if (result != -1)
+        if (result == -1)
             result = this.CompararValor(otroValor);
 
         return result;
     }
+
+
 
     public int CompararValorEnCartaCante(Valor otroValor)
     {
         int result = -1;
 
-        //Con esta implementacion, los modificadores alpha 
-        //Tendrian prioridad sobre los beta y estos sobre los gamma
-        //Revisar clasificacion o esta implementacion si la prioridad no es la deseada
-        foreach (Modifier mod in modifiers)
-        {
-            result = mod.CompararValorEnCartaCante(otroValor);
-            if (result != -1)
-                return result;
-        }
+        //Solo los modificadores alpha (M_Exile) afectan al valor en este caso
+        Modifier alphaMod = GetMod(ModifierType.Alpha);
+        if (alphaMod != null)
+            result = alphaMod.CompararValorEnCartaCante(otroValor);
 
         //-1 solo lo devuelve el metodo virtual de la clase abstracta
-        if (result != -1)
+        if (result == -1)
             result = this.CompararValor(otroValor);
 
         return result;
     }
 
-    //Método base que añade los puntos de la carta
-    //y manda el evento correspondiente de UI
-    public void PuntuarCarta(ScoreManager sm)
+    //Método que añade a la puntuación del cante los puntos de la carta
+    //Además de invocar a los modificadores/aumentos correspondientes
+    //Y mandar el evento correspondiente de UI
+    public void PuntuarCarta(ScoreManager sm, String posicion)
     {
-        sm.puntosJugada += cartaBase.Puntos;
-        sm.InvokePointScore(cartaBase.Puntos);
-    }
-
-    //Para inyectar dependencias con modificadores
-    public void PuntuarCartaBaza(ScoreManager sm)
-    {
-        this.PuntuarCarta(sm);
-
+        //Se actualiza el valor de replay
         foreach (Modifier mod in modifiers)
-            mod.PuntuarCartaBaza(sm);
-    }
-    
-    public void PuntuarCartaCante(ScoreManager sm)
-    {
-        this.PuntuarCarta(sm);
+            mod.UpdateReplay(sm);
 
-        foreach (Modifier mod in modifiers)
-            mod.PuntuarCartaCante(sm);
-    }
+        for (int i = 0; i < replay; i++)
+        {
+            sm.puntosJugada += cartaBase.Puntos;
+            sm.InvokePointScore(cartaBase.Puntos);
 
-    public void PuntuarCartaRival(ScoreManager sm)
-    {
-        this.PuntuarCarta(sm);
+            foreach (Modifier mod in modifiers)
+                mod.PuntuarCarta(sm, posicion);
+        }
 
-        foreach (Modifier mod in modifiers)
-            mod.PuntuarCartaRival(sm);
+        //Se resetea al final para evitar que efectos anteriores al puntuaje de esta carta interfieran
+        replay = 1;
     }
 
     public void EfectoCartaMano(ScoreManager sm)

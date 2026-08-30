@@ -69,8 +69,8 @@ public class DeckManager : MonoBehaviour
         return res;
     }
 
-    //Roba una carta del mazo e inicializa su sprite y componente de DragController
-    private CardInstance DrawCard(DragCardSpot spot)
+    //Método que roba una carta al azar y la añade al DragCardSpot
+    public CardInstance DrawCard(DragCardSpot spot)
     {
         //Comprobación de cartas en el mazo
         if (mazoRobarSpot.cardList.Count == 0)
@@ -78,6 +78,15 @@ public class DeckManager : MonoBehaviour
             return null;
         }
 
+        CardInstance res = mazoRobarSpot.cardList[0];
+        InitDrawnCard(spot, res);
+
+        return res;
+    }
+
+    //Método que inicializa los eventos y DragController de una carta
+    public void InitDrawnCard(DragCardSpot spot, CardInstance card)
+    {
         CardInstance res = mazoRobarSpot.cardList[0];
         DragController drag = res.GetComponent<DragController>();
         spot.AddCard(res);
@@ -89,7 +98,27 @@ public class DeckManager : MonoBehaviour
         res.UpdateSprite();
 
         mazoRobarSpot.cardList.RemoveAt(0);
-        return res;
+    }
+
+    //Método que roba una carta de un palo concreto
+    public CardInstance DrawCardBySuit(Palo palo)
+    {
+        //Comprobación de cartas en el mazo
+        if (mazoRobarSpot.cardList.Count == 0)
+        {
+            return null;
+        }
+
+        try
+        {
+            CardInstance res = mazoRobarSpot.cardList.Find(x => x.CompararPalo(palo) && x.cartaBase.EsCartaFigura());
+            InitDrawnCard(manoSpot, res);
+            return res;
+        }
+        catch (NullReferenceException)
+        {
+            return null;
+        }
     }
 
     //Mueve cartas desde la mano hasta el hueco para las cartas de cante o la de baza
@@ -118,8 +147,6 @@ public class DeckManager : MonoBehaviour
         }
     }
 
-    //TODO: funcion que prepare la siguiente ronda (descartas cartas, robar nuevas)
-    //Basicamente esto de abajo
     public void PrepareNextHand()
     {
         //Descarta las cartas utilizadas
@@ -144,4 +171,5 @@ public class DeckManager : MonoBehaviour
         discarded.ForEach(x => x.transform.position = new Vector3(-100f, -100f, 0));
         descartes.AddRange(discarded);
     }
+
 }

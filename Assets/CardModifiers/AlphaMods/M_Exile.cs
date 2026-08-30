@@ -11,13 +11,7 @@ public class M_Exile : Modifier
     }
     public override bool ModificadorAplicable(CardInstance card)
     {
-        Valor valorBase = card.cartaBase.Valor;
-        //En este caso, la comparacion se hace de forma directa con la carta base para evitar
-        //Que otro modificador/aumento afecte al resultado
-        if (valorBase == Valor.Sota || valorBase == Valor.Caballo || valorBase == Valor.Rey)
-            return true;
-        else
-            return false;
+        return card.cartaBase.EsCartaFigura();
     }
     public override int CompararValorEnCartaCante(Valor otroValor)
     {
