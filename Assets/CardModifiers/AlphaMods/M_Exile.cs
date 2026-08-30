@@ -4,9 +4,9 @@ public class M_Exile : Modifier
 {
     public M_Exile()
     {
-        this.points = 150;
+        this.power = 150;
         this.Name = "Exilio";
-        this.Description = "No puede formar cantes, + " + points.ToString() + " puntos bonus al descartar";
+        this.Description = "No puede formar cantes, + " + power.ToString() + " puntos bonus al descartar (solo válido para cartas de figura)";
         this.Type = ModifierType.Alpha;
     }
     public override bool ModificadorAplicable(CardInstance card)
@@ -21,7 +21,7 @@ public class M_Exile : Modifier
 
     public override void EfectoCartaDescartada(ScoreManager sm)
     {
-        sm.bonusJugada += points;
-        sm.InvokeBonusScore(points);
+        sm.bonusJugada += power;
+        sm.InvokeBonusScore(power);
     }
 }

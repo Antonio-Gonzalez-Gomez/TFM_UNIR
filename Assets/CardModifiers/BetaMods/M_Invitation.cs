@@ -6,7 +6,7 @@ public class M_Invitation : Modifier
     public M_Invitation()
     {
         this.Name = "Invitación";
-        this.Description = "Al descartar esta carta, roba una carta de figura del mismo palo";
+        this.Description = "Al descartar esta carta, roba una carta de figura del mismo palo (solo válido para cartas numéricas)";
         this.Type = ModifierType.Beta;
     }
     public override bool ModificadorAplicable(CardInstance card)

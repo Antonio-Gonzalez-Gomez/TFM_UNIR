@@ -10,9 +10,14 @@ public class CardInstance : MonoBehaviour
     private List<Modifier> modifiers;
     private SpriteRenderer spriteRenderer;
     public DragController drag;
-    public int replay = 1;
     //Indice del sprite con el reverso de las cartas
     private const int reversoIndex = 41;
+
+    //Estos valores son dinámicos (se espera que los modificadores/aumentos los modifiquen)
+    //Número de veces que la carta es puntuada
+    public int replay = 1;
+    //Puntos de la carta
+    public int puntos = 0;
 
     private void Awake()
     {
@@ -25,6 +30,7 @@ public class CardInstance : MonoBehaviour
     public void InitCard(CardData cartaBase)
     {
         this.cartaBase = cartaBase;
+        puntos = cartaBase.Puntos;
         //Le da la "vuelta" a la carta al quedar inicializada en el mazo de robo
         //Al robar la carta, se llama a UpdateSprite para obtener el sprite de verdad
         spriteRenderer.sprite = SpriteSelector.GetSpriteByIndex(reversoIndex);
@@ -199,9 +205,9 @@ public class CardInstance : MonoBehaviour
     //Y mandar el evento correspondiente de UI
     public void PuntuarCarta(ScoreManager sm, String posicion)
     {
-        //Se actualiza el valor de replay
+        //Se actualiza el valor de replay u otros efectos previos a la puntuacion
         foreach (Modifier mod in modifiers)
-            mod.UpdateReplay(sm);
+            mod.AntesDePuntuarCarta(sm);
 
         for (int i = 0; i < replay; i++)
         {
@@ -213,6 +219,7 @@ public class CardInstance : MonoBehaviour
         }
 
         //Se resetea al final para evitar que efectos anteriores al puntuaje de esta carta interfieran
+        puntos = cartaBase.Puntos;
         replay = 1;
     }
 

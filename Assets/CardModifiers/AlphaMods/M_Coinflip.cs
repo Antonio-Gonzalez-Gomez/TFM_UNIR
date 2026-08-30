@@ -5,44 +5,26 @@ public class M_Coinflip : Modifier
     float prob = 1 / 2;
     public M_Coinflip()
     {
-        this.points = 2;
+        this.power = 2;
         this.Name = "Moneda";
-        this.Description = "Al puntuar en baza o cante, probabilidad de 1/2 de o bien duplicar el valor del cante o de restar los puntos de esta carta";
+        this.Description = "Duplica el valor del cante, pero con una probabilidad de 1/2 de no puntuar";
         this.Type = ModifierType.Alpha;
     }
 
-    private void Activate(ScoreManager sm)
+    public override void Activate(ScoreManager sm)
+    {
+        //Duplicar el valor del cante
+        int valor = power * sm.valorJugada;
+        sm.valorJugada = valor;
+        sm.InvokeValueScore(valor);
+    }
+
+    public override void AntesDePuntuarCarta(ScoreManager sm)
     {
         if (RNG.RandomRange(prob))
         {
-            //Restar puntos de la carta
-            int puntos = FatherCard.cartaBase.Puntos;
-            sm.puntosJugada -= puntos;
-            sm.InvokePointScore(-puntos);
-        }
-        else
-        {
-            //Duplicar el valor del cante
-            int valor = 2 * sm.valorJugada;
-            sm.valorJugada = valor;
-            sm.InvokeValueScore(valor);
-        }
-    }
-
-    public override void PuntuarCarta(ScoreManager sm, string posicion)
-    {
-        switch (posicion)
-        {
-            case "baza":
-                Activate(sm);
-                break;
-
-            case "cante":
-                Activate(sm);
-                break;
-
-            default:
-                break;
+            //Esto evita que la carta puntue directamente
+            FatherCard.replay = -9999;
         }
     }
 }

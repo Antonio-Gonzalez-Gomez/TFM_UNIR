@@ -5,10 +5,10 @@ public class M_Hunting : Modifier
     private int totalValue = 1;
     public M_Hunting()
     {
-        this.points = 1;
+        this.power = 1;
         this.Name = "Cacería";
         this.Description = "+ " + totalValue.ToString() + " al valor al ganar la baza con esta carta,\n" +
-            "que aumenta en " + points.ToString() + " cada vez que este efecto se active.";
+            "que aumenta en " + power.ToString() + " cada vez que este efecto se active.";
         this.Type = ModifierType.Beta;
     }
 
@@ -20,7 +20,7 @@ public class M_Hunting : Modifier
                 sm.valorJugada += totalValue;
                 sm.InvokeValueScore(totalValue);
 
-                totalValue += points;
+                totalValue += power;
                 break;
 
             default:

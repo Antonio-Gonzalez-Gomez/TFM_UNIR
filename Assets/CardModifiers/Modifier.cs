@@ -10,17 +10,12 @@ public abstract class Modifier
 
     //Variable general para el efecto sobre la puntuacion del aumento
     //Puede ser util declararla aqui en caso de que se quiera modificar de forma dinamica
-    protected int points;
+    protected int power;
 
     //Para aquellos modificadores que solo funcionen con ciertos tipos de cartas
     public virtual bool ModificadorAplicable(CardInstance card)
     {
         return true;
-    }
-
-    public virtual void UpdateReplay(ScoreManager sm)
-    {
-
     }
 
     public virtual int CompararPaloConCartaCante(CardInstance card)
@@ -45,10 +40,36 @@ public abstract class Modifier
         //-1 indica que la función no está definida
         return -1;
     }
+    public virtual void AntesDePuntuarCarta(ScoreManager sm)
+    {
+
+    }
+
+    public virtual void Activate(ScoreManager sm)
+    {
+
+    }
 
     public virtual void PuntuarCarta(ScoreManager sm, string posicion)
     {
+        //Por defecto, los modificadores puntuan en cualquier situacion donde la carta original puntue
+        switch (posicion)
+        {
+            case "baza":
+                Activate(sm);
+                break;
 
+            case "cante":
+                Activate(sm);
+                break;
+
+            case "rival":
+                Activate(sm);
+                break;
+
+            default:
+                break;
+        }
     }
 
     public virtual void EfectoCartaMano(ScoreManager sm)
