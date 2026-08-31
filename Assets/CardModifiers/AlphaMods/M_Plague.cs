@@ -12,6 +12,8 @@ public class M_Plague : Modifier
 
     public override void EfectoCartaDescartada(ScoreManager sm)
     {
+        base.EfectoCartaDescartada(sm);
+
         int contadorPlaga = sm.discardedCards.FindAll(x =>
             x.GetMod(ModifierType.Alpha).Name == "Plaga").Count;
         //Por defecto, incValor = contadorPlaga

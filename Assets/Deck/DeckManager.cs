@@ -87,38 +87,16 @@ public class DeckManager : MonoBehaviour
     //Método que inicializa los eventos y DragController de una carta
     public void InitDrawnCard(DragCardSpot spot, CardInstance card)
     {
-        CardInstance res = mazoRobarSpot.cardList[0];
-        DragController drag = res.GetComponent<DragController>();
-        spot.AddCard(res);
+        DragController drag = card.GetComponent<DragController>();
+        spot.AddCard(card);
         //Los eventos usados para enseñar/ocultar informacion de la carta
         //Deben iniciarse desde el controlador de UI haciendo referencia al DragController
         cardInfoPopUp.ConnectEvents(drag);
         //Lo mismo para los eventos de los botones
         playButtons.ConnectEvents(drag);
-        res.UpdateSprite();
+        card.UpdateSprite();
 
         mazoRobarSpot.cardList.RemoveAt(0);
-    }
-
-    //Método que roba una carta de un palo concreto
-    public CardInstance DrawCardBySuit(Palo palo)
-    {
-        //Comprobación de cartas en el mazo
-        if (mazoRobarSpot.cardList.Count == 0)
-        {
-            return null;
-        }
-
-        try
-        {
-            CardInstance res = mazoRobarSpot.cardList.Find(x => x.CompararPalo(palo) && x.cartaBase.EsCartaFigura());
-            InitDrawnCard(manoSpot, res);
-            return res;
-        }
-        catch (NullReferenceException)
-        {
-            return null;
-        }
     }
 
     //Mueve cartas desde la mano hasta el hueco para las cartas de cante o la de baza

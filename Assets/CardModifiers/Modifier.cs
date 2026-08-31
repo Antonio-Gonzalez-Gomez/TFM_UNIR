@@ -17,6 +17,11 @@ public abstract class Modifier
     {
         return true;
     }
+    public virtual int CompararContraCartaRival(CardInstance rival, Palo paloMuestra)
+    {
+        //-1 indica que la función no está definida
+        return -1;
+    }
 
     public virtual int CompararPaloConCartaCante(CardInstance card)
     {
@@ -30,17 +35,24 @@ public abstract class Modifier
         return -1;
     }
 
-    public virtual int CompararValorContraCartaRival(Valor otroValor)
-    {
-        //-1 indica que la función no está definida
-        return -1;
-    }
+
     public virtual int CompararValorEnCartaCante(Valor otroValor)
     {
         //-1 indica que la función no está definida
         return -1;
     }
-    public virtual void AntesDePuntuarCarta(ScoreManager sm)
+
+    public virtual void AntesDeEvaluarCante(ScoreManager sm)
+    {
+
+    }
+
+    public virtual void AntesDePuntuarCarta(ScoreManager sm, string posicion)
+    {
+
+    }
+
+    public virtual void DespuesDePuntuarCarta(ScoreManager sm)
     {
 
     }
@@ -79,6 +91,8 @@ public abstract class Modifier
 
     public virtual void EfectoCartaDescartada(ScoreManager sm)
     {
-
+        //Si la baza no se gana, no se deberia de puntuar por defecto
+        if (!sm.EsBazaGanada())
+            return;
     }
 }

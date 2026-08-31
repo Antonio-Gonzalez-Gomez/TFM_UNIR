@@ -10,7 +10,7 @@ public class M_Strength : Modifier
         this.Type = ModifierType.Alpha;
     }
 
-    public override void AntesDePuntuarCarta(ScoreManager sm)
+    public override void AntesDePuntuarCarta(ScoreManager sm, string posicion)
     {
         FatherCard.puntos += power;
     }

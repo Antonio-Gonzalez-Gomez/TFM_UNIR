@@ -19,7 +19,7 @@ public class M_Coinflip : Modifier
         sm.InvokeValueScore(valor);
     }
 
-    public override void AntesDePuntuarCarta(ScoreManager sm)
+    public override void AntesDePuntuarCarta(ScoreManager sm, string posicion)
     {
         if (RNG.RandomRange(prob))
         {

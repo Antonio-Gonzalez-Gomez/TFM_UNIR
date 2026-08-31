@@ -165,25 +165,6 @@ public class CardInstance : MonoBehaviour
     /// Intentar que varios modificadores afecten al valor de forma simultánea es posible pero
     /// requeriría refactorizar todo al respecto para que los modificadores no se fijen en la carta base.
 
-    //Para inyectar dependencias con modificadores
-    public int CompararValorContraCartaRival(Valor otroValor)
-    {
-        int result = -1;
-
-        //Solo los modificadores gamma afectan al valor en este caso
-        Modifier gammaMod = GetMod(ModifierType.Gamma);
-        if (gammaMod != null)
-            result = gammaMod.CompararValorContraCartaRival(otroValor);
-
-        //-1 solo lo devuelve el metodo virtual de la clase abstracta
-        if (result == -1)
-            result = this.CompararValor(otroValor);
-
-        return result;
-    }
-
-
-
     public int CompararValorEnCartaCante(Valor otroValor)
     {
         int result = -1;
@@ -207,7 +188,7 @@ public class CardInstance : MonoBehaviour
     {
         //Se actualiza el valor de replay u otros efectos previos a la puntuacion
         foreach (Modifier mod in modifiers)
-            mod.AntesDePuntuarCarta(sm);
+            mod.AntesDePuntuarCarta(sm, posicion);
 
         for (int i = 0; i < replay; i++)
         {
@@ -217,6 +198,9 @@ public class CardInstance : MonoBehaviour
             foreach (Modifier mod in modifiers)
                 mod.PuntuarCarta(sm, posicion);
         }
+
+        foreach (Modifier mod in modifiers)
+            mod.DespuesDePuntuarCarta(sm);
 
         //Se resetea al final para evitar que efectos anteriores al puntuaje de esta carta interfieran
         puntos = cartaBase.Puntos;

@@ -21,6 +21,8 @@ public class M_Exile : Modifier
 
     public override void EfectoCartaDescartada(ScoreManager sm)
     {
+        base.EfectoCartaDescartada(sm);
+
         sm.bonusJugada += power;
         sm.InvokeBonusScore(power);
     }

@@ -33,7 +33,16 @@ public class ScoreManager : MonoBehaviour
         Palo paloPlayer = playerCard.cartaBase.Palo;
         Palo paloRival = rivalCard.cartaBase.Palo;
 
-        //Aqui se inyectaría la lógica de los aumentos (sobre el palo de las cartas)
+        //El modificador gamma de la carta jugada como baza puede afectar al resultado de la baza
+        Modifier gammaMod = playerCard.GetMod(ModifierType.Gamma);
+        if (gammaMod != null)
+        {
+            int res = gammaMod.CompararContraCartaRival(rivalCard, paloMuestra);
+            if (res != -1)
+            {
+                return res == 0 ? true : false;
+            }
+        }
 
         if (paloPlayer != paloRival)
         {
@@ -49,13 +58,9 @@ public class ScoreManager : MonoBehaviour
             }
         }
 
-
-        //Aqui se inyectaría la lógica de los aumentos (sobre el valor de las cartas)
-
         else
         {
-            //Se usa un método a parte para verificar qué carta gana
-            //En caso de empate??
+            //TODO: hacer algo en caso de empate? (== 0)
             return playerCard.CompararValor(rivalCard.cartaBase.Valor) == 1;
         }
     }
@@ -65,14 +70,20 @@ public class ScoreManager : MonoBehaviour
 
     //Función que comprueba cual es el cante realizado por el jugador
     //Le da prioridad a los cantes de mayor valor (Tute > Socare real > Socare > etc.)
-    //Reinicia y almacena en scoringCards las cartas que forman el cante
+    //Reinicia y almacena en scoringCards las cartas que forman el cante (y en discardCards las descartadas)
     public Cante EvaluarCante()
     {
         scoringCards = new List<CardInstance>();
 
         //Como inyectar la interaccion con aumentos aqui?
 
-        //Modificador espejo: como??
+        foreach (CardInstance card in canteSpot.cardList)
+        {
+            Modifier gammaMod = card.GetMod(ModifierType.Gamma);
+            if (gammaMod != null)
+                gammaMod.AntesDeEvaluarCante(this);
+        }
+
         //Se separan las cartas que pueden formar los cantes (sotas, caballos y reyes) para facilitar las comprobaciones
         List<CardInstance> sotas = canteSpot.cardList.FindAll(x => x.CompararValorEnCartaCante(Valor.Sota) == 0);
         List<CardInstance> caballos = canteSpot.cardList.FindAll(x => x.CompararValorEnCartaCante(Valor.Caballo) == 0);
@@ -311,6 +322,12 @@ public class ScoreManager : MonoBehaviour
     //Funcion que se ejecuta si el jugador no gana la baza
     public void LosePlayedHand()
     {
+        //Todas las cartas del cante son descartadas
+        foreach (CardInstance card in canteSpot.cardList)
+        {
+            card.EfectoCartaDescartada(this);
+        }
+
         remainingHands -= 1;
         Debug.Log("Manos restantes: " + remainingHands.ToString());
         if (remainingHands == 0)
