@@ -1,13 +1,14 @@
 using System;
 using UnityEngine;
 
-public class M_Infiltration : Modifier
+public class M_Relief : Modifier
 {
-    public M_Infiltration()
+    public M_Relief()
     {
-        this.Name = "Infiltración";
+        this.Name = "Relevo";
         this.Description = "Al descartar esta carta, roba la carta de la muestra y sustituyela por esta (solo válido para 7)";
-        this.Type = ModifierType.Beta;
+        this.Type = ModifierType.Gamma;
+        this.Index = 16;
     }
     public override bool ModificadorAplicable(CardInstance card)
     {

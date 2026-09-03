@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CardInstance : MonoBehaviour
@@ -10,9 +12,12 @@ public class CardInstance : MonoBehaviour
     private List<Modifier> modifiers;
     private SpriteRenderer spriteRenderer;
     public DragController drag;
+
+    private SpriteRenderer alphaModSprite;
+    private SpriteRenderer betaModSprite;
+    private SpriteRenderer gammaModSprite;
     //Indice del sprite con el reverso de las cartas
     private const int reversoIndex = 41;
-
     //Estos valores son dinámicos (se espera que los modificadores/aumentos los modifiquen)
     //Número de veces que la carta es puntuada
     public int replay = 1;
@@ -24,6 +29,12 @@ public class CardInstance : MonoBehaviour
         modifiers = new List<Modifier>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         drag = GetComponent<DragController>();
+
+        //AQUI ESTA EL PROBLEMA
+        SpriteRenderer[] modSprites = GetComponentsInChildren<SpriteRenderer>();
+        alphaModSprite = modSprites.First(x => x.name == "ModAlphaSprite");
+        betaModSprite = modSprites.First(x => x.name == "ModBetaSprite");
+        gammaModSprite = modSprites.First(x => x.name == "ModGammaSprite");
     }
 
     //Inicializa la carta con el sprite del reverso (para que quede sobre el mazo)
@@ -36,6 +47,8 @@ public class CardInstance : MonoBehaviour
         spriteRenderer.sprite = SpriteSelector.GetSpriteByIndex(reversoIndex);
     }
 
+
+
     //Actualiza la carta al sprite correspondiente
     public void UpdateSprite()
     {
@@ -43,6 +56,21 @@ public class CardInstance : MonoBehaviour
         //Oros -> 0, Copas -> 1, As -> 0, Sota -> 7, etc
         int spriteIndex = (int)cartaBase.Palo * 10 + (int)cartaBase.Valor;
         spriteRenderer.sprite = SpriteSelector.GetSpriteByIndex(spriteIndex);
+
+        //Se actualizan los sprites de los modificadores
+        alphaModSprite.sprite = TryGetModSprite(ModifierType.Alpha);
+        betaModSprite.sprite = TryGetModSprite(ModifierType.Beta);
+        gammaModSprite.sprite = TryGetModSprite(ModifierType.Gamma);
+    }
+
+    private Sprite TryGetModSprite(ModifierType type)
+    {
+        Modifier mod = GetMod(type);
+        //Si no hay mod de ese tipo, no habra sprite
+        if (mod == null)
+            return null;
+        
+        return SpriteSelector.GetModSpriteByIndex(mod.Index);
     }
 
     public Modifier GetMod(ModifierType type)
@@ -81,6 +109,8 @@ public class CardInstance : MonoBehaviour
             gammaMod.FatherCard = this;
             modifiers.Add(gammaMod);
         }
+        //Se actualizan los sprites de la carta
+        UpdateSprite();
     }
     public void DestroyCard()
     {
@@ -169,7 +199,7 @@ public class CardInstance : MonoBehaviour
     {
         int result = -1;
 
-        //Solo los modificadores alpha (M_Exile) afectan al valor en este caso
+        //Solo los modificadores alpha (M_Solitude) afectan al valor en este caso
         Modifier alphaMod = GetMod(ModifierType.Alpha);
         if (alphaMod != null)
             result = alphaMod.CompararValorEnCartaCante(otroValor);

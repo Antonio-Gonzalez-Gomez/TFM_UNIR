@@ -10,6 +10,7 @@ public class M_Mirror : Modifier
         this.Name = "Espejo";
         this.Description = "Al jugar como cante, copia el palo y valor de la carta del cante a la izquierda de esta (solo válido para 5)";
         this.Type = ModifierType.Gamma;
+        this.Index = 14;
     }
     public override bool ModificadorAplicable(CardInstance card)
     {

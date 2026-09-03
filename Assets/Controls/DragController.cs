@@ -78,7 +78,10 @@ public class DragController : MonoBehaviour,
     {
         //TODO: Si el cursor se mueve muy rapido, se puede cortar este evento aunque el click siga pulsado
         //Se debera de implementar mediante un input de click y un condicional (si el click se produjo al hacer hover)
-        this.transform.SetPositionAndRotation(e.pointerCurrentRaycast.worldPosition, Quaternion.identity);
+
+        //Se cambia la posicion de Z para que al arrastrar una carta, se vea por encima de las demas
+        Vector3 raton = e.pointerCurrentRaycast.worldPosition + new Vector3(0, 0, -50f);
+        this.transform.SetPositionAndRotation(raton, Quaternion.identity);
     }
 
     public void OnEndDrag(PointerEventData e)

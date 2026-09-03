@@ -8,6 +8,7 @@ public class M_Recycling : Modifier
         this.Name = "Reciclaje";
         this.Description = "Elimina esta carta del mazo al ser descartada " + power.ToString() + " veces";
         this.Type = ModifierType.Beta;
+        this.Index = 9;
     }
 
     public override void EfectoCartaDescartada(ScoreManager sm)

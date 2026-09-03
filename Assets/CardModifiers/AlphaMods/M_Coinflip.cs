@@ -6,9 +6,10 @@ public class M_Coinflip : Modifier
     public M_Coinflip()
     {
         this.power = 2;
-        this.Name = "Moneda";
+        this.Name = "Cara o Cruz";
         this.Description = "Duplica el valor del cante, pero con una probabilidad de 1/2 de no puntuar";
         this.Type = ModifierType.Alpha;
+        this.Index = 4;
     }
 
     public override void Activate(ScoreManager sm)

@@ -259,7 +259,7 @@ public class ScoreManager : MonoBehaviour
         foreach (CardInstance card in manoSpot.cardList)
         {
             if (card.GetMod(ModifierType.Alpha) == null)
-                card.AddModifier(new M_Resilience());
+                card.AddModifier(new M_Bastion());
         }
 
         CardInstance bazaCard = bazaSpot.cardList[0];
@@ -279,6 +279,9 @@ public class ScoreManager : MonoBehaviour
 
         //Finalmente la carta del oponente
         CardInstance rivalCard = rivalSpot.cardList[0];
+        //TEMPORAL PARA PROBAR AUMENTOS
+        rivalCard.AddModifier(new M_Plague());
+
         rivalCard.PuntuarCarta(this, "rival");
 
         //Si alguna carta en mano tiene modificador, tambien se le puntua
@@ -316,7 +319,7 @@ public class ScoreManager : MonoBehaviour
             Debug.Log("Ronda perdida");
         }
 
-        deckManager.PrepareNextHand();
+        //deckManager.PrepareNextHand();
     }
 
     //Funcion que se ejecuta si el jugador no gana la baza

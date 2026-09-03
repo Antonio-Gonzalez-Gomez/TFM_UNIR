@@ -8,6 +8,7 @@ public class M_Encore : Modifier
         this.Name = "Réplica";
         this.Description = "Al puntuar como cante, puntúa otra vez (solo válido para cartas de figura)";
         this.Type = ModifierType.Gamma;
+        this.Index = 17;
     }
 
     public override bool ModificadorAplicable(CardInstance card)

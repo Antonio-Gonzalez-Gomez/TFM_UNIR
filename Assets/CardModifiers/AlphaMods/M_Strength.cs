@@ -8,6 +8,7 @@ public class M_Strength : Modifier
         this.Name = "Fuerza";
         this.Description = "+ " + power.ToString() + " puntos";
         this.Type = ModifierType.Alpha;
+        this.Index = 0;
     }
 
     public override void AntesDePuntuarCarta(ScoreManager sm, string posicion)

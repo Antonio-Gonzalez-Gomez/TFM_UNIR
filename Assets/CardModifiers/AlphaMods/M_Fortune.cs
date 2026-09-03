@@ -12,6 +12,7 @@ public class M_Fortune : Modifier
         this.Description = "Probabilidad de 1/7 de recibir "
             + puntos.ToString() + " puntos, " + valor.ToString() + " al valor o " + bonus.ToString() + " puntos bonus";
         this.Type = ModifierType.Alpha;
+        this.Index = 3;
     }
 
     public override void Activate(ScoreManager sm)

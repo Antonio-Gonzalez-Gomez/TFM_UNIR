@@ -1,13 +1,14 @@
 using System;
 using UnityEngine;
 
-public class M_Invitation : Modifier
+public class M_Summon : Modifier
 {
-    public M_Invitation()
+    public M_Summon()
     {
-        this.Name = "Invitación";
+        this.Name = "Convocatoria";
         this.Description = "Al descartar esta carta, roba una carta de figura del mismo palo (solo válido para cartas numéricas)";
         this.Type = ModifierType.Beta;
+        this.Index = 11;
     }
     public override bool ModificadorAplicable(CardInstance card)
     {
@@ -25,7 +26,7 @@ public class M_Invitation : Modifier
 
         try
         {
-            CardInstance res = sm.mazoRobarSpot.cardList.Find(x => x.CompararPalo(Palo.Oros) && x.cartaBase.EsCartaFigura());
+            CardInstance res = sm.mazoRobarSpot.cardList.Find(x => x.CompararPalo(FatherCard.cartaBase.Palo) && x.cartaBase.EsCartaFigura());
             sm.deckManager.InitDrawnCard(sm.manoSpot, res);
         }
         catch (NullReferenceException)

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e187e64065110e6478a9b55dfc9c0d95
+guid: b0ad5212b4371a340b7df19177c9235b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5239423902825865103
-    second: baraja-export_0
+      213: -478301174653825690
+    second: baraja 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -48,10 +48,10 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 200
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -117,9 +117,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1276
-        width: 208
-        height: 319
+        y: 1808
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 057768b1735afa3499ee0b8b757e4103
-      internalID: 227602733
+      spriteID: ee6138eddcd65a94ab1c79005e8d22aa
+      internalID: 1224805764
       vertices: []
       indices: 
       edges: []
@@ -138,10 +138,10 @@ TextureImporter:
       name: baraja_1
       rect:
         serializedVersion: 2
-        x: 208
-        y: 1276
-        width: 208
-        height: 319
+        x: 292
+        y: 1808
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,8 +150,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 14a75a9cecbba6c4ba761eab3b8218c4
-      internalID: -1657889745
+      spriteID: 6777b15e036a0ee4f939c740af581afd
+      internalID: -1045414993
       vertices: []
       indices: 
       edges: []
@@ -160,10 +160,10 @@ TextureImporter:
       name: baraja_2
       rect:
         serializedVersion: 2
-        x: 416
-        y: 1276
-        width: 208
-        height: 319
+        x: 584
+        y: 1808
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,8 +172,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 649baa90b2c82f54980c7c3971dd7613
-      internalID: -1264032673
+      spriteID: 584df23800e319f47a9318b8bee09614
+      internalID: -631150711
       vertices: []
       indices: 
       edges: []
@@ -182,10 +182,10 @@ TextureImporter:
       name: baraja_3
       rect:
         serializedVersion: 2
-        x: 624
-        y: 1276
-        width: 208
-        height: 319
+        x: 876
+        y: 1808
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,8 +194,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 721ff077f206c70438283065765dcfb8
-      internalID: 1075503356
+      spriteID: e043a7b2b9fbe654abaf7d9295fb3bf6
+      internalID: 134101006
       vertices: []
       indices: 
       edges: []
@@ -204,10 +204,10 @@ TextureImporter:
       name: baraja_4
       rect:
         serializedVersion: 2
-        x: 832
-        y: 1276
-        width: 208
-        height: 319
+        x: 1168
+        y: 1808
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,8 +216,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ea0ef8ec0d5969a43950bd79bb355d77
-      internalID: 1283520770
+      spriteID: 0deb385b4455b2041b3e663b39e0c5fb
+      internalID: -2077539870
       vertices: []
       indices: 
       edges: []
@@ -226,10 +226,10 @@ TextureImporter:
       name: baraja_5
       rect:
         serializedVersion: 2
-        x: 1040
-        y: 1276
-        width: 208
-        height: 319
+        x: 1460
+        y: 1808
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -238,8 +238,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cfa7f6f824044af48a6627fb4f9b2983
-      internalID: 870213362
+      spriteID: 768462246c43b0a48832f90b5430dd03
+      internalID: 1441267672
       vertices: []
       indices: 
       edges: []
@@ -248,10 +248,10 @@ TextureImporter:
       name: baraja_6
       rect:
         serializedVersion: 2
-        x: 1248
-        y: 1276
-        width: 208
-        height: 319
+        x: 1752
+        y: 1808
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -260,8 +260,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 845b7670d87611d42b9f99b465c5b70c
-      internalID: -865022879
+      spriteID: c400a41db770a1b49bae043e80557301
+      internalID: -1717108398
       vertices: []
       indices: 
       edges: []
@@ -270,10 +270,10 @@ TextureImporter:
       name: baraja_7
       rect:
         serializedVersion: 2
-        x: 1456
-        y: 1276
-        width: 208
-        height: 319
+        x: 2044
+        y: 1808
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -282,8 +282,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9846f8368013e734fad83ab5d21fc92f
-      internalID: -839289645
+      spriteID: b4b207ceb5387dd419696a972a00bc76
+      internalID: 832830643
       vertices: []
       indices: 
       edges: []
@@ -292,10 +292,10 @@ TextureImporter:
       name: baraja_8
       rect:
         serializedVersion: 2
-        x: 1664
-        y: 1276
-        width: 208
-        height: 319
+        x: 2336
+        y: 1808
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -304,8 +304,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3e99ac2040911774692200c715c03b46
-      internalID: -235447892
+      spriteID: f87e48faf804fcb47a92888e1b311796
+      internalID: 1096130830
       vertices: []
       indices: 
       edges: []
@@ -314,10 +314,10 @@ TextureImporter:
       name: baraja_9
       rect:
         serializedVersion: 2
-        x: 1872
-        y: 1276
-        width: 208
-        height: 319
+        x: 2628
+        y: 1808
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -326,8 +326,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 21466c6d251abd5439b36bbaa2e57d16
-      internalID: -2128028443
+      spriteID: 02c0349942059d64ab8091520f53d9ce
+      internalID: 884820806
       vertices: []
       indices: 
       edges: []
@@ -337,9 +337,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 957
-        width: 208
-        height: 319
+        y: 1356
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -348,8 +348,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63f8e2eb4b612f04283c1b5d53676d5c
-      internalID: -1866913227
+      spriteID: 699d6e440f414d949a041291361549bf
+      internalID: -1890716208
       vertices: []
       indices: 
       edges: []
@@ -358,10 +358,10 @@ TextureImporter:
       name: baraja_11
       rect:
         serializedVersion: 2
-        x: 208
-        y: 957
-        width: 208
-        height: 319
+        x: 292
+        y: 1356
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -370,8 +370,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 121dd540f611bc541b7e3e2b3eb6b5f3
-      internalID: 1406229388
+      spriteID: 9425a1e91bbb61a428765d4070d5aed3
+      internalID: 1017331641
       vertices: []
       indices: 
       edges: []
@@ -380,10 +380,10 @@ TextureImporter:
       name: baraja_12
       rect:
         serializedVersion: 2
-        x: 416
-        y: 957
-        width: 208
-        height: 319
+        x: 584
+        y: 1356
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -392,8 +392,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 525c3b68d5e3b2548aa31e3419c44d66
-      internalID: 782295493
+      spriteID: 6e9a509ae2c97ac4d86db59e5d412c72
+      internalID: 969344508
       vertices: []
       indices: 
       edges: []
@@ -402,10 +402,10 @@ TextureImporter:
       name: baraja_13
       rect:
         serializedVersion: 2
-        x: 624
-        y: 957
-        width: 208
-        height: 319
+        x: 876
+        y: 1356
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -414,8 +414,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 68fd8a1908b4a184998cff133156e77e
-      internalID: -40892368
+      spriteID: afe2eef8549ad0f4dbde87a4ae1836b3
+      internalID: -1966049836
       vertices: []
       indices: 
       edges: []
@@ -424,10 +424,10 @@ TextureImporter:
       name: baraja_14
       rect:
         serializedVersion: 2
-        x: 832
-        y: 957
-        width: 208
-        height: 319
+        x: 1168
+        y: 1356
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -436,8 +436,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ca65997134f1983478b211eb0568da22
-      internalID: 1116509492
+      spriteID: eaf21e59bbcd7bf4d8c33936f4fce035
+      internalID: -1624924421
       vertices: []
       indices: 
       edges: []
@@ -446,10 +446,10 @@ TextureImporter:
       name: baraja_15
       rect:
         serializedVersion: 2
-        x: 1040
-        y: 957
-        width: 208
-        height: 319
+        x: 1460
+        y: 1356
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -458,8 +458,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 44734e91848955644af8ef3f63e82cff
-      internalID: -2000966466
+      spriteID: affd57ebbff595c4fb30234f4b76478d
+      internalID: -183365450
       vertices: []
       indices: 
       edges: []
@@ -468,10 +468,10 @@ TextureImporter:
       name: baraja_16
       rect:
         serializedVersion: 2
-        x: 1248
-        y: 957
-        width: 208
-        height: 319
+        x: 1752
+        y: 1356
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -480,8 +480,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6431e6e00f7969d42af033ec3450142c
-      internalID: -424496457
+      spriteID: 401aa5808562e49418478fdffbe30954
+      internalID: 1528683238
       vertices: []
       indices: 
       edges: []
@@ -490,10 +490,10 @@ TextureImporter:
       name: baraja_17
       rect:
         serializedVersion: 2
-        x: 1456
-        y: 957
-        width: 208
-        height: 319
+        x: 2044
+        y: 1356
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -502,8 +502,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7386078a5b09b1242a0a1b47bd99f135
-      internalID: 190171823
+      spriteID: 265db67726cdd6e45851e0830d96f90b
+      internalID: -539928247
       vertices: []
       indices: 
       edges: []
@@ -512,10 +512,10 @@ TextureImporter:
       name: baraja_18
       rect:
         serializedVersion: 2
-        x: 1664
-        y: 957
-        width: 208
-        height: 319
+        x: 2336
+        y: 1356
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -524,8 +524,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a511f4092a350ca4c85adbf9ce900896
-      internalID: -174224608
+      spriteID: e689e1c10a55cd246b0f96bf9605d232
+      internalID: -1943408127
       vertices: []
       indices: 
       edges: []
@@ -534,10 +534,10 @@ TextureImporter:
       name: baraja_19
       rect:
         serializedVersion: 2
-        x: 1872
-        y: 957
-        width: 208
-        height: 319
+        x: 2628
+        y: 1356
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -546,8 +546,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f5d5f946e7080e446a8b127c06340294
-      internalID: -862342589
+      spriteID: d3781620ff327e24a8e257fe0a508349
+      internalID: 153600500
       vertices: []
       indices: 
       edges: []
@@ -557,9 +557,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 638
-        width: 208
-        height: 319
+        y: 904
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -568,8 +568,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cf46c7f690ee73f4a928ca2b24463257
-      internalID: -107138915
+      spriteID: b6490cf7931dd504a838df30cab3d039
+      internalID: 2015582696
       vertices: []
       indices: 
       edges: []
@@ -578,10 +578,10 @@ TextureImporter:
       name: baraja_21
       rect:
         serializedVersion: 2
-        x: 208
-        y: 638
-        width: 208
-        height: 319
+        x: 292
+        y: 904
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -590,8 +590,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3ac6dc8df12a7354692bcee84a2ba56e
-      internalID: 1414915634
+      spriteID: 4da61b24b484b4b4e8ddcecdf73ef888
+      internalID: -851338730
       vertices: []
       indices: 
       edges: []
@@ -600,10 +600,10 @@ TextureImporter:
       name: baraja_22
       rect:
         serializedVersion: 2
-        x: 416
-        y: 638
-        width: 208
-        height: 319
+        x: 584
+        y: 904
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -612,8 +612,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 00ae6ff87b59b5b45ac992b2108a54e7
-      internalID: 750400663
+      spriteID: 8139b975d3d4f8144983463794ce805a
+      internalID: -1862040680
       vertices: []
       indices: 
       edges: []
@@ -622,10 +622,10 @@ TextureImporter:
       name: baraja_23
       rect:
         serializedVersion: 2
-        x: 624
-        y: 638
-        width: 208
-        height: 319
+        x: 876
+        y: 904
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -634,8 +634,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 16060ab9e95a8aa4f916d8c49f3165d6
-      internalID: 1104016977
+      spriteID: 9039f0b714c877048a44128e4f9ceef8
+      internalID: 1058148840
       vertices: []
       indices: 
       edges: []
@@ -644,10 +644,10 @@ TextureImporter:
       name: baraja_24
       rect:
         serializedVersion: 2
-        x: 832
-        y: 638
-        width: 208
-        height: 319
+        x: 1168
+        y: 904
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -656,8 +656,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0dd1ccf2a8b2cbe4b810c787f54979c8
-      internalID: 2108875226
+      spriteID: 371de66305f1c3a429f1a034e54f6886
+      internalID: 1325811307
       vertices: []
       indices: 
       edges: []
@@ -666,10 +666,10 @@ TextureImporter:
       name: baraja_25
       rect:
         serializedVersion: 2
-        x: 1040
-        y: 638
-        width: 208
-        height: 319
+        x: 1460
+        y: 904
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -678,8 +678,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5803166433add2842a9d3797c567c446
-      internalID: -1648858092
+      spriteID: c87f40679e1aa4b4eaeb73020690fa35
+      internalID: 691299379
       vertices: []
       indices: 
       edges: []
@@ -688,10 +688,10 @@ TextureImporter:
       name: baraja_26
       rect:
         serializedVersion: 2
-        x: 1248
-        y: 638
-        width: 208
-        height: 319
+        x: 1752
+        y: 904
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -700,8 +700,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 05a7206e2add30842bf731b727e706f0
-      internalID: 592731946
+      spriteID: 9a41f310e3c880440b780be4265b1ef4
+      internalID: -44241295
       vertices: []
       indices: 
       edges: []
@@ -710,10 +710,10 @@ TextureImporter:
       name: baraja_27
       rect:
         serializedVersion: 2
-        x: 1456
-        y: 638
-        width: 208
-        height: 319
+        x: 2044
+        y: 904
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -722,8 +722,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c7d63f97a68e0724196f5afb7dc5b95d
-      internalID: 326434084
+      spriteID: 2a0b6ad46b71c3d47b18d5224c54bc06
+      internalID: -1601922837
       vertices: []
       indices: 
       edges: []
@@ -732,10 +732,10 @@ TextureImporter:
       name: baraja_28
       rect:
         serializedVersion: 2
-        x: 1664
-        y: 638
-        width: 208
-        height: 319
+        x: 2336
+        y: 904
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -744,8 +744,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b386f1f4829aee04f8552a5b0033e630
-      internalID: 1761535764
+      spriteID: 99ca89a60b1fc5b48bdc65d3d4bf8b14
+      internalID: -174429064
       vertices: []
       indices: 
       edges: []
@@ -754,10 +754,10 @@ TextureImporter:
       name: baraja_29
       rect:
         serializedVersion: 2
-        x: 1872
-        y: 638
-        width: 208
-        height: 319
+        x: 2628
+        y: 904
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -766,8 +766,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b89985385b4d9c04bbcf277f0b94a020
-      internalID: 976946053
+      spriteID: ca60aad4fa4a2124d9e50ae6b830815e
+      internalID: -484362647
       vertices: []
       indices: 
       edges: []
@@ -777,9 +777,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 319
-        width: 208
-        height: 319
+        y: 452
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -788,8 +788,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 065ab3d65dc1bef40b27d3ffb90cba97
-      internalID: 1249728918
+      spriteID: 010496f6bf40e4d4183a9a487889e22e
+      internalID: -235525935
       vertices: []
       indices: 
       edges: []
@@ -798,10 +798,10 @@ TextureImporter:
       name: baraja_31
       rect:
         serializedVersion: 2
-        x: 208
-        y: 319
-        width: 208
-        height: 319
+        x: 292
+        y: 452
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -810,8 +810,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a66a861c2faa6ac41ba9344918679039
-      internalID: 1444664172
+      spriteID: b8a00566826a9f84095538fe816f4add
+      internalID: -197610505
       vertices: []
       indices: 
       edges: []
@@ -820,10 +820,10 @@ TextureImporter:
       name: baraja_32
       rect:
         serializedVersion: 2
-        x: 416
-        y: 319
-        width: 208
-        height: 319
+        x: 584
+        y: 452
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -832,8 +832,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a32bb7119bc02f24eafa3aa2f7a14c3b
-      internalID: 1196306066
+      spriteID: 405964a9424429a47acb8cd92b682a0f
+      internalID: -2052552391
       vertices: []
       indices: 
       edges: []
@@ -842,10 +842,10 @@ TextureImporter:
       name: baraja_33
       rect:
         serializedVersion: 2
-        x: 624
-        y: 319
-        width: 208
-        height: 319
+        x: 876
+        y: 452
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -854,8 +854,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f105efc430b26dd4595efdb29d76781a
-      internalID: 191398616
+      spriteID: 8153c4da0951efa438848d1dfc5e78eb
+      internalID: 303775168
       vertices: []
       indices: 
       edges: []
@@ -864,10 +864,10 @@ TextureImporter:
       name: baraja_34
       rect:
         serializedVersion: 2
-        x: 832
-        y: 319
-        width: 208
-        height: 319
+        x: 1168
+        y: 452
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -876,8 +876,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4c8a98be0eca84646ad81a64349f2603
-      internalID: 2046798713
+      spriteID: 9b6cb0159da0ded4fb8a2e6fcb05d2b4
+      internalID: -1424667605
       vertices: []
       indices: 
       edges: []
@@ -886,10 +886,10 @@ TextureImporter:
       name: baraja_35
       rect:
         serializedVersion: 2
-        x: 1040
-        y: 319
-        width: 208
-        height: 319
+        x: 1460
+        y: 452
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -898,8 +898,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2f30c541deebec64fbd678f948bf0725
-      internalID: 757340144
+      spriteID: 8c6ae00cc3f32ca4590b766304b9d5fa
+      internalID: -149107299
       vertices: []
       indices: 
       edges: []
@@ -908,10 +908,10 @@ TextureImporter:
       name: baraja_36
       rect:
         serializedVersion: 2
-        x: 1248
-        y: 319
-        width: 208
-        height: 319
+        x: 1752
+        y: 452
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -920,8 +920,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a565f3a193997d4c8656fb13d1f6c80
-      internalID: 1843994784
+      spriteID: 8dba57f58deb51748978229314d876ba
+      internalID: -1212554087
       vertices: []
       indices: 
       edges: []
@@ -930,10 +930,10 @@ TextureImporter:
       name: baraja_37
       rect:
         serializedVersion: 2
-        x: 1456
-        y: 319
-        width: 208
-        height: 319
+        x: 2044
+        y: 452
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -942,8 +942,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 506b8a2aa8884db43964711dc8f1cc16
-      internalID: -904516704
+      spriteID: b9eaeb7ca053dc6408768789a18a5d88
+      internalID: 2069413511
       vertices: []
       indices: 
       edges: []
@@ -952,10 +952,10 @@ TextureImporter:
       name: baraja_38
       rect:
         serializedVersion: 2
-        x: 1664
-        y: 319
-        width: 208
-        height: 319
+        x: 2336
+        y: 452
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -964,8 +964,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4c403f1b8eca73542b85af5cb34bbe3b
-      internalID: -1998593411
+      spriteID: 124aa833ed784774ba843b2ee81e8380
+      internalID: -1349398078
       vertices: []
       indices: 
       edges: []
@@ -974,10 +974,10 @@ TextureImporter:
       name: baraja_39
       rect:
         serializedVersion: 2
-        x: 1872
-        y: 319
-        width: 208
-        height: 319
+        x: 2628
+        y: 452
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -986,8 +986,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d52d07d5c72987c40ab3ed0fd69f4a67
-      internalID: 1483724992
+      spriteID: 610ef972474ca444f82822184c852346
+      internalID: -1641347251
       vertices: []
       indices: 
       edges: []
@@ -998,8 +998,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 208
-        height: 319
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1008,8 +1008,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b905ae49236241344a69616ea8555305
-      internalID: -1612985149
+      spriteID: 21745697de6440041a4f3f02098b3f7a
+      internalID: 772737954
       vertices: []
       indices: 
       edges: []
@@ -1018,10 +1018,10 @@ TextureImporter:
       name: baraja_41
       rect:
         serializedVersion: 2
-        x: 208
+        x: 292
         y: 0
-        width: 208
-        height: 319
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1030,8 +1030,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e4161e3467b6f34cbd44246257efd42
-      internalID: 460588192
+      spriteID: a005e270ef8a337419e21abb67abfb7f
+      internalID: -1909027377
       vertices: []
       indices: 
       edges: []
@@ -1040,10 +1040,10 @@ TextureImporter:
       name: baraja_42
       rect:
         serializedVersion: 2
-        x: 416
+        x: 584
         y: 0
-        width: 208
-        height: 319
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1052,8 +1052,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b658593b3d9f93c4faecb227fcccecb5
-      internalID: 852913672
+      spriteID: 9c9de191198b6ae4cb20273829c4088d
+      internalID: 1579170522
       vertices: []
       indices: 
       edges: []
@@ -1062,10 +1062,10 @@ TextureImporter:
       name: baraja_43
       rect:
         serializedVersion: 2
-        x: 624
+        x: 876
         y: 0
-        width: 208
-        height: 319
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1074,8 +1074,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c4e1e980cf284764b81bacfc62e980aa
-      internalID: 1603560329
+      spriteID: ef8ad521b1c3c2841b9ee658d95f7519
+      internalID: 1375291989
       vertices: []
       indices: 
       edges: []
@@ -1084,10 +1084,10 @@ TextureImporter:
       name: baraja_44
       rect:
         serializedVersion: 2
-        x: 832
+        x: 1168
         y: 0
-        width: 208
-        height: 319
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1096,8 +1096,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: def6e9be3a6fccc41b1fa55e653552e4
-      internalID: 535192737
+      spriteID: 667ce6e4611f42f48bba1f6cbea8d2f7
+      internalID: -1115721973
       vertices: []
       indices: 
       edges: []
@@ -1106,10 +1106,10 @@ TextureImporter:
       name: baraja_45
       rect:
         serializedVersion: 2
-        x: 1040
+        x: 1460
         y: 0
-        width: 208
-        height: 319
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1118,8 +1118,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ddadcd621727566428cb33c238d88157
-      internalID: 1893803553
+      spriteID: 62675eb7fb48456458d403506fac15cd
+      internalID: -1052224562
       vertices: []
       indices: 
       edges: []
@@ -1128,10 +1128,10 @@ TextureImporter:
       name: baraja_46
       rect:
         serializedVersion: 2
-        x: 1248
+        x: 1752
         y: 0
-        width: 208
-        height: 319
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1140,8 +1140,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0c207e09f9d43a34f92468db08e48581
-      internalID: -1969355300
+      spriteID: dd81250695371ba46a7cdf7dbccc457c
+      internalID: 1997948613
       vertices: []
       indices: 
       edges: []
@@ -1150,10 +1150,10 @@ TextureImporter:
       name: baraja_47
       rect:
         serializedVersion: 2
-        x: 1456
+        x: 2044
         y: 0
-        width: 208
-        height: 319
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1162,8 +1162,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c473ea6d46646c849b96b08d277303fd
-      internalID: 885309855
+      spriteID: 37bfdd2256b12294883edbfd1aa30dd8
+      internalID: -1538366021
       vertices: []
       indices: 
       edges: []
@@ -1172,10 +1172,10 @@ TextureImporter:
       name: baraja_48
       rect:
         serializedVersion: 2
-        x: 1664
+        x: 2336
         y: 0
-        width: 208
-        height: 319
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1184,8 +1184,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a8d21c19d7b89b446a3dcefe72e55a35
-      internalID: 97926390
+      spriteID: 15b3f1f1dd58c374e8cc43bb6386146b
+      internalID: 412769088
       vertices: []
       indices: 
       edges: []
@@ -1194,10 +1194,10 @@ TextureImporter:
       name: baraja_49
       rect:
         serializedVersion: 2
-        x: 1872
+        x: 2628
         y: 0
-        width: 208
-        height: 319
+        width: 292
+        height: 452
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1206,8 +1206,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 262513c4e536b0a4787f921c1d31ba61
-      internalID: -810329626
+      spriteID: b49ca3e14560ea348a9d59c973fdc4ab
+      internalID: -824191300
       vertices: []
       indices: 
       edges: []
@@ -1216,7 +1216,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 056902f5f04713b46a97b25916ca8ba1
+    spriteID: 4203055fa55984a49b930dc89292dfec
     internalID: 0
     vertices: []
     indices: 
@@ -1226,58 +1226,58 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":10.0,"y":5.0},"gridSpriteSize":{"x":208.0,"y":319.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":10.0,"y":5.0},"gridSpriteSize":{"x":292.0,"y":452.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      baraja_0: 227602733
-      baraja_1: -1657889745
-      baraja_10: -1866913227
-      baraja_11: 1406229388
-      baraja_12: 782295493
-      baraja_13: -40892368
-      baraja_14: 1116509492
-      baraja_15: -2000966466
-      baraja_16: -424496457
-      baraja_17: 190171823
-      baraja_18: -174224608
-      baraja_19: -862342589
-      baraja_2: -1264032673
-      baraja_20: -107138915
-      baraja_21: 1414915634
-      baraja_22: 750400663
-      baraja_23: 1104016977
-      baraja_24: 2108875226
-      baraja_25: -1648858092
-      baraja_26: 592731946
-      baraja_27: 326434084
-      baraja_28: 1761535764
-      baraja_29: 976946053
-      baraja_3: 1075503356
-      baraja_30: 1249728918
-      baraja_31: 1444664172
-      baraja_32: 1196306066
-      baraja_33: 191398616
-      baraja_34: 2046798713
-      baraja_35: 757340144
-      baraja_36: 1843994784
-      baraja_37: -904516704
-      baraja_38: -1998593411
-      baraja_39: 1483724992
-      baraja_4: 1283520770
-      baraja_40: -1612985149
-      baraja_41: 460588192
-      baraja_42: 852913672
-      baraja_43: 1603560329
-      baraja_44: 535192737
-      baraja_45: 1893803553
-      baraja_46: -1969355300
-      baraja_47: 885309855
-      baraja_48: 97926390
-      baraja_49: -810329626
-      baraja_5: 870213362
-      baraja_6: -865022879
-      baraja_7: -839289645
-      baraja_8: -235447892
-      baraja_9: -2128028443
+      baraja_0: 1224805764
+      baraja_1: -1045414993
+      baraja_10: -1890716208
+      baraja_11: 1017331641
+      baraja_12: 969344508
+      baraja_13: -1966049836
+      baraja_14: -1624924421
+      baraja_15: -183365450
+      baraja_16: 1528683238
+      baraja_17: -539928247
+      baraja_18: -1943408127
+      baraja_19: 153600500
+      baraja_2: -631150711
+      baraja_20: 2015582696
+      baraja_21: -851338730
+      baraja_22: -1862040680
+      baraja_23: 1058148840
+      baraja_24: 1325811307
+      baraja_25: 691299379
+      baraja_26: -44241295
+      baraja_27: -1601922837
+      baraja_28: -174429064
+      baraja_29: -484362647
+      baraja_3: 134101006
+      baraja_30: -235525935
+      baraja_31: -197610505
+      baraja_32: -2052552391
+      baraja_33: 303775168
+      baraja_34: -1424667605
+      baraja_35: -149107299
+      baraja_36: -1212554087
+      baraja_37: 2069413511
+      baraja_38: -1349398078
+      baraja_39: -1641347251
+      baraja_4: -2077539870
+      baraja_40: 772737954
+      baraja_41: -1909027377
+      baraja_42: 1579170522
+      baraja_43: 1375291989
+      baraja_44: -1115721973
+      baraja_45: -1052224562
+      baraja_46: 1997948613
+      baraja_47: -1538366021
+      baraja_48: 412769088
+      baraja_49: -824191300
+      baraja_5: 1441267672
+      baraja_6: -1717108398
+      baraja_7: 832830643
+      baraja_8: 1096130830
+      baraja_9: 884820806
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

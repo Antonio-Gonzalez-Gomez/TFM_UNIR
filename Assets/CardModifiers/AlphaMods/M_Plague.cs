@@ -8,6 +8,7 @@ public class M_Plague : Modifier
         this.Name = "Plaga";
         this.Description = "+ " + power.ToString() + " al valor por cada carta descartada con este modificador en la baza";
         this.Type = ModifierType.Alpha;
+        this.Index = 2;
     }
 
     public override void EfectoCartaDescartada(ScoreManager sm)

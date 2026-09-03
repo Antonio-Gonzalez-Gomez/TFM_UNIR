@@ -7,6 +7,7 @@ public class M_Clone : Modifier
         this.Name = "Clonación";
         this.Description = "Al puntuar como cante, la siguiente carta del cante puntúa otra vez";
         this.Type = ModifierType.Beta;
+        this.Index = 10;
     }
 
     public override void PuntuarCarta(ScoreManager sm, string posicion)

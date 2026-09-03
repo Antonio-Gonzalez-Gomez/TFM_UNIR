@@ -1,13 +1,14 @@
 using System;
 using UnityEngine;
 
-public class M_Revolution : Modifier
+public class M_Switch : Modifier
 {
-    public M_Revolution()
+    public M_Switch()
     {
-        this.Name = "Revolución";
+        this.Name = "Cambiazo";
         this.Description = "Al jugar esta carta como baza, intercámbiala con la del rival (solo válido para 6)";
         this.Type = ModifierType.Gamma;
+        this.Index = 15;
     }
     public override bool ModificadorAplicable(CardInstance card)
     {

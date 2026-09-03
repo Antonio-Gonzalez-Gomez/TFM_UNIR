@@ -8,6 +8,7 @@ public class M_Dexterity : Modifier
         this.Name = "Destreza";
         this.Description = "+ " + power .ToString() + " al valor";
         this.Type = ModifierType.Alpha;
+        this.Index = 1;
     }
 
     public override void Activate(ScoreManager sm)

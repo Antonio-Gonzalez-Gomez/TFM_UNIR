@@ -32,10 +32,10 @@ public class DragCardSpot : MonoBehaviour
             float halfInd = i + 0.5f;
             //Partiendo de la posicion (centro del spot), se reparte la distancia a partir del numero de cartas
             //De esta forma, incX recorre el intervalo [position.x - spotWidth / 2, position.x + spotWidth / 2]
-            //Se le añade la mitad del ancho de una carta para centrar las posiciones (y que no se apelotonen en la izquierda)
-            float incX = this.transform.position.x - spotWidth / 2 + spotWidth * halfInd / cardList.Count;
-            //z = -i para que las cartas solapen bien en la mano
-            drag.originalPosition = this.transform.position + new Vector3(incX, 0, -i);
+            //Se le añade la mitad del ancho de una carta (halfInd) para interpolar las posiciones
+            float incX = spotWidth * halfInd / cardList.Count - spotWidth / 2;
+            //z = -2 * i para que las cartas solapen bien en la mano
+            drag.originalPosition = this.transform.position + new Vector3(incX, 0, -2 * i);
             drag.originalRotation = Quaternion.identity;
 
             if (cardsInFan)
@@ -46,7 +46,7 @@ public class DragCardSpot : MonoBehaviour
                 //Adicionalmente, se modifica ligeramente la posicion vertical de la carta para bajar aquellas en los extremos
                 //El rango esta vez debería ser [incY, incY], por lo que se obtiene el valor absoluto
                 float incY = Mathf.Abs(2 * maxIncY * halfInd / cardList.Count - maxIncY);
-                drag.originalPosition += new Vector3(1f, -incY, 0);
+                drag.originalPosition += new Vector3(0, -incY, 0);
             }
             drag.selected = false;
             drag.ResetPosition();

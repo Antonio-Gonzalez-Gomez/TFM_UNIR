@@ -5,8 +5,11 @@ public abstract class Modifier
     public string Name { get; set; }
     public string Description { get; set; }
     public ModifierType Type { get; set; }
+
     //Para que el modificador tenga acceso a la carta que lo contiene
     public CardInstance FatherCard { get; set; }
+    //El indice depende de la spritesheet
+    public int Index { get; set; }
 
     //Variable general para el efecto sobre la puntuacion del aumento
     //Puede ser util declararla aqui en caso de que se quiera modificar de forma dinamica
