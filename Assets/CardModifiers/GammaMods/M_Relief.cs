@@ -6,7 +6,7 @@ public class M_Relief : Modifier
     public M_Relief()
     {
         this.Name = "Relevo";
-        this.Description = "Al descartar esta carta, roba la carta de la muestra y sustituyela por esta (solo válido para 7)";
+        this.Description = "Al descartar esta carta, roba la carta de la muestra y sustitúyela por esta";
         this.Type = ModifierType.Gamma;
         this.Index = 16;
     }

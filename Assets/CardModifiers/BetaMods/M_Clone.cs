@@ -10,6 +10,11 @@ public class M_Clone : Modifier
         this.Index = 10;
     }
 
+    public override bool ModificadorAplicable(CardInstance card)
+    {
+        return card.cartaBase.EsCartaFigura();
+    }
+
     public override void PuntuarCarta(ScoreManager sm, string posicion)
     {
         if (posicion == "cante")

@@ -7,8 +7,8 @@ public class M_Hunter : Modifier
     {
         this.power = 1;
         this.Name = "Cazador";
-        this.Description = "+ " + totalValue.ToString() + " al valor al ganar la baza con esta carta,\n" +
-            "que aumenta en " + power.ToString() + " cada vez que este efecto se active.";
+        this.Description = ct.ValueText(totalValue) + " al ganar la baza con esta carta," +
+            "aumenta " + ct.Color(power.ToString(), "value") + " cada vez que se active.";
         this.Type = ModifierType.Beta;
         this.Index = 6;
     }

@@ -7,7 +7,7 @@ public class M_Counter : Modifier
     {
         this.power = 31;
         this.Name = "Contra";
-        this.Description = "+" + power.ToString() + " puntos y gana la baza al jugar contra cualquier as o tres (solo válido para 2 y 4)";
+        this.Description = ct.PointsText(power) + " y gana la baza al jugar contra cualquier as o tres";
         this.Type = ModifierType.Gamma;
         this.Index = 13;
     }

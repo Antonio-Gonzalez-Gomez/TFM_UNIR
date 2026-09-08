@@ -6,7 +6,7 @@ public class M_Switch : Modifier
     public M_Switch()
     {
         this.Name = "Cambiazo";
-        this.Description = "Al jugar esta carta como baza, intercámbiala con la del rival (solo válido para 6)";
+        this.Description = "Al jugar esta carta como baza, intercámbiala con la del rival";
         this.Type = ModifierType.Gamma;
         this.Index = 15;
     }

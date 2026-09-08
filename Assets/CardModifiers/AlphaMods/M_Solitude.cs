@@ -6,7 +6,7 @@ public class M_Solitude : Modifier
     {
         this.power = 150;
         this.Name = "Soledad";
-        this.Description = "No puede formar cantes, + " + power.ToString() + " puntos bonus al descartar (solo válido para cartas de figura)";
+        this.Description = "No puede formar cantes, " + ct.BonusText(power) + " al descartar";
         this.Type = ModifierType.Alpha;
         this.Index = 5;
     }

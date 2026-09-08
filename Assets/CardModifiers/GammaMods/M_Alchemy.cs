@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class M_Alchemy : Modifier
 {
-    float valueRate = 1 / 4;
-    public M_Alchemy()
+    float valueRate = 1f / 4;
+    public M_Alchemy(int cardPoints)
     {
-        this.power = Mathf.CeilToInt(FatherCard.puntos * valueRate);
+        this.power = Mathf.CeilToInt(cardPoints * valueRate);
         this.Name = "Transmutación";
-        this.Description = "Los puntos de esta carta se convierten en +" + power.ToString() + " al valor (1/4 de los puntos originales, solo válido para 1 y 3)";
+        this.Description = "Convierte " + ct.fractions[valueRate] + " de los " +
+            ct.Color("puntos", "points") + " de esta carta en " + ct.Color("valor", "value");
         this.Type = ModifierType.Gamma;
         this.Index = 12;
     }

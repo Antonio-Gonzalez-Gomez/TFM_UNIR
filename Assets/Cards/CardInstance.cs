@@ -94,17 +94,17 @@ public class CardInstance : MonoBehaviour
 
         //Es necesario rehacer la lista de modificadores para que guarden el orden correcto
         modifiers = new List<Modifier>();
-        if (alphaMod != null)
+        if (alphaMod != null && alphaMod.ModificadorAplicable(this))
         {
             alphaMod.FatherCard = this;
             modifiers.Add(alphaMod);
         }
-        if (betaMod != null)
+        if (betaMod != null && betaMod.ModificadorAplicable(this))
         {
             betaMod.FatherCard = this;
             modifiers.Add(betaMod);
         }
-        if (gammaMod != null)
+        if (gammaMod != null && gammaMod.ModificadorAplicable(this))
         {
             gammaMod.FatherCard = this;
             modifiers.Add(gammaMod);

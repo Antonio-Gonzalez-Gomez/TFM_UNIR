@@ -6,7 +6,7 @@ public class M_Summon : Modifier
     public M_Summon()
     {
         this.Name = "Convocatoria";
-        this.Description = "Al descartar esta carta, roba una carta de figura del mismo palo (solo válido para cartas numéricas)";
+        this.Description = "Al descartar esta carta, roba una carta de figura del mismo palo";
         this.Type = ModifierType.Beta;
         this.Index = 11;
     }

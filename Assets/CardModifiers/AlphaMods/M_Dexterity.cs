@@ -6,7 +6,7 @@ public class M_Dexterity : Modifier
     {
         this.power = 3;
         this.Name = "Destreza";
-        this.Description = "+ " + power .ToString() + " al valor";
+        this.Description = ct.ValueText(power);
         this.Type = ModifierType.Alpha;
         this.Index = 1;
     }

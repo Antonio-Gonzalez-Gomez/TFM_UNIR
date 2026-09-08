@@ -6,7 +6,7 @@ public class M_Strength : Modifier
     {
         this.power = 30;
         this.Name = "Fuerza";
-        this.Description = "+ " + power.ToString() + " puntos";
+        this.Description = ct.PointsText(power);
         this.Type = ModifierType.Alpha;
         this.Index = 0;
     }

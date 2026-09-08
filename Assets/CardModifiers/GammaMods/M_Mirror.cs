@@ -4,11 +4,11 @@ using UnityEngine;
 public class M_Mirror : Modifier
 {
     private CardData original;
-    public M_Mirror()
+    public M_Mirror(CardData cartaOriginal)
     {
-        original = FatherCard.cartaBase;
+        original = cartaOriginal;
         this.Name = "Espejo";
-        this.Description = "Al jugar como cante, copia el palo y valor de la carta del cante a la izquierda de esta (solo válido para 5)";
+        this.Description = "Al jugar como cante, copia el palo y valor de la carta del cante a la izquierda de esta";
         this.Type = ModifierType.Gamma;
         this.Index = 14;
     }

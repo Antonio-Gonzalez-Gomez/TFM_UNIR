@@ -2,14 +2,13 @@ using UnityEngine;
 
 public class M_Bastion : Modifier
 {
-    private int totalBonus = 0;
+    private int totalBonus = 40;
     public M_Bastion()
     {
-        this.power = 30;
+        this.power = 40;
         this.Name = "Bastión";
-        this.Description = "+ " + totalBonus.ToString() + " puntos bonus al ganar una baza con esta carta en mano,\n" +
-            "que incrementa en " + power.ToString() + " cada vez que este efecto se active\n" +
-            "(el bonus se resetea al jugar la carta)";
+        this.Description = ct.BonusText(totalBonus) + " al ganar una baza con esta carta en mano," +
+            "aumenta " + ct.Color(power.ToString(), "bonus") + " cada vez seguida que se active";
         this.Type = ModifierType.Beta;
         this.Index = 7;
     }
@@ -44,9 +43,9 @@ public class M_Bastion : Modifier
 
     public override void EfectoCartaMano(ScoreManager sm)
     {
-        totalBonus += power;
-
         sm.bonusJugada += totalBonus;
         sm.InvokeBonusScore(totalBonus);
+
+        totalBonus += power;
     }
 }

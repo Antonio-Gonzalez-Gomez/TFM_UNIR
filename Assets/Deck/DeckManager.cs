@@ -5,7 +5,7 @@ using UnityEngine;
 public class DeckManager : MonoBehaviour
 {
     [SerializeField] CardInstance cardPrefab;
-    [SerializeField] CardInfoPopUp cardInfoPopUp;
+    [SerializeField] InfoPopUp cardInfoPopUp;
     [SerializeField] PlayButtonsController playButtons;
 
     [Header("Card Spots")]
@@ -69,6 +69,8 @@ public class DeckManager : MonoBehaviour
         return res;
     }
 
+
+
     //Método que roba una carta al azar y la añade al DragCardSpot
     public CardInstance DrawCard(DragCardSpot spot)
     {
@@ -80,6 +82,9 @@ public class DeckManager : MonoBehaviour
 
         CardInstance res = mazoRobarSpot.cardList[0];
         InitDrawnCard(spot, res);
+
+        //TEMPORAL
+        AddRandomMods(res);
 
         return res;
     }
@@ -150,4 +155,87 @@ public class DeckManager : MonoBehaviour
         descartes.AddRange(discarded);
     }
 
+    //TEMPORAL PARA PROBAR MODS
+    private void AddRandomMods(CardInstance card)
+    {
+        int alpha = UnityEngine.Random.Range(0, 10);
+        int beta = UnityEngine.Random.Range(0, 10);
+
+        switch (alpha)
+        {
+            case 0:
+                card.AddModifier(new M_Strength());
+                break;
+            case 1:
+                card.AddModifier(new M_Dexterity());
+                break;
+            case 2:
+                card.AddModifier(new M_Plague());
+                break;
+            case 3:
+                card.AddModifier(new M_Fortune());
+                break;
+            case 4:
+                card.AddModifier(new M_Coinflip());
+                break;
+            case 5:
+                card.AddModifier(new M_Solitude());
+                break;
+            default:
+                break;
+        }
+
+        switch (beta)
+        {
+            case 0:
+                card.AddModifier(new M_Hunter());
+                break;
+            case 1:
+                card.AddModifier(new M_Bastion());
+                break;
+            case 2:
+                card.AddModifier(new M_Polivalence());
+                break;
+            case 3:
+                card.AddModifier(new M_Recycling());
+                break;
+            case 4:
+                card.AddModifier(new M_Clone());
+                break;
+            case 5:
+                card.AddModifier(new M_Summon());
+                break;
+            default:
+                break;
+        }
+
+        switch(card.cartaBase.Valor)
+        {
+            case Valor.As:
+            case Valor.Tres:
+                card.AddModifier(new M_Alchemy(card.puntos));
+                break;
+
+            case Valor.Dos:
+            case Valor.Cuatro:
+                card.AddModifier(new M_Counter());
+                break;
+
+            case Valor.Cinco:
+                card.AddModifier(new M_Mirror(card.cartaBase));
+                break;
+
+            case Valor.Seis:
+                card.AddModifier(new M_Switch());
+                break;
+
+            case Valor.Siete:
+                card.AddModifier(new M_Relief());
+                break;
+
+            default:
+                card.AddModifier(new M_Encore());
+                break;
+        }
+    }
 }

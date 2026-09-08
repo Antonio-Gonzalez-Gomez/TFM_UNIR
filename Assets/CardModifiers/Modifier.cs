@@ -14,6 +14,7 @@ public abstract class Modifier
     //Variable general para el efecto sobre la puntuacion del aumento
     //Puede ser util declararla aqui en caso de que se quiera modificar de forma dinamica
     protected int power;
+    protected ColorText ct = new ColorText();
 
     //Para aquellos modificadores que solo funcionen con ciertos tipos de cartas
     public virtual bool ModificadorAplicable(CardInstance card)

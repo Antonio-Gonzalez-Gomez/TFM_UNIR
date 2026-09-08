@@ -6,7 +6,7 @@ public class M_Encore : Modifier
     public M_Encore()
     {
         this.Name = "Réplica";
-        this.Description = "Al puntuar como cante, puntúa otra vez (solo válido para cartas de figura)";
+        this.Description = "Al puntuar como cante, puntúa otra vez";
         this.Type = ModifierType.Gamma;
         this.Index = 17;
     }

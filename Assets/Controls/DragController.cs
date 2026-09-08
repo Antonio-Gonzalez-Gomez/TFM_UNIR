@@ -14,7 +14,7 @@ public class DragController : MonoBehaviour,
     public Vector3 originalPosition;
     public Quaternion originalRotation;
 
-    public event Action<CardInstance> cardInfoShow;
+    public event Action<HoverInfo> cardInfoShow;
     public event Action cardInfoHide;
     public event Action playButtonsShow;
     public event Action playButtonsHide;
@@ -37,24 +37,18 @@ public class DragController : MonoBehaviour,
         this.spot = spot;
     }
 
-    private float infoTimer = 0f;
-    private bool waitingInfo = false;
     public void OnPointerEnter(PointerEventData e)
     {
-        waitingInfo = true;
-        infoTimer = 0.5f;
+        cardInfoShow?.Invoke(new HoverInfo(this.GetComponentInParent<CardInstance>()));
     }
 
     public void OnPointerExit(PointerEventData e)
     {
-        //TODO: si se pasa a hacer hover de otra carta, saltarse el tiempo de espera y enseñar inmediatamente
-        waitingInfo = false;
         cardInfoHide?.Invoke();
     }
 
     public void OnPointerClick(PointerEventData e)
     {
-        waitingInfo = false;
         if (selected)
         {
             spot.DeselectCard(this);
@@ -67,9 +61,9 @@ public class DragController : MonoBehaviour,
     public void OnBeginDrag(PointerEventData e)
     {
         //El pop up de informacion deberia ocultarse al arrastrar la carta
+        //Evento para bloquear el cardInfo hasta que se suelte la carta?
         //TODO: evitar que los pop up de informacion de otras cartas aparezcan al hacer hover
         //En su lugar, deberia de activarse logica para desplazar las cartas
-        waitingInfo = false;
         cardInfoHide?.Invoke();
         playButtonsHide?.Invoke();
     }
@@ -78,6 +72,7 @@ public class DragController : MonoBehaviour,
     {
         //TODO: Si el cursor se mueve muy rapido, se puede cortar este evento aunque el click siga pulsado
         //Se debera de implementar mediante un input de click y un condicional (si el click se produjo al hacer hover)
+        //Usar tweens!!!
 
         //Se cambia la posicion de Z para que al arrastrar una carta, se vea por encima de las demas
         Vector3 raton = e.pointerCurrentRaycast.worldPosition + new Vector3(0, 0, -50f);
@@ -106,18 +101,5 @@ public class DragController : MonoBehaviour,
         }
         ResetPosition();
         playButtonsShow?.Invoke();
-    }
-
-    private void Update()
-    {
-        if (waitingInfo)
-        {
-            infoTimer -= Time.deltaTime;
-            if (infoTimer < 0f)
-            {
-                cardInfoShow?.Invoke(this.GetComponentInParent<CardInstance>());
-                waitingInfo = false;
-            }
-        }
     }
 }

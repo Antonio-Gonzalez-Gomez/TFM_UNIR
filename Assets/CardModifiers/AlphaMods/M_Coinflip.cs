@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class M_Coinflip : Modifier
 {
-    float prob = 1 / 2;
+    float prob = 1f / 2;
     public M_Coinflip()
     {
         this.power = 2;
         this.Name = "Cara o Cruz";
-        this.Description = "Duplica el valor del cante, pero con una probabilidad de 1/2 de no puntuar";
+        this.Description = "Duplica el " + ct.Color("valor del cante", "value") + ", pero con " + ct.ChanceText(prob) + " de no puntuar";
         this.Type = ModifierType.Alpha;
         this.Index = 4;
     }
