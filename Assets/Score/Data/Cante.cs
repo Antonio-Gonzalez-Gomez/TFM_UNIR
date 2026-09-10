@@ -3,7 +3,7 @@ using UnityEngine;
 public enum Cante
 {
     Ninguno,
-    Infantería,
+    Infanteria,
     LasVeinte,
     LasCuarenta,
     TutePartido,

@@ -25,10 +25,10 @@ public class M_Alchemy : Modifier
         FatherCard.puntos = 0;
     }
 
-    public override void Activate(ScoreManager sm)
+    public override async void Activate(ScoreManager sm)
     {
         sm.valorJugada = power;
-        sm.InvokeValueScore(power);
+        await sm.InvokeValueScore(FatherCard.drag, power);
     }
 
 

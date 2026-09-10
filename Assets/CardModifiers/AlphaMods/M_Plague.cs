@@ -11,7 +11,7 @@ public class M_Plague : Modifier
         this.Index = 2;
     }
 
-    public override void EfectoCartaDescartada(ScoreManager sm)
+    public override async void EfectoCartaDescartada(ScoreManager sm)
     {
         base.EfectoCartaDescartada(sm);
 
@@ -20,6 +20,6 @@ public class M_Plague : Modifier
         //Por defecto, incValor = contadorPlaga
         int incValor = power * contadorPlaga;
         sm.valorJugada += incValor;
-        sm.InvokeValueScore(incValor);
+        await sm.InvokeValueScore(FatherCard.drag, incValor);
     }
 }

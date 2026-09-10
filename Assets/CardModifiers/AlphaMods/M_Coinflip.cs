@@ -12,12 +12,12 @@ public class M_Coinflip : Modifier
         this.Index = 4;
     }
 
-    public override void Activate(ScoreManager sm)
+    public override async void Activate(ScoreManager sm)
     {
         //Duplicar el valor del cante
         int valor = power * sm.valorJugada;
         sm.valorJugada = valor;
-        sm.InvokeValueScore(valor);
+        await sm.InvokeValueScore(FatherCard.drag, valor);
     }
 
     public override void AntesDePuntuarCarta(ScoreManager sm, string posicion)

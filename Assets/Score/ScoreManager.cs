@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
@@ -14,13 +16,14 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] public DragCardSpot canteSpot;
     [SerializeField] public DragCardSpot bazaSpot;
 
-    public event Action<int> pointScoreAction;
-    public event Action<int> valueScoreAction;
-    public event Action<int> bonusScoreAction;
+    public event Func<DragController, int, Task> PointScoreAction;
+    public event Func<DragController, int, Task> ValueScoreAction;
+    public event Func<DragController, int, Task> BonusScoreAction;
+    public event Func<Task> ScoreReadyAction;
 
-    private int targetScore = 500;
-    private int totalScore = 0;
-    private int remainingHands = 5;
+    public int targetScore = 500;
+    public int totalScore = 0;
+    public int remainingHands = 5;
 
     //Función que comprueba si la carta del jugador gana la baza contra la del rival
     public bool EsBazaGanada()
@@ -211,7 +214,7 @@ public class ScoreManager : MonoBehaviour
         if (numSotas == 2)
         {
             scoringCards.AddRange(sotas);
-            return Cante.Infantería;
+            return Cante.Infanteria;
         }
 
         //Si no hay otro cante posible
@@ -220,19 +223,19 @@ public class ScoreManager : MonoBehaviour
     }
 
     //Los eventos no se pueden invocar fuera de esta clase (aunque sean publicos)
-    public void InvokePointScore(int points)
+    public Task InvokePointScore(DragController drag, int points)
     {
-        pointScoreAction?.Invoke(points);
+        return PointScoreAction?.Invoke(drag, points);
     }
 
-    public void InvokeValueScore(int value)
+    public Task InvokeValueScore(DragController drag, int value)
     {
-        valueScoreAction?.Invoke(value);
+        return ValueScoreAction?.Invoke(drag, value);
     }
 
-    public void InvokeBonusScore(int bonus)
+    public Task InvokeBonusScore(DragController drag, int bonus)
     {
-        bonusScoreAction?.Invoke(bonus);
+        return BonusScoreAction?.Invoke(drag, bonus);
     }
 
     public int puntosJugada;
@@ -241,12 +244,12 @@ public class ScoreManager : MonoBehaviour
 
     //Funcion que puntua las cartas que forman el cante jugado
     //Tiene en cuenta los aumentos y modificadores presentes
-    public void ScorePlayedHand()
+    public async Task ScorePlayedHand()
     {
         Cante cante = EvaluarCante();
         puntosJugada = 0;
-        PuntuacionesCantes.valores.TryGetValue(cante, out valorJugada);
-        PuntuacionesCantes.bonus.TryGetValue(cante, out bonusJugada);
+        CanteDicts.valores.TryGetValue(cante, out valorJugada);
+        CanteDicts.bonus.TryGetValue(cante, out bonusJugada);
 
         discardedCards = new List<CardInstance>(canteSpot.cardList);
         discardedCards.RemoveAll(x => scoringCards.Contains(x));
@@ -255,34 +258,20 @@ public class ScoreManager : MonoBehaviour
         scoringCards.Sort((x, y) => canteSpot.cardList.IndexOf(x).
             CompareTo(canteSpot.cardList.IndexOf(y)));
 
-        //TEMPORAL PARA PROBAR MODIFICADORES
-        foreach (CardInstance card in manoSpot.cardList)
-        {
-            if (card.GetMod(ModifierType.Alpha) == null)
-                card.AddModifier(new M_Bastion());
-        }
-
         CardInstance bazaCard = bazaSpot.cardList[0];
-        //TEMPORAL PARA PROBAR AUMENTOS
-        bazaCard.AddModifier(new M_Strength());
 
         //Se puntua la carta de la baza
-        bazaCard.PuntuarCarta(this, "baza");
+        await bazaCard.PuntuarCarta(this, "baza");
 
         //Luego las cartas del cante
         foreach (CardInstance card in scoringCards)
         {
-            //TEMPORAL PARA PROBAR AUMENTOS
-            card.AddModifier(new M_Dexterity());
-            card.PuntuarCarta(this, "cante");
+            await card.PuntuarCarta(this, "cante");
         }
 
         //Finalmente la carta del oponente
         CardInstance rivalCard = rivalSpot.cardList[0];
-        //TEMPORAL PARA PROBAR AUMENTOS
-        rivalCard.AddModifier(new M_Plague());
-
-        rivalCard.PuntuarCarta(this, "rival");
+        await rivalCard.PuntuarCarta(this, "rival");
 
         //Si alguna carta en mano tiene modificador, tambien se le puntua
         foreach (CardInstance card in manoSpot.cardList)
@@ -300,26 +289,11 @@ public class ScoreManager : MonoBehaviour
         Debug.Log(puntosJugada.ToString() + " x " + valorJugada.ToString() + " + " + bonusJugada.ToString());
 
         int score = puntosJugada * valorJugada + bonusJugada;
-
+        totalScore += score;
         //Siguiente baza
         remainingHands -= 1;
-        Debug.Log("Manos restantes: " + remainingHands.ToString());
-        totalScore += score;
 
-        Debug.Log("Puntuación jugada: " + score.ToString());
-        Debug.Log("Puntuación total: " + totalScore.ToString());
-
-        if (totalScore >= targetScore)
-        {
-            Debug.Log("Ronda ganada");
-        }
-
-        else if (remainingHands == 0)
-        {
-            Debug.Log("Ronda perdida");
-        }
-
-        //deckManager.PrepareNextHand();
+        await ScoreReadyAction?.Invoke();
     }
 
     //Funcion que se ejecuta si el jugador no gana la baza
@@ -328,6 +302,7 @@ public class ScoreManager : MonoBehaviour
         //Todas las cartas del cante son descartadas
         foreach (CardInstance card in canteSpot.cardList)
         {
+            //Como evitar que la carta puntúe?
             card.EfectoCartaDescartada(this);
         }
 

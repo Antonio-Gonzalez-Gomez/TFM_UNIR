@@ -16,8 +16,8 @@ public class DragController : MonoBehaviour,
 
     public event Action<HoverInfo> cardInfoShow;
     public event Action cardInfoHide;
-    public event Action playButtonsShow;
-    public event Action playButtonsHide;
+    public event Action cardDragBegin;
+    public event Action cardDragEnd;
 
     private DragCardSpot spot;
     public bool selected = false;
@@ -65,7 +65,7 @@ public class DragController : MonoBehaviour,
         //TODO: evitar que los pop up de informacion de otras cartas aparezcan al hacer hover
         //En su lugar, deberia de activarse logica para desplazar las cartas
         cardInfoHide?.Invoke();
-        playButtonsHide?.Invoke();
+        cardDragBegin?.Invoke();
     }
 
     public void OnDrag(PointerEventData e)
@@ -100,6 +100,6 @@ public class DragController : MonoBehaviour,
             }
         }
         ResetPosition();
-        playButtonsShow?.Invoke();
+        cardDragEnd?.Invoke();
     }
 }

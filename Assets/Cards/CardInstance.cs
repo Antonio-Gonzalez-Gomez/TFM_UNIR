@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -214,7 +215,7 @@ public class CardInstance : MonoBehaviour
     //Método que añade a la puntuación del cante los puntos de la carta
     //Además de invocar a los modificadores/aumentos correspondientes
     //Y mandar el evento correspondiente de UI
-    public void PuntuarCarta(ScoreManager sm, String posicion)
+    public async Task PuntuarCarta(ScoreManager sm, String posicion)
     {
         //Se actualiza el valor de replay u otros efectos previos a la puntuacion
         foreach (Modifier mod in modifiers)
@@ -223,7 +224,7 @@ public class CardInstance : MonoBehaviour
         for (int i = 0; i < replay; i++)
         {
             sm.puntosJugada += cartaBase.Puntos;
-            sm.InvokePointScore(cartaBase.Puntos);
+            await sm.InvokePointScore(this.drag, cartaBase.Puntos);
 
             foreach (Modifier mod in modifiers)
                 mod.PuntuarCarta(sm, posicion);

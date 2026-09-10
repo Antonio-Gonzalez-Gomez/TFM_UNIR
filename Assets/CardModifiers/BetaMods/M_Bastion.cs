@@ -41,10 +41,10 @@ public class M_Bastion : Modifier
         ResetMod();
     }
 
-    public override void EfectoCartaMano(ScoreManager sm)
+    public override async void EfectoCartaMano(ScoreManager sm)
     {
         sm.bonusJugada += totalBonus;
-        sm.InvokeBonusScore(totalBonus);
+        await sm.InvokeBonusScore(FatherCard.drag, totalBonus);
 
         totalBonus += power;
     }

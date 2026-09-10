@@ -6,7 +6,7 @@ public class DeckManager : MonoBehaviour
 {
     [SerializeField] CardInstance cardPrefab;
     [SerializeField] InfoPopUp cardInfoPopUp;
-    [SerializeField] PlayButtonsController playButtons;
+    [SerializeField] ScoreUIController playButtons;
 
     [Header("Card Spots")]
     [SerializeField] DragCardSpot manoSpot;
@@ -84,7 +84,7 @@ public class DeckManager : MonoBehaviour
         InitDrawnCard(spot, res);
 
         //TEMPORAL
-        AddRandomMods(res);
+        //AddRandomMods(res);
 
         return res;
     }

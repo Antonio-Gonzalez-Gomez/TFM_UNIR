@@ -20,11 +20,11 @@ public class M_Solitude : Modifier
         return 1;
     }
 
-    public override void EfectoCartaDescartada(ScoreManager sm)
+    public override async void EfectoCartaDescartada(ScoreManager sm)
     {
         base.EfectoCartaDescartada(sm);
 
         sm.bonusJugada += power;
-        sm.InvokeBonusScore(power);
+        await sm.InvokeBonusScore(FatherCard.drag, power);
     }
 }

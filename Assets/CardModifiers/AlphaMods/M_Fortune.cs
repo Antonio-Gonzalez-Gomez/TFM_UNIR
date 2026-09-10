@@ -15,25 +15,25 @@ public class M_Fortune : Modifier
         this.Index = 3;
     }
 
-    public override void Activate(ScoreManager sm)
+    public override async void Activate(ScoreManager sm)
     {
         //Son 3 llamadas independientes al RNG
         if (RNG.RandomRange(prob))
         {
             sm.puntosJugada += puntos;
-            sm.InvokeValueScore(puntos);
+            await sm.InvokePointScore(FatherCard.drag, puntos);
         }
 
         if (RNG.RandomRange(prob))
         {
             sm.valorJugada += valor;
-            sm.InvokeValueScore(valor);
+            await sm.InvokeValueScore(FatherCard.drag, valor);
         }
 
         if (RNG.RandomRange(prob))
         {
             sm.bonusJugada += bonus;
-            sm.InvokeValueScore(bonus);
+            await sm.InvokeBonusScore(FatherCard.drag, bonus);
         }
     }
 }

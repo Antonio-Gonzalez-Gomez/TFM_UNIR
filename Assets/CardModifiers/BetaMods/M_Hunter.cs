@@ -13,13 +13,13 @@ public class M_Hunter : Modifier
         this.Index = 6;
     }
 
-    public override void PuntuarCarta(ScoreManager sm, string posicion)
+    public override async void PuntuarCarta(ScoreManager sm, string posicion)
     {
         switch (posicion)
         {
             case "baza":
                 sm.valorJugada += totalValue;
-                sm.InvokeValueScore(totalValue);
+                await sm.InvokeValueScore(FatherCard.drag, totalValue);
 
                 totalValue += power;
                 break;
