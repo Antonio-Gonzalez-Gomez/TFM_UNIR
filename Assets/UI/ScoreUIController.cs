@@ -10,6 +10,9 @@ public class ScoreUIController : MonoBehaviour
 {
     [SerializeField] DeckManager deckManager;
     [SerializeField] ScoreManager scoreManager;
+    [SerializeField] Canvas buttonsCanvas;
+    [SerializeField] InfoPopUp infoPopUp;
+    [SerializeField] Canvas scorePopUp;
     [Header("Effects timing")]
     [SerializeField] float initialEffectDuration = 0.4f;
     [SerializeField] float finalEffectDuration = 0.02f;
@@ -24,17 +27,27 @@ public class ScoreUIController : MonoBehaviour
     [SerializeField] TMP_Text scoreRight;
     [SerializeField] TMP_Text totalScore;
 
-    private Canvas buttonsCanvas;
+    private RectTransform scorePopUpRect;
+    private TMP_Text scorePopUpText;
     private float effectDuration;
     private ColorText ct = new ColorText();
-    private Vector3 scoreboardShake = new Vector3(0, 20, 0);
-    private Vector3 cardShake = new Vector3(0, 0.1f, 0);
+
+    private float popupFontOriginalSize;
+    private float scoreboardOriginalMaxSize;
+    //Para efectos con Tweens
+    private readonly Vector3 scoreboardShake = new Vector3(0, 20, 0);
+    private readonly Vector3 cardShake = new Vector3(0, 0.1f, 0);
+    private readonly Vector3 popupShake = new Vector3(0, 0, 10);
+    private readonly Vector3 popupDistance = new Vector3(0, 1.5f, 0);
 
     private void Start()
     {
-        buttonsCanvas = GetComponent<Canvas>();
         effectDuration = initialEffectDuration;
-
+        scorePopUpRect = scorePopUp.GetComponent<RectTransform>();
+        scorePopUpText = scorePopUp.GetComponentInChildren<TMP_Text>();
+        scorePopUpText.alpha = 0;
+        popupFontOriginalSize = scorePopUpText.fontSize;
+        scoreboardOriginalMaxSize = scoreLeft.fontSizeMax;
         handType.alpha = 0;
         scoreEquation.enabled = false;
         totalScore.text = "0 / " + scoreManager.targetScore.ToString();
@@ -65,6 +78,7 @@ public class ScoreUIController : MonoBehaviour
     private void UpdateScoreboardHand()
     {
         scoreEquation.enabled = false;
+        //Si no hay carta de baza, no se muestra el cante ni la puntuacion base
         if (scoreManager.bazaSpot.cardList.Count == 0)
         {
             handType.alpha = 0;
@@ -72,12 +86,13 @@ public class ScoreUIController : MonoBehaviour
         }
 
         handType.alpha = 1;
+        //Si la baza se va a perder, no se muestra la puntuacion base del cante
         if (!scoreManager.EsBazaGanada())
         {
             handType.text = "Baza perdida";
             return;
         }
-
+        //Si la baza se gana, se muestra la puntuacion bae
         scoreEquation.enabled = true;
         Cante canteActual = scoreManager.EvaluarCante();
         handType.text = CanteDicts.text[canteActual];
@@ -114,19 +129,12 @@ public class ScoreUIController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    int score = 0;
     public void ScoreTest()
     {
-        score += 100;
-        scoreLeft.text = ct.Color(score.ToString(), "points");
-        //Tween.ShakeLocalRotation(scorePoints.transform, rot, effectDuration);
+
     }
 
-    private void testTweens()
-    {
-        //Tween.ShakeLocalRotation(scoreEquation.transform, rot, effectDuration);
-    }
-
+    //Los efectos con tweens se hacen cada vez mas rapidos (en caso de que haya muchos, no se hace tan larga)
     private void ReduceEffectDuration()
     {
         effectDuration = effectDuration <= finalEffectDuration ?
@@ -134,70 +142,125 @@ public class ScoreUIController : MonoBehaviour
             effectDuration - decreaseEffectDuration;
     }
 
-    //TODO: Carta/Aumento -> efecto de subida de puntos (hacia arriba desde la carta?)
     private async Task OnPointIncrease(DragController drag, int puntos)
     {
         scoreLeft.text = ct.Color(scoreManager.puntosJugada.ToString(), "points");
-        await PrimeTween.Sequence.Create().
-            Group(Tween.ShakeLocalPosition(scoreLeft.transform, strength: scoreboardShake, duration: effectDuration)).
-            Group(Tween.PunchLocalPosition(drag.transform, strength: cardShake, duration: effectDuration)).
-            ChainCallback(() => ReduceEffectDuration());
+        scorePopUpText.text = ct.PointsText(puntos);
+        await ScoreIncreaseEffects(drag, scoreLeft);
     }
     private async Task OnValueIncrease(DragController drag, int valor)
     {
         scoreMiddle.text = ct.Color(scoreManager.valorJugada.ToString(), "value");
-        await PrimeTween.Sequence.Create().
-            Group(Tween.ShakeLocalPosition(scoreMiddle.transform, strength: scoreboardShake, duration: effectDuration)).
-            Group(Tween.ShakeLocalPosition(drag.transform, strength: cardShake, duration: effectDuration)).
-            ChainCallback(() => ReduceEffectDuration());
+        scorePopUpText.text = ct.ValueText(valor);
+        await ScoreIncreaseEffects(drag, scoreMiddle);
     }
     private async Task OnBonusIncrease(DragController drag, int bonus)
     {
         scoreRight.text = ct.Color(scoreManager.bonusJugada.ToString(), "bonus");
+        scorePopUpText.text = ct.BonusText(bonus);
+        await ScoreIncreaseEffects(drag, scoreRight);
+    }
+
+    //Secuencia de tweens que se lanzan cada vez que la puntuacion aumenta
+    private async Task ScoreIncreaseEffects(DragController drag, TMP_Text scoreboardText)
+    {
+        scorePopUpRect.anchoredPosition = infoPopUp.AnchorToWorldPosition(drag.transform.position + popupDistance);
+        scorePopUpText.alpha = 1;
+        scorePopUpText.fontSize = 0;
+
         await PrimeTween.Sequence.Create().
-            Group(Tween.ShakeLocalPosition(scoreRight.transform, strength: scoreboardShake, duration: effectDuration)).
-            Group(Tween.ShakeLocalPosition(drag.transform, strength: cardShake, duration: effectDuration)).
+            Group(Tween.ShakeLocalPosition(scoreboardText.transform, strength: scoreboardShake, duration: effectDuration)).
+            Group(Tween.PunchLocalPosition(drag.transform, strength: cardShake, duration: effectDuration)).
+            Group(TweenFontRestoreSize(scorePopUpText, duration: effectDuration)).
+            Group(Tween.ShakeLocalRotation(scorePopUpText.transform, strength: popupShake, duration: effectDuration)).
+            Chain(Tween.Alpha(scorePopUpText, endValue: 0f, duration: effectDuration)).
             ChainCallback(() => ReduceEffectDuration());
     }
 
+    //Tween que aumenta el tamaño de texto
+    private Tween TweenFontRestoreSize(TMP_Text text, float duration)
+    {
+        return Tween.Custom(startValue: text.fontSize, endValue: popupFontOriginalSize, duration: duration, onValueChange: val => text.fontSize = val);
+    }
+    //Tween que reduce el tamaño de texto (maximo) a 0
+    private Tween TweenVanishScoreboardFont(TMP_Text text, float duration)
+    {
+        return Tween.Custom(startValue: text.fontSizeMax, endValue: 0, duration: duration, onValueChange: val => text.fontSizeMax = val);
+    }
+    //Tween que cambia el valor numerico de un texto del marcador
+    private Tween TweenTextNumberChange(TMP_Text text, float startValue, float endValue, float duration, string stringEnd)
+    {
+        return Tween.Custom(startValue: startValue, endValue: endValue, duration: duration, onValueChange:
+            val => text.text = ((int) val).ToString() + stringEnd);
+    }
+
+    //Restaura el estado original del marcador despues de jugar una baza
+    private void RestoreScoreboard()
+    {
+        scoreEquation.enabled = false;
+        scoreEx.text = "x";
+        scoreMiddle.alpha = 1;
+        scorePlus.text = "+";
+
+        scoreLeft.fontSizeMax = scoreboardOriginalMaxSize;
+        scoreEx.fontSizeMax = scoreboardOriginalMaxSize;
+        scoreMiddle.fontSizeMax = scoreboardOriginalMaxSize;
+        scorePlus.fontSizeMax = scoreboardOriginalMaxSize;
+        scoreRight.fontSizeMax = scoreboardOriginalMaxSize;
+    }
     private void UpdatePseudoScore(int pseudoScore)
     {
-        scoreMiddle.text = ct.Color(pseudoScore.ToString(), "bonus");
+        scoreEx.text = ct.Color(pseudoScore.ToString(), "bonus");
+        scoreMiddle.text = "+";
+        scorePlus.text = ct.Color(scoreManager.bonusJugada.ToString(), "bonus");
+
+        scoreEx.fontSizeMax = scoreboardOriginalMaxSize;
+        scoreMiddle.fontSizeMax = scoreboardOriginalMaxSize;
+        scorePlus.fontSizeMax = scoreboardOriginalMaxSize;
     }
 
     private void UpdateFinalScore(int score)
     {
         scoreMiddle.text = score.ToString();
+        scoreMiddle.fontSizeMax = scoreboardOriginalMaxSize;
     }
 
-    private void UpdateTotalScore()
-    {
-        totalScore.text = scoreManager.totalScore.ToString() + " / " + scoreManager.targetScore.ToString();
-    }
-
-    //TODO: investigar otros efectos (el fade in/fade out le falta chicha)
+    //Secuencia de tweens que se lanzan cuando se confirma la baza
     private async Task OnScoreEndCalculate()
     {
         int pseudoScore = scoreManager.puntosJugada * scoreManager.valorJugada;
         int score = pseudoScore + scoreManager.bonusJugada;
+        int previousTotalScore = scoreManager.totalScore - score;
+        effectDuration = initialEffectDuration;
+
 
         await PrimeTween.Sequence.Create().
-            Group(Tween.Alpha(target: scoreLeft, endValue: 0f, duration: initialEffectDuration)).
-            Group(Tween.Alpha(target: scoreEx, endValue: 0f, duration: initialEffectDuration)).
-            Group(Tween.Alpha(target: scoreMiddle, endValue: 0f, duration: initialEffectDuration)).
+            Group(TweenVanishScoreboardFont(scoreLeft, effectDuration)).
+            Group(TweenVanishScoreboardFont(scoreEx, effectDuration)).
+            Group(TweenVanishScoreboardFont(scoreMiddle, effectDuration)).
+            Group(TweenVanishScoreboardFont(scorePlus, effectDuration)).
+            Group(TweenVanishScoreboardFont(scoreRight, effectDuration)).
             ChainDelay(initialEffectDuration).
+
             ChainCallback(() => UpdatePseudoScore(pseudoScore)).
-            Chain(Tween.Alpha(target: scoreMiddle, endValue: 1f, duration: initialEffectDuration)).
+            Group(Tween.ShakeLocalPosition(scoreEx.transform, strength: scoreboardShake, duration: effectDuration)).
+            Group(Tween.ShakeLocalPosition(scoreMiddle.transform, strength: scoreboardShake, duration: effectDuration)).
+            Group(Tween.ShakeLocalPosition(scorePlus.transform, strength: scoreboardShake, duration: effectDuration)).
             ChainDelay(initialEffectDuration).
-            Group(Tween.Alpha(target: scoreMiddle, endValue: 0f, duration: initialEffectDuration)).
-            Group(Tween.Alpha(target: scorePlus, endValue: 0f, duration: initialEffectDuration)).
-            Group(Tween.Alpha(target: scoreRight, endValue: 0f, duration: initialEffectDuration)).
+
+            Group(TweenVanishScoreboardFont(scoreEx, effectDuration)).
+            Group(TweenVanishScoreboardFont(scoreMiddle, effectDuration)).
+            Group(TweenVanishScoreboardFont(scorePlus, effectDuration)).
             ChainDelay(initialEffectDuration).
+
             ChainCallback(() => UpdateFinalScore(score)).
-            Chain(Tween.Alpha(target: scoreMiddle, endValue: 1f, duration: initialEffectDuration)).
+            Group(Tween.ShakeLocalRotation(scoreMiddle.transform, strength: popupShake, duration: effectDuration)).
             ChainDelay(initialEffectDuration).
-            ChainCallback(() => UpdateTotalScore()).
-            Chain(Tween.ShakeLocalPosition(target: totalScore.transform, strength: scoreboardShake, duration: initialEffectDuration)).
+
+            Group(TweenTextNumberChange(scoreMiddle, score, 0, effectDuration, "")).
+            Group(TweenTextNumberChange(totalScore, previousTotalScore, scoreManager.totalScore, effectDuration, " / " + scoreManager.targetScore.ToString())).
+            Chain(Tween.Alpha(target: scoreMiddle, endValue: 0f, duration: effectDuration)).
+            ChainCallback(() => RestoreScoreboard()).
             ChainCallback(() => deckManager.PrepareNextHand());
     }
 }

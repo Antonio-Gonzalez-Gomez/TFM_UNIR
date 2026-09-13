@@ -33,9 +33,9 @@ public class InfoPopUp : MonoBehaviour
 
     //Calcula el punto de anclaje (coordenadas sobre el canvas padre)
     //A partir de la posicion de un objeto de juego
-    private void AnchorToWorldPosition(Vector3 worldPosition)
+    public Vector2 AnchorToWorldPosition(Vector3 worldPosition)
     {
-        rect.anchoredPosition = new Vector2(0.5f * screenSize.x * worldPosition.x / maxWidth,
+        return new Vector2(0.5f * screenSize.x * worldPosition.x / maxWidth,
             0.5f * screenSize.y * worldPosition.y / maxHeight);
     }
 
@@ -63,7 +63,7 @@ public class InfoPopUp : MonoBehaviour
         }
 
         //Conversion de posicion de la carta a posicion en el canvas
-        AnchorToWorldPosition(info.Position);
+        rect.anchoredPosition = AnchorToWorldPosition(info.Position);
     }
 
     private void OnCardHidden()

@@ -6,7 +6,7 @@ public class DeckManager : MonoBehaviour
 {
     [SerializeField] CardInstance cardPrefab;
     [SerializeField] InfoPopUp cardInfoPopUp;
-    [SerializeField] ScoreUIController playButtons;
+    [SerializeField] ScoreUIController uiController;
 
     [Header("Card Spots")]
     [SerializeField] DragCardSpot manoSpot;
@@ -98,7 +98,7 @@ public class DeckManager : MonoBehaviour
         //Deben iniciarse desde el controlador de UI haciendo referencia al DragController
         cardInfoPopUp.ConnectEvents(drag);
         //Lo mismo para los eventos de los botones
-        playButtons.ConnectEvents(drag);
+        uiController.ConnectEvents(drag);
         card.UpdateSprite();
 
         mazoRobarSpot.cardList.RemoveAt(0);
