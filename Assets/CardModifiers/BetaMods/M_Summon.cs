@@ -26,7 +26,7 @@ public class M_Summon : Modifier
 
         try
         {
-            CardInstance res = sm.mazoRobarSpot.cardList.Find(x => x.CompararPalo(FatherCard.cartaBase.Palo) && x.cartaBase.EsCartaFigura());
+            CardInstance res = sm.mazoRobarSpot.cardList.Find(x => x.CompararPalo(ParentReference.cartaBase.Palo) && x.cartaBase.EsCartaFigura());
             sm.deckManager.InitDrawnCard(sm.manoSpot, res);
         }
         catch (NullReferenceException)

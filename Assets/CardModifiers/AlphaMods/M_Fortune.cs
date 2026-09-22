@@ -21,19 +21,19 @@ public class M_Fortune : Modifier
         if (RNG.RandomRange(prob))
         {
             sm.puntosJugada += puntos;
-            await sm.InvokePointScore(FatherCard.drag, puntos);
+            await sm.InvokePointScore(ParentReference.drag, puntos, false);
         }
 
         if (RNG.RandomRange(prob))
         {
             sm.valorJugada += valor;
-            await sm.InvokeValueScore(FatherCard.drag, valor);
+            await sm.InvokeValueScore(ParentReference.drag, valor, false);
         }
 
         if (RNG.RandomRange(prob))
         {
             sm.bonusJugada += bonus;
-            await sm.InvokeBonusScore(FatherCard.drag, bonus);
+            await sm.InvokeBonusScore(ParentReference.drag, bonus, false);
         }
     }
 }

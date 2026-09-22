@@ -11,6 +11,8 @@ public class DragController : MonoBehaviour,
     IDragHandler,
     IEndDragHandler
 {
+    [SerializeField] public bool isAugment = false;
+
     public Vector3 originalPosition;
     public Quaternion originalRotation;
 
@@ -20,6 +22,7 @@ public class DragController : MonoBehaviour,
     public event Action cardDragEnd;
 
     private DragCardSpot spot;
+    private DragAugmentSpot augSpot;
     public bool selected = false;
 
     void Awake()
@@ -36,10 +39,21 @@ public class DragController : MonoBehaviour,
     {
         this.spot = spot;
     }
+    public void SetSpot(DragAugmentSpot spot)
+    {
+        this.augSpot = spot;
+    }
 
     public void OnPointerEnter(PointerEventData e)
     {
-        cardInfoShow?.Invoke(new HoverInfo(this.GetComponentInParent<CardInstance>()));
+        if (isAugment)
+        {
+            //TODO: constructor HoverInfo con la info del aumento
+        }
+        else
+        {
+            cardInfoShow?.Invoke(new HoverInfo(this.GetComponentInParent<CardInstance>()));
+        }
     }
 
     public void OnPointerExit(PointerEventData e)
@@ -49,6 +63,9 @@ public class DragController : MonoBehaviour,
 
     public void OnPointerClick(PointerEventData e)
     {
+        //De momento, no se va a permitir seleccionar aumentos
+        if (isAugment) { return; }
+
         if (selected)
         {
             spot.DeselectCard(this);
@@ -73,13 +90,30 @@ public class DragController : MonoBehaviour,
         //TODO: Si el cursor se mueve muy rapido, se puede cortar este evento aunque el click siga pulsado
         //Se debera de implementar mediante un input de click y un condicional (si el click se produjo al hacer hover)
         //Usar tweens!!!
-
         //Se cambia la posicion de Z para que al arrastrar una carta, se vea por encima de las demas
         Vector3 raton = e.pointerCurrentRaycast.worldPosition + new Vector3(0, 0, -50f);
         this.transform.SetPositionAndRotation(raton, Quaternion.identity);
     }
 
     public void OnEndDrag(PointerEventData e)
+    {
+        if (isAugment)
+        {
+            AugmentEndDrag(e);
+        }
+        else
+        {
+            CardEngDrag(e);
+        }
+    }
+
+    private void AugmentEndDrag(PointerEventData e)
+    {
+        ResetPosition();
+        cardDragEnd?.Invoke();
+    }
+
+    private void CardEngDrag(PointerEventData e)
     {
         //Se comprueba que haya un spot en la posicion del raton al soltar la carta
         RaycastHit2D hit = Physics2D.Raycast(e.pointerCurrentRaycast.worldPosition, Vector2.zero, 0.001f, LayerMask.GetMask("CardSpot"));

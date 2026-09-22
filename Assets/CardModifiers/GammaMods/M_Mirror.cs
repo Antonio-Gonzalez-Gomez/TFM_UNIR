@@ -19,18 +19,18 @@ public class M_Mirror : Modifier
 
     public override void AntesDeEvaluarCante(ScoreManager sm)
     {
-        int currentCardIndex = sm.canteSpot.cardList.IndexOf(FatherCard);
+        int currentCardIndex = sm.canteSpot.cardList.IndexOf(ParentReference);
         //Si hay carta a la izquierda, se copia su palo/valor
         if (currentCardIndex != 0)
         {
-            FatherCard.cartaBase = sm.canteSpot.cardList[--currentCardIndex].cartaBase;
+            ParentReference.cartaBase = sm.canteSpot.cardList[--currentCardIndex].cartaBase;
         }
 
     }
 
     public override void DespuesDePuntuarCarta(ScoreManager sm)
     {
-        FatherCard.cartaBase = original;
+        ParentReference.cartaBase = original;
     }
 
 }

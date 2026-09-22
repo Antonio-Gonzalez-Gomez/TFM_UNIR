@@ -16,7 +16,7 @@ public class M_Recycling : Modifier
         power--;
         if (power == 0)
         {
-            FatherCard.DestroyCard();
+            ParentReference.DestroyCard();
         }
     }
 }

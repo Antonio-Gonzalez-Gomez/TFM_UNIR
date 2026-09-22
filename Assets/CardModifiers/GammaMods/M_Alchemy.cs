@@ -21,14 +21,14 @@ public class M_Alchemy : Modifier
     public override void AntesDePuntuarCarta(ScoreManager sm, string posicion)
     {
         //Es necesario actualizar este valor ya que los puntos pueden variar al añadir o eliminar modificadores a la carta
-        this.power = Mathf.CeilToInt(FatherCard.puntos * valueRate);
-        FatherCard.puntos = 0;
+        this.power = Mathf.CeilToInt(ParentReference.puntos * valueRate);
+        ParentReference.puntos = 0;
     }
 
     public override async void Activate(ScoreManager sm)
     {
         sm.valorJugada = power;
-        await sm.InvokeValueScore(FatherCard.drag, power);
+        await sm.InvokeValueScore(ParentReference.drag, power, false);
     }
 
 

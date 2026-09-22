@@ -33,8 +33,8 @@ public class M_Counter : Modifier
     public override void AntesDePuntuarCarta(ScoreManager sm, string posicion)
     {
         //Puede ocurrir que el bool quede a true y luego la carta puntúe en otro lado (carta del rival)
-        if (contraActivada && sm.bazaSpot.cardList.Contains(FatherCard))
-            FatherCard.puntos += power;
+        if (contraActivada && sm.bazaSpot.cardList.Contains(ParentReference))
+            ParentReference.puntos += power;
     }
 
 }

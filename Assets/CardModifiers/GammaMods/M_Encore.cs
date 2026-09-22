@@ -19,6 +19,6 @@ public class M_Encore : Modifier
     public override void AntesDePuntuarCarta(ScoreManager sm, string posicion)
     {
         if (posicion == "cante")
-            FatherCard.replay++;
+            ParentReference.replay++;
     }
 }

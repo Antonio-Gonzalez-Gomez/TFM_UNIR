@@ -22,9 +22,9 @@ public class M_Relief : Modifier
         //Añade la carta de la muestra a la mano
         sm.deckManager.InitDrawnCard(sm.manoSpot, muestra);
         //Evita que la carta se descarte
-        sm.canteSpot.RemoveCard(FatherCard);
-        sm.discardedCards.Remove(FatherCard);
+        sm.canteSpot.RemoveCard(ParentReference);
+        sm.discardedCards.Remove(ParentReference);
         //Y se añade al spot de la muestra
-        sm.muestraSpot.AddCard(FatherCard);
+        sm.muestraSpot.AddCard(ParentReference);
     }
 }

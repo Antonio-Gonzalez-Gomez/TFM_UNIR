@@ -25,6 +25,6 @@ public class M_Solitude : Modifier
         base.EfectoCartaDescartada(sm);
 
         sm.bonusJugada += power;
-        await sm.InvokeBonusScore(FatherCard.drag, power);
+        await sm.InvokeBonusScore(ParentReference.drag, power, false);
     }
 }

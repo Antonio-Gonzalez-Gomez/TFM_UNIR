@@ -7,7 +7,7 @@ public abstract class Modifier
     public ModifierType Type { get; set; }
 
     //Para que el modificador tenga acceso a la carta que lo contiene
-    public CardInstance FatherCard { get; set; }
+    public CardInstance ParentReference { get; set; }
     //El indice depende de la spritesheet
     public int Index { get; set; }
 

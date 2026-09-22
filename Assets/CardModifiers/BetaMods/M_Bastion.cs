@@ -15,7 +15,7 @@ public class M_Bastion : Modifier
 
     private void ResetMod()
     {
-        //Algun efectillo
+        //TODO: Algun efectillo
         Debug.Log("Bastion reset!");
         totalBonus = 0;
     }
@@ -44,7 +44,7 @@ public class M_Bastion : Modifier
     public override async void EfectoCartaMano(ScoreManager sm)
     {
         sm.bonusJugada += totalBonus;
-        await sm.InvokeBonusScore(FatherCard.drag, totalBonus);
+        await sm.InvokeBonusScore(ParentReference.drag, totalBonus, false);
 
         totalBonus += power;
     }

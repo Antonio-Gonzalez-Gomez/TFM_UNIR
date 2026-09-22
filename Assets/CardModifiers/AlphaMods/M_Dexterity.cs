@@ -14,6 +14,6 @@ public class M_Dexterity : Modifier
     public override async void Activate(ScoreManager sm)
     {
         sm.valorJugada += power;
-        await sm.InvokeValueScore(FatherCard.drag, power);
+        await sm.InvokeValueScore(ParentReference.drag, power, false);
     }
 }

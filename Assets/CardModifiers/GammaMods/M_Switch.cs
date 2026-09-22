@@ -24,7 +24,7 @@ public class M_Switch : Modifier
         //Pero si se permite el efecto de otros mods gamma (M_Counter)
         if (gammaMod != null && gammaMod.Name != this.Name)
         {
-            int res = gammaMod.CompararContraCartaRival(FatherCard, paloMuestra);
+            int res = gammaMod.CompararContraCartaRival(ParentReference, paloMuestra);
             if (res != -1)
             {
                 return res;
@@ -33,7 +33,7 @@ public class M_Switch : Modifier
 
         //Al haber intercambiado las cartas, que gane la carta del rival == que gane el jugador
         Palo paloPlayer = rival.cartaBase.Palo;
-        Palo paloRival = FatherCard.cartaBase.Palo;
+        Palo paloRival = ParentReference.cartaBase.Palo;
 
         if (paloPlayer != paloRival)
         {
@@ -51,11 +51,11 @@ public class M_Switch : Modifier
 
         else
         {
-            return rival.CompararValor(FatherCard.cartaBase.Valor) == 1 ? 0 : 1;
+            return rival.CompararValor(ParentReference.cartaBase.Valor) == 1 ? 0 : 1;
         }
     }
 
-    public override void AntesDePuntuarCarta(ScoreManager sm, string posicion)
+    public override async void AntesDePuntuarCarta(ScoreManager sm, string posicion)
     {
         //La carta del jugador se intercambia
         if (posicion == "baza")
@@ -71,10 +71,10 @@ public class M_Switch : Modifier
 
             //Esto evita que la carta del jugador se puntúe ahora
             //Se puntuará después de las cartas del cante (replay se resetea)
-            FatherCard.replay = 0;
+            ParentReference.replay = 0;
 
             //Esto permite que la carta del rival se puntúe como baza
-            cartaRival.PuntuarCarta(sm, "baza");
+            await cartaRival.PuntuarCarta(sm, "baza");
         }
     }
 }

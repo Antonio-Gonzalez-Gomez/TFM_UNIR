@@ -34,11 +34,12 @@ public class ScoreUIController : MonoBehaviour
 
     private float popupFontOriginalSize;
     private float scoreboardOriginalMaxSize;
-    //Para efectos con Tweens
+    //Magic numbers para efectos con Tweens
     private readonly Vector3 scoreboardShake = new Vector3(0, 20, 0);
     private readonly Vector3 cardShake = new Vector3(0, 0.1f, 0);
     private readonly Vector3 popupShake = new Vector3(0, 0, 10);
     private readonly Vector3 popupDistance = new Vector3(0, 1.5f, 0);
+    private readonly Vector3 popupDistanceAugment = new Vector3(3f, 0, 0);
 
     private void Start()
     {
@@ -142,29 +143,36 @@ public class ScoreUIController : MonoBehaviour
             effectDuration - decreaseEffectDuration;
     }
 
-    private async Task OnPointIncrease(DragController drag, int puntos)
+    private async Task OnPointIncrease(DragController drag, int puntos, bool isAugment)
     {
         scoreLeft.text = ct.Color(scoreManager.puntosJugada.ToString(), "points");
         scorePopUpText.text = ct.PointsText(puntos);
-        await ScoreIncreaseEffects(drag, scoreLeft);
+        await ScoreIncreaseEffects(drag, scoreLeft, isAugment);
     }
-    private async Task OnValueIncrease(DragController drag, int valor)
+    private async Task OnValueIncrease(DragController drag, int valor, bool isAugment)
     {
         scoreMiddle.text = ct.Color(scoreManager.valorJugada.ToString(), "value");
         scorePopUpText.text = ct.ValueText(valor);
-        await ScoreIncreaseEffects(drag, scoreMiddle);
+        await ScoreIncreaseEffects(drag, scoreMiddle, isAugment);
     }
-    private async Task OnBonusIncrease(DragController drag, int bonus)
+    private async Task OnBonusIncrease(DragController drag, int bonus, bool isAugment)
     {
         scoreRight.text = ct.Color(scoreManager.bonusJugada.ToString(), "bonus");
         scorePopUpText.text = ct.BonusText(bonus);
-        await ScoreIncreaseEffects(drag, scoreRight);
+        await ScoreIncreaseEffects(drag, scoreRight, isAugment);
     }
 
     //Secuencia de tweens que se lanzan cada vez que la puntuacion aumenta
-    private async Task ScoreIncreaseEffects(DragController drag, TMP_Text scoreboardText)
+    private async Task ScoreIncreaseEffects(DragController drag, TMP_Text scoreboardText, bool isAugment)
     {
-        scorePopUpRect.anchoredPosition = infoPopUp.AnchorToWorldPosition(drag.transform.position + popupDistance);
+        if (isAugment)
+        {
+            scorePopUpRect.anchoredPosition = infoPopUp.AnchorToWorldPosition(drag.transform.position + popupDistanceAugment);
+        }
+        else
+        {
+            scorePopUpRect.anchoredPosition = infoPopUp.AnchorToWorldPosition(drag.transform.position + popupDistance);
+        }
         scorePopUpText.alpha = 1;
         scorePopUpText.fontSize = 0;
 

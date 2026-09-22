@@ -17,7 +17,7 @@ public class M_Coinflip : Modifier
         //Duplicar el valor del cante
         int valor = power * sm.valorJugada;
         sm.valorJugada = valor;
-        await sm.InvokeValueScore(FatherCard.drag, valor);
+        await sm.InvokeValueScore(ParentReference.drag, valor, false);
     }
 
     public override void AntesDePuntuarCarta(ScoreManager sm, string posicion)
@@ -25,7 +25,7 @@ public class M_Coinflip : Modifier
         if (RNG.RandomRange(prob))
         {
             //Esto evita que la carta puntue directamente
-            FatherCard.replay = -9999;
+            ParentReference.replay = -9999;
         }
     }
 }

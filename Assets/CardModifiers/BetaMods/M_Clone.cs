@@ -19,7 +19,7 @@ public class M_Clone : Modifier
     {
         if (posicion == "cante")
         {
-            int currentCardIndex = sm.scoringCards.IndexOf(FatherCard);
+            int currentCardIndex = sm.scoringCards.IndexOf(ParentReference);
             //Si no es la última carta del cante
             if (sm.scoringCards.Count > currentCardIndex + 1) 
             {

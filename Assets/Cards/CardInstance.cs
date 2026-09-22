@@ -31,7 +31,6 @@ public class CardInstance : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         drag = GetComponent<DragController>();
 
-        //AQUI ESTA EL PROBLEMA
         SpriteRenderer[] modSprites = GetComponentsInChildren<SpriteRenderer>();
         alphaModSprite = modSprites.First(x => x.name == "ModAlphaSprite");
         betaModSprite = modSprites.First(x => x.name == "ModBetaSprite");
@@ -97,17 +96,17 @@ public class CardInstance : MonoBehaviour
         modifiers = new List<Modifier>();
         if (alphaMod != null && alphaMod.ModificadorAplicable(this))
         {
-            alphaMod.FatherCard = this;
+            alphaMod.ParentReference = this;
             modifiers.Add(alphaMod);
         }
         if (betaMod != null && betaMod.ModificadorAplicable(this))
         {
-            betaMod.FatherCard = this;
+            betaMod.ParentReference = this;
             modifiers.Add(betaMod);
         }
         if (gammaMod != null && gammaMod.ModificadorAplicable(this))
         {
-            gammaMod.FatherCard = this;
+            gammaMod.ParentReference = this;
             modifiers.Add(gammaMod);
         }
         //Se actualizan los sprites de la carta
@@ -224,10 +223,15 @@ public class CardInstance : MonoBehaviour
         for (int i = 0; i < replay; i++)
         {
             sm.puntosJugada += cartaBase.Puntos;
-            await sm.InvokePointScore(this.drag, cartaBase.Puntos);
+            await sm.InvokePointScore(this.drag, cartaBase.Puntos, false);
 
             foreach (Modifier mod in modifiers)
                 mod.PuntuarCarta(sm, posicion);
+
+            foreach (AugmentInstance aug in sm.augmentSpot.augmentList)
+            {
+                aug.data.PuntuarCarta(this, sm, posicion);
+            }
         }
 
         foreach (Modifier mod in modifiers)

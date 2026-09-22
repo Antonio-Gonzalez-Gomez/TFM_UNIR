@@ -20,6 +20,6 @@ public class M_Plague : Modifier
         //Por defecto, incValor = contadorPlaga
         int incValor = power * contadorPlaga;
         sm.valorJugada += incValor;
-        await sm.InvokeValueScore(FatherCard.drag, incValor);
+        await sm.InvokeValueScore(ParentReference.drag, incValor, false);
     }
 }

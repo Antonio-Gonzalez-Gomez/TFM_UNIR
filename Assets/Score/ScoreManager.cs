@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
     [SerializeField] public DeckManager deckManager;
+    [SerializeField] public DragAugmentSpot augmentSpot;
 
     [Header("Card Spots")]
     [SerializeField] public DragCardSpot manoSpot;
@@ -16,14 +16,27 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] public DragCardSpot canteSpot;
     [SerializeField] public DragCardSpot bazaSpot;
 
-    public event Func<DragController, int, Task> PointScoreAction;
-    public event Func<DragController, int, Task> ValueScoreAction;
-    public event Func<DragController, int, Task> BonusScoreAction;
+    public event Func<DragController, int, bool, Task> PointScoreAction;
+    public event Func<DragController, int, bool, Task> ValueScoreAction;
+    public event Func<DragController, int, bool, Task> BonusScoreAction;
     public event Func<Task> ScoreReadyAction;
 
     public int targetScore = 500;
     public int totalScore = 0;
     public int remainingHands = 5;
+
+    private void Start()
+    {
+        //TEMPORAL PARA PROBAR AUMENTOS
+        augmentSpot.AddAugment(new A_CanteBonus(Cante.Infanteria));
+        augmentSpot.AddAugment(new A_CanteBonus(Cante.LasVeinte));
+        augmentSpot.AddAugment(new A_CanteBonus(Cante.LasCuarenta));
+        augmentSpot.AddAugment(new A_CanteBonus(Cante.TutePartido));
+        augmentSpot.AddAugment(new A_CanteBonus(Cante.Socare));
+        augmentSpot.AddAugment(new A_CanteBonus(Cante.SocareReal));
+        //este no deberia aparecer por falta de hueco
+        augmentSpot.AddAugment(new A_CanteBonus(Cante.Tute));
+    }
 
     //Función que comprueba si la carta del jugador gana la baza contra la del rival
     public bool EsBazaGanada()
@@ -223,19 +236,19 @@ public class ScoreManager : MonoBehaviour
     }
 
     //Los eventos no se pueden invocar fuera de esta clase (aunque sean publicos)
-    public Task InvokePointScore(DragController drag, int points)
+    public Task InvokePointScore(DragController drag, int points, bool isAugment)
     {
-        return PointScoreAction?.Invoke(drag, points);
+        return PointScoreAction?.Invoke(drag, points, isAugment);
     }
 
-    public Task InvokeValueScore(DragController drag, int value)
+    public Task InvokeValueScore(DragController drag, int value, bool isAugment)
     {
-        return ValueScoreAction?.Invoke(drag, value);
+        return ValueScoreAction?.Invoke(drag, value, isAugment);
     }
 
-    public Task InvokeBonusScore(DragController drag, int bonus)
+    public Task InvokeBonusScore(DragController drag, int bonus, bool isAugment)
     {
-        return BonusScoreAction?.Invoke(drag, bonus);
+        return BonusScoreAction?.Invoke(drag, bonus, isAugment);
     }
 
     public int puntosJugada;
@@ -283,6 +296,11 @@ public class ScoreManager : MonoBehaviour
         foreach (CardInstance card in discardedCards)
         {
             card.EfectoCartaDescartada(this);
+        }
+
+        foreach (AugmentInstance aug in augmentSpot.augmentList)
+        {
+            aug.data.PuntuarCante(cante, this);
         }
 
         //Y aqui todo lo referente a otros efectos (aumentos)

@@ -19,7 +19,7 @@ public class M_Hunter : Modifier
         {
             case "baza":
                 sm.valorJugada += totalValue;
-                await sm.InvokeValueScore(FatherCard.drag, totalValue);
+                await sm.InvokeValueScore(ParentReference.drag, totalValue, false);
 
                 totalValue += power;
                 break;

@@ -13,6 +13,6 @@ public class M_Strength : Modifier
 
     public override void AntesDePuntuarCarta(ScoreManager sm, string posicion)
     {
-        FatherCard.puntos += power;
+        ParentReference.puntos += power;
     }
 }
