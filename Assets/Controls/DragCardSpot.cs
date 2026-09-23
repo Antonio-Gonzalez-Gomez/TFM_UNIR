@@ -1,5 +1,7 @@
-using UnityEngine;
+using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using UnityEngine;
 
 public class DragCardSpot : MonoBehaviour
 {
@@ -20,7 +22,7 @@ public class DragCardSpot : MonoBehaviour
         cardList = new List<CardInstance>();
     }
 
-    //TODO: Reordenacion cartas
+    //TODO: Reordenacion cartas (manual, drag and drop)
     //Permitir intercambiar posicion con otras cartas del spot si no hay hueco?
 
     private void UpdateCardsPositions()
@@ -120,5 +122,48 @@ public class DragCardSpot : MonoBehaviour
     {
         drag.selected = false;
         drag.transform.position = drag.originalPosition;
+    }
+
+    //Oros > Copas > Espadas > Bastos
+    private int CompararPorPalo(CardInstance cardA, CardInstance cardB)
+    {
+        return cardA.cartaBase.Palo.CompareTo(cardB.cartaBase.Palo);
+    }
+
+    //As > 3 > Rey > Caballo...
+    private int CompararPorValor(CardInstance cardA, CardInstance cardB)
+    {
+        PuntuacionesCartas.cardWinOrder.TryGetValue(cardA.cartaBase.Valor, out int valorA);
+        PuntuacionesCartas.cardWinOrder.TryGetValue(cardB.cartaBase.Valor, out int valorB);
+        return valorA.CompareTo(valorB);
+    }
+    //Probar con cartas duplicadas (mismo palo y valor) y añadir otras comparaciones si se ve necesario
+    private int CompararPorPaloYValor(CardInstance cardA, CardInstance cardB)
+    {
+        int res = CompararPorPalo(cardA, cardB);
+        if (res == 0)
+            res = CompararPorValor(cardA, cardB);
+        return res;
+    }
+
+    private int CompararPorValorYPalo(CardInstance cardA, CardInstance cardB)
+    {
+        int res = CompararPorValor(cardA, cardB);
+        if (res == 0)
+            res = CompararPorPalo(cardA, cardB);
+        return res;
+    }
+
+    public void SortCards(bool porPalo)
+    {
+        if (porPalo)
+        {
+            cardList.Sort(CompararPorPaloYValor);
+        }
+        else
+        {
+            cardList.Sort(CompararPorValorYPalo);
+        }
+        UpdateCardsPositions();
     }
 }

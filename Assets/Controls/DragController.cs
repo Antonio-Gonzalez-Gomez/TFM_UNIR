@@ -20,6 +20,7 @@ public class DragController : MonoBehaviour,
     public event Action cardInfoHide;
     public event Action cardDragBegin;
     public event Action cardDragEnd;
+    public event Action cardsSelected;
 
     private DragCardSpot spot;
     private DragAugmentSpot augSpot;
@@ -74,6 +75,7 @@ public class DragController : MonoBehaviour,
         {
             spot.TrySelectCard(this);
         }
+        cardsSelected?.Invoke();
     }
     public void OnBeginDrag(PointerEventData e)
     {
@@ -133,6 +135,7 @@ public class DragController : MonoBehaviour,
                 this.spot = newSpot;
             }
         }
+        this.selected = false;
         ResetPosition();
         cardDragEnd?.Invoke();
     }

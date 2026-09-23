@@ -34,7 +34,7 @@ public class DeckManager : MonoBehaviour
         {
             DrawCard(manoSpot);
         }
-
+        manoSpot.SortCards(false);
         descartes = new List<CardInstance>();
     }
 

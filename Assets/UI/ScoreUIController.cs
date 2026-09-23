@@ -1,18 +1,26 @@
 using PrimeTween;
+using System;
 using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.UI;
 
 public class ScoreUIController : MonoBehaviour
 {
     [SerializeField] DeckManager deckManager;
     [SerializeField] ScoreManager scoreManager;
-    [SerializeField] Canvas buttonsCanvas;
     [SerializeField] InfoPopUp infoPopUp;
     [SerializeField] Canvas scorePopUp;
+    [Header("Play buttons")]
+    [SerializeField] Canvas buttonsCanvas;
+    [SerializeField] Button canteButton;
+    [SerializeField] Button bazaButton;
+    [SerializeField] Button sortSuitButton;
+    [SerializeField] Button sortValueButton;
+    [SerializeField] Button confirmButton;
     [Header("Effects timing")]
     [SerializeField] float initialEffectDuration = 0.4f;
     [SerializeField] float finalEffectDuration = 0.02f;
@@ -64,6 +72,7 @@ public class ScoreUIController : MonoBehaviour
     {
         drag.cardDragBegin += OnCardDrag;
         drag.cardDragEnd += OnCardDrop;
+        drag.cardsSelected += OnCardSelect;
     }
     //Al arrastrar cartas, se ocultan los botones de juego
     private void OnCardDrag()
@@ -74,6 +83,7 @@ public class ScoreUIController : MonoBehaviour
     {
         buttonsCanvas.enabled = true;
         UpdateScoreboardHand();
+        OnCardSelect();
     }
 
     private void UpdateScoreboardHand()
@@ -107,13 +117,26 @@ public class ScoreUIController : MonoBehaviour
     {
         deckManager.MoveSelectedCardsToSpot(false);
         UpdateScoreboardHand();
+        OnCardSelect();
     }
 
     public void MoverCartasCante()
     {
         deckManager.MoveSelectedCardsToSpot(true);
         UpdateScoreboardHand();
+        OnCardSelect();
     }
+
+    public void OrdenarPorPalo()
+    {
+        scoreManager.manoSpot.SortCards(true);
+    }
+
+    public void OrdenarPorValor()
+    {
+        scoreManager.manoSpot.SortCards(false);
+    }
+
     public async void ConfirmarBaza()
     {
         if (scoreManager.EsBazaGanada())
@@ -124,7 +147,33 @@ public class ScoreUIController : MonoBehaviour
         {
             scoreManager.LosePlayedHand();
         }
+
+        OnCardSelect();
     }
+
+    private void OnCardSelect()
+    {
+        bazaButton.interactable = false;
+        canteButton.interactable = false;
+        confirmButton.interactable = false;
+
+        int selectedFromHand = scoreManager.manoSpot.GetSelectedCards().Count;
+        if (selectedFromHand > 0)
+        {
+            canteButton.interactable = true;
+        }
+
+        if (selectedFromHand == 1)
+        {
+            bazaButton.interactable = true;
+        }
+
+        if (scoreManager.bazaSpot.cardList.Count > 0)
+        {
+            confirmButton.interactable = true;
+        }
+    }
+
     public void Reset()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
