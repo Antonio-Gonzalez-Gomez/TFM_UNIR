@@ -34,7 +34,7 @@ public class DragCardSpot : MonoBehaviour
             //Se le añade la mitad del ancho de una carta (halfInd) para interpolar las posiciones
             float incX = spotWidth * halfInd / cardList.Count - spotWidth / 2;
             //z = -2 * i para que las cartas solapen bien en la mano
-            drag.originalPosition = this.transform.position + new Vector3(incX, 0, -2 * i);
+            drag.originalPosition = this.transform.position + new Vector3(incX, 0, -2 * i - 1);
             drag.originalRotation = Quaternion.identity;
 
             if (cardsInFan)
@@ -72,7 +72,8 @@ public class DragCardSpot : MonoBehaviour
         else
         {
             //Si solo hay una carta en el sitio, la posicion es la del sitio (centrada)
-            drag.originalPosition = this.transform.position;
+            //Se le resta a la Z para que superposicione bien
+            drag.originalPosition = this.transform.position + 2*Vector3.back;
             drag.originalRotation = Quaternion.identity;
             //La carta de muestra aparece rotada
             if (rotatedCard)

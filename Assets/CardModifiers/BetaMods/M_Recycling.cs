@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class M_Recycling : Modifier
@@ -11,12 +12,13 @@ public class M_Recycling : Modifier
         this.Index = 9;
     }
 
-    public override void EfectoCartaDescartada(ScoreManager sm)
+    public override async Task EfectoCartaDescartada(ScoreManager sm)
     {
         power--;
         if (power == 0)
         {
             ParentReference.DestroyCard();
         }
+        await Task.CompletedTask;
     }
 }

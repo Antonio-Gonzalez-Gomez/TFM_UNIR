@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public abstract class AugmentData
@@ -11,13 +12,13 @@ public abstract class AugmentData
     protected ColorText ct = new ColorText();
 
     public AugmentInstance ParentReference { get; set; }
-    public virtual void PuntuarCarta(CardInstance card, ScoreManager sm, string posicion)
+    public virtual async Task PuntuarCarta(CardInstance card, ScoreManager sm, string posicion)
     {
-
+        await Task.CompletedTask;
     }
 
-    public virtual void PuntuarCante(Cante cante, ScoreManager sm)
+    public virtual async Task PuntuarCante(Cante cante, ScoreManager sm)
     {
-
+        await Task.CompletedTask;
     }
 }

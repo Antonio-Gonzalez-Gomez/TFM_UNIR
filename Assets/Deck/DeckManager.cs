@@ -59,7 +59,7 @@ public class DeckManager : MonoBehaviour
                     data.Palo = palo;
                     data.Puntos = puntos;
                     //El CardInstance debe instanciarse en escena (aunque permanezca en el mazo)
-                    CardInstance card = Instantiate(cardPrefab, mazoRobarSpot.transform.position, Quaternion.identity);
+                    CardInstance card = Instantiate(cardPrefab, mazoRobarSpot.transform.position + 2*Vector3.back, Quaternion.identity);
                     card.InitCard(data);
                     res.Add(card);
                 }

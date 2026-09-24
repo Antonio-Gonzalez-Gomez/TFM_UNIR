@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class M_Bastion : Modifier
@@ -36,12 +37,13 @@ public class M_Bastion : Modifier
         }
     }
 
-    public override void EfectoCartaDescartada(ScoreManager sm)
+    public override async Task EfectoCartaDescartada(ScoreManager sm)
     {
         ResetMod();
+        await Task.CompletedTask;
     }
 
-    public override async void EfectoCartaMano(ScoreManager sm)
+    public override async Task EfectoCartaMano(ScoreManager sm)
     {
         sm.bonusJugada += totalBonus;
         await sm.InvokeBonusScore(ParentReference.drag, totalBonus, false);

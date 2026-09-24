@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class M_Solitude : Modifier
@@ -20,9 +21,10 @@ public class M_Solitude : Modifier
         return 1;
     }
 
-    public override async void EfectoCartaDescartada(ScoreManager sm)
+    public override async Task EfectoCartaDescartada(ScoreManager sm)
     {
-        base.EfectoCartaDescartada(sm);
+        //No puntua si pierde
+        await base.EfectoCartaDescartada(sm);
 
         sm.bonusJugada += power;
         await sm.InvokeBonusScore(ParentReference.drag, power, false);

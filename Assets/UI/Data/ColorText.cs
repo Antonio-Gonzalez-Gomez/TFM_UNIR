@@ -22,6 +22,8 @@ public class ColorText
         dict.Add("espadas", "<color=#68b1d3>");
         dict.Add("bastos", "<color=#497d3e>");
 
+        dict.Add("black", "<color=#000000>");
+
         fractions = new Dictionary<float, string>();
         fractions.Add(1f / 2, "1/2");
         fractions.Add(1f / 4, "1/4");

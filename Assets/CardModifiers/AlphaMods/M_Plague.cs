@@ -1,4 +1,4 @@
-using UnityEngine;
+using System.Threading.Tasks;
 
 public class M_Plague : Modifier
 {
@@ -11,9 +11,10 @@ public class M_Plague : Modifier
         this.Index = 2;
     }
 
-    public override async void EfectoCartaDescartada(ScoreManager sm)
+    public override async Task EfectoCartaDescartada(ScoreManager sm)
     {
-        base.EfectoCartaDescartada(sm);
+        //No puntua si pierde
+        await base.EfectoCartaDescartada(sm);
 
         int contadorPlaga = sm.discardedCards.FindAll(x =>
             x.GetMod(ModifierType.Alpha).Name == "Plaga").Count;

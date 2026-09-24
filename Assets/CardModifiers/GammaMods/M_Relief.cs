@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class M_Relief : Modifier
@@ -15,7 +16,7 @@ public class M_Relief : Modifier
         return card.cartaBase.Valor == Valor.Siete;
     }
 
-    public override void EfectoCartaDescartada(ScoreManager sm)
+    public override async Task EfectoCartaDescartada(ScoreManager sm)
     {
         CardInstance muestra = sm.muestraSpot.cardList[0];
         sm.muestraSpot.ClearSpot();
@@ -26,5 +27,7 @@ public class M_Relief : Modifier
         sm.discardedCards.Remove(ParentReference);
         //Y se añade al spot de la muestra
         sm.muestraSpot.AddCard(ParentReference);
+
+        await Task.CompletedTask;
     }
 }

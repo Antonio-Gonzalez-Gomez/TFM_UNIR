@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class A_CanteBonus : AugmentData
@@ -13,12 +14,13 @@ public class A_CanteBonus : AugmentData
         this.Description = ct.BonusText(bonus) + "al jugar " + CanteDicts.text[cante];
     }
 
-    public override async void PuntuarCante(Cante cante, ScoreManager sm)
+    public override async Task PuntuarCante(Cante cante, ScoreManager sm)
     {
         if (cante == this.cante)
         {
             sm.bonusJugada += bonus;
             await sm.InvokeValueScore(ParentReference.drag, bonus, true);
+            await Task.CompletedTask;
         }
     }
 }

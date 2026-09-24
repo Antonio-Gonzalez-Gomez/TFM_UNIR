@@ -257,9 +257,9 @@ public class ScoreUIController : MonoBehaviour
     private void RestoreScoreboard()
     {
         scoreEquation.enabled = false;
-        scoreEx.text = "x";
+        scoreEx.text = ct.Color("x", "black");
         scoreMiddle.alpha = 1;
-        scorePlus.text = "+";
+        scorePlus.text = ct.Color("+", "black");
 
         scoreLeft.fontSizeMax = scoreboardOriginalMaxSize;
         scoreEx.fontSizeMax = scoreboardOriginalMaxSize;
@@ -270,7 +270,7 @@ public class ScoreUIController : MonoBehaviour
     private void UpdatePseudoScore(int pseudoScore)
     {
         scoreEx.text = ct.Color(pseudoScore.ToString(), "bonus");
-        scoreMiddle.text = "+";
+        scoreMiddle.text = ct.Color("+", "black");
         scorePlus.text = ct.Color(scoreManager.bonusJugada.ToString(), "bonus");
 
         scoreEx.fontSizeMax = scoreboardOriginalMaxSize;
@@ -280,7 +280,7 @@ public class ScoreUIController : MonoBehaviour
 
     private void UpdateFinalScore(int score)
     {
-        scoreMiddle.text = score.ToString();
+        scoreMiddle.text = ct.Color(score.ToString(), "black");
         scoreMiddle.fontSizeMax = scoreboardOriginalMaxSize;
     }
 

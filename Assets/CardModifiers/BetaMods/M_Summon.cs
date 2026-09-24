@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class M_Summon : Modifier
@@ -16,7 +17,7 @@ public class M_Summon : Modifier
         return !card.cartaBase.EsCartaFigura();
     }
 
-    public override void EfectoCartaDescartada(ScoreManager sm)
+    public override async Task EfectoCartaDescartada(ScoreManager sm)
     {
         //Comprobación de cartas en el mazo
         if (sm.mazoRobarSpot.cardList.Count == 0)
@@ -28,6 +29,7 @@ public class M_Summon : Modifier
         {
             CardInstance res = sm.mazoRobarSpot.cardList.Find(x => x.CompararPalo(ParentReference.cartaBase.Palo) && x.cartaBase.EsCartaFigura());
             sm.deckManager.InitDrawnCard(sm.manoSpot, res);
+            await Task.CompletedTask;
         }
         catch (NullReferenceException)
         {

@@ -230,7 +230,7 @@ public class CardInstance : MonoBehaviour
 
             foreach (AugmentInstance aug in sm.augmentSpot.augmentList)
             {
-                aug.data.PuntuarCarta(this, sm, posicion);
+                await aug.data.PuntuarCarta(this, sm, posicion);
             }
         }
 
@@ -242,19 +242,19 @@ public class CardInstance : MonoBehaviour
         replay = 1;
     }
 
-    public void EfectoCartaMano(ScoreManager sm)
+    public async Task EfectoCartaMano(ScoreManager sm)
     {
         //Por defecto, las cartas en mano no puntuan
 
         foreach (Modifier mod in modifiers)
-            mod.EfectoCartaMano(sm);
+            await mod.EfectoCartaMano(sm);
     }
 
-    public void EfectoCartaDescartada(ScoreManager sm)
+    public async Task EfectoCartaDescartada(ScoreManager sm)
     {
         //Las cartas descartadas tampoco puntúan
 
         foreach (Modifier mod in modifiers)
-            mod.EfectoCartaDescartada(sm);
+            await mod.EfectoCartaDescartada(sm);
     }
 }

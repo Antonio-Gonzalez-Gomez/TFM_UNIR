@@ -289,18 +289,18 @@ public class ScoreManager : MonoBehaviour
         //Si alguna carta en mano tiene modificador, tambien se le puntua
         foreach (CardInstance card in manoSpot.cardList)
         {
-            card.EfectoCartaMano(this);
+            await card.EfectoCartaMano(this);
         }
 
         //De forma similar, las cartas no puntuadas en el cante pueden tener modificadores
         foreach (CardInstance card in discardedCards)
         {
-            card.EfectoCartaDescartada(this);
+            await card.EfectoCartaDescartada(this);
         }
 
         foreach (AugmentInstance aug in augmentSpot.augmentList)
         {
-            aug.data.PuntuarCante(cante, this);
+            await aug.data.PuntuarCante(cante, this);
         }
 
         //Y aqui todo lo referente a otros efectos (aumentos)
@@ -315,13 +315,12 @@ public class ScoreManager : MonoBehaviour
     }
 
     //Funcion que se ejecuta si el jugador no gana la baza
-    public void LosePlayedHand()
+    public async void LosePlayedHand()
     {
         //Todas las cartas del cante son descartadas
         foreach (CardInstance card in canteSpot.cardList)
         {
-            //Como evitar que la carta puntúe?
-            card.EfectoCartaDescartada(this);
+            await card.EfectoCartaDescartada(this);
         }
 
         remainingHands -= 1;

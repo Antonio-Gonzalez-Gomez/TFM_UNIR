@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public abstract class Modifier
@@ -88,15 +89,17 @@ public abstract class Modifier
         }
     }
 
-    public virtual void EfectoCartaMano(ScoreManager sm)
+    public virtual async Task EfectoCartaMano(ScoreManager sm)
     {
-
+        await Task.CompletedTask;
     }
 
-    public virtual void EfectoCartaDescartada(ScoreManager sm)
+    public virtual async Task EfectoCartaDescartada(ScoreManager sm)
     {
         //Si la baza no se gana, no se deberia de puntuar por defecto
         if (!sm.EsBazaGanada())
             return;
+
+        await Task.CompletedTask;
     }
 }
