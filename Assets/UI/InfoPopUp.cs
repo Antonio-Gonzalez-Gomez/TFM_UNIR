@@ -1,9 +1,6 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering.LookDev;
 using UnityEngine.UI;
 
 public class InfoPopUp : MonoBehaviour
@@ -16,27 +13,14 @@ public class InfoPopUp : MonoBehaviour
 
     private Canvas canvas;
     private RectTransform rect;
-    //Variables para calcular posiciones en pantalla
-    private float maxHeight;
-    private float maxWidth;
-    private Vector2 screenSize;
+    private UITools uit;
     void Start()
     {
         canvas = GetComponent<Canvas>();
         canvas.enabled = false;
         rect = GetComponent<RectTransform>();
 
-        maxHeight = Camera.main.orthographicSize;
-        maxWidth = maxHeight * Screen.width / Screen.height;
-        screenSize = parentCanvasScale.referenceResolution;
-    }
-
-    //Calcula el punto de anclaje (coordenadas sobre el canvas padre)
-    //A partir de la posicion de un objeto de juego
-    public Vector2 AnchorToWorldPosition(Vector3 worldPosition)
-    {
-        return new Vector2(0.5f * screenSize.x * worldPosition.x / maxWidth,
-            0.5f * screenSize.y * worldPosition.y / maxHeight);
+        uit = new UITools(parentCanvasScale.referenceResolution);
     }
 
     public void ConnectEvents(DragController drag)
@@ -63,7 +47,7 @@ public class InfoPopUp : MonoBehaviour
         }
 
         //Conversion de posicion de la carta a posicion en el canvas
-        rect.anchoredPosition = AnchorToWorldPosition(info.Position);
+        rect.anchoredPosition = uit.WorldPositionToAnchor(info.Position);
     }
 
     private void OnCardHidden()

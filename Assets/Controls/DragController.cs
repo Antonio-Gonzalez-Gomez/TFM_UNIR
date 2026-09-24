@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class DragController : MonoBehaviour,
     //Interfaces para la deteccion del raton
@@ -22,6 +24,8 @@ public class DragController : MonoBehaviour,
     public event Action cardDragEnd;
     public event Action cardsSelected;
 
+    private UITools uit;
+    private Mouse mouse = Mouse.current;
     private DragCardSpot spot;
     private DragAugmentSpot augSpot;
     public bool selected = false;
@@ -30,6 +34,7 @@ public class DragController : MonoBehaviour,
     {
         originalPosition = transform.position;
         originalRotation = Quaternion.identity;
+        uit = new UITools(new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight));
     }
 
     public void ResetPosition()
@@ -47,6 +52,8 @@ public class DragController : MonoBehaviour,
 
     public void OnPointerEnter(PointerEventData e)
     {
+        if (isDragging) { return; }
+
         if (isAugment)
         {
             //TODO: constructor HoverInfo con la info del aumento
@@ -77,28 +84,37 @@ public class DragController : MonoBehaviour,
         }
         cardsSelected?.Invoke();
     }
+    bool isDragging = false;
     public void OnBeginDrag(PointerEventData e)
     {
         //El pop up de informacion deberia ocultarse al arrastrar la carta
-        //Evento para bloquear el cardInfo hasta que se suelte la carta?
-        //TODO: evitar que los pop up de informacion de otras cartas aparezcan al hacer hover
-        //En su lugar, deberia de activarse logica para desplazar las cartas
         cardInfoHide?.Invoke();
         cardDragBegin?.Invoke();
+        isDragging = true;
     }
 
+    void Update()
+    {
+        //Se hace asi porque OnDrag funcionaba regular
+        if (isDragging)
+        {
+            Vector3 mousePosition = uit.CursorToWorldPosition(mouse.position.ReadValue());
+            this.transform.SetPositionAndRotation(mousePosition, Quaternion.identity);
+        }
+    }
+
+    //Para implementar IDragHandler, se mantiene este metodo (aunque no haga nada)
+    //De lo contrario, OnBeginDrag/OnEndDrag no funcionan
     public void OnDrag(PointerEventData e)
     {
-        //TODO: Si el cursor se mueve muy rapido, se puede cortar este evento aunque el click siga pulsado
-        //Se debera de implementar mediante un input de click y un condicional (si el click se produjo al hacer hover)
-        //Usar tweens!!!
-        //Se cambia la posicion de Z para que al arrastrar una carta, se vea por encima de las demas
-        Vector3 raton = e.pointerCurrentRaycast.worldPosition + new Vector3(0, 0, -50f);
-        this.transform.SetPositionAndRotation(raton, Quaternion.identity);
+
     }
 
+    //TODO: ordenacion manual al soltar aumentos/cartas en el spot
+    //Detectar hueco entre dos cartas/aumentos (al arrastrar carta) e insertar ahi
     public void OnEndDrag(PointerEventData e)
     {
+        isDragging = false;
         if (isAugment)
         {
             AugmentEndDrag(e);
@@ -124,6 +140,7 @@ public class DragController : MonoBehaviour,
             CardInstance card = this.GetComponentInParent<CardInstance>();
             DragCardSpot newSpot = hit.collider.GetComponentInParent<DragCardSpot>();
             if (this.spot.allowInteract == true                     //Si el spot actual permite interacciones
+                && newSpot != null                                  //Si el spot nuevo es de cartas
                 && newSpot.allowInteract == true                    //Si el spot nuevo permite interacciones
                 && newSpot.cardList.Count < newSpot.maxCardAmount   //Si tiene hueco para otra carta
                 && !newSpot.cardList.Contains(card))                //Si esta carta no estaba ya en el spot

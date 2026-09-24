@@ -22,9 +22,6 @@ public class DragCardSpot : MonoBehaviour
         cardList = new List<CardInstance>();
     }
 
-    //TODO: Reordenacion cartas (manual, drag and drop)
-    //Permitir intercambiar posicion con otras cartas del spot si no hay hueco?
-
     private void UpdateCardsPositions()
     {
         for (int i = 0; i < cardList.Count; i++)

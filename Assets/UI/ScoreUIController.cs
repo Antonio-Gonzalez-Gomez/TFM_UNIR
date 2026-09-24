@@ -39,6 +39,7 @@ public class ScoreUIController : MonoBehaviour
     private TMP_Text scorePopUpText;
     private float effectDuration;
     private ColorText ct = new ColorText();
+    private UITools uit;
 
     private float popupFontOriginalSize;
     private float scoreboardOriginalMaxSize;
@@ -54,6 +55,7 @@ public class ScoreUIController : MonoBehaviour
         effectDuration = initialEffectDuration;
         scorePopUpRect = scorePopUp.GetComponent<RectTransform>();
         scorePopUpText = scorePopUp.GetComponentInChildren<TMP_Text>();
+        uit = new UITools(this.GetComponent<CanvasScaler>().referenceResolution);
         scorePopUpText.alpha = 0;
         popupFontOriginalSize = scorePopUpText.fontSize;
         scoreboardOriginalMaxSize = scoreLeft.fontSizeMax;
@@ -216,11 +218,11 @@ public class ScoreUIController : MonoBehaviour
     {
         if (isAugment)
         {
-            scorePopUpRect.anchoredPosition = infoPopUp.AnchorToWorldPosition(drag.transform.position + popupDistanceAugment);
+            scorePopUpRect.anchoredPosition = uit.WorldPositionToAnchor(drag.transform.position + popupDistanceAugment);
         }
         else
         {
-            scorePopUpRect.anchoredPosition = infoPopUp.AnchorToWorldPosition(drag.transform.position + popupDistance);
+            scorePopUpRect.anchoredPosition = uit.WorldPositionToAnchor(drag.transform.position + popupDistance);
         }
         scorePopUpText.alpha = 1;
         scorePopUpText.fontSize = 0;

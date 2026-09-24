@@ -31,8 +31,6 @@ public class DragAugmentSpot : MonoBehaviour
         augmentPositions.Reverse();
     }
 
-    //TODO: Reordenacion aumentos
-
     private void UpdateAugmentsPositions()
     {
         for (int i = 0; i < augmentList.Count; i++)
